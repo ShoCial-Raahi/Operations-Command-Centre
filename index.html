@@ -2,1157 +2,518 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Onecom Operations Command Centre - Satish Kumar</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Onecom Operations Command Centre</title>
 <style>
-  :root {
-    --bg: #0d0f1a;
-    --surface: #131629;
-    --surface2: #1a1e35;
-    --surface3: #202440;
-    --border: #2a2f52;
-    --accent: #6c47ff;
-    --accent2: #9b6dff;
-    --gold: #f5a623;
-    --teal: #00c9a7;
-    --red: #ff4d6a;
-    --amber: #ffb74d;
-    --green: #4cde8f;
-    --blue: #4a9eff;
-    --text: #e8eaf2;
-    --muted: #7a82a8;
-    --dim: #4a5070;
-    --card-radius: 10px;
-    --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    --shadow: 0 2px 8px rgba(0,0,0,0.2);
-  }
-
-  [data-theme="light"] {
-    --bg: #f4f6fb;
-    --surface: #ffffff;
-    --surface2: #f0f2f9;
-    --surface3: #e8ebf5;
-    --border: #d9deee;
-    --accent: #6c47ff;
-    --accent2: #7c52e0;
-    --gold: #d98a00;
-    --teal: #00a88c;
-    --red: #e03152;
-    --amber: #e09600;
-    --green: #2aa86a;
-    --blue: #2b7fe0;
-    --text: #1a1e35;
-    --muted: #6a7395;
-    --dim: #9aa2c0;
-    --shadow: 0 2px 8px rgba(80,90,140,0.1);
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font);
-    font-size: 13px;
-    line-height: 1.5;
-    min-height: 100vh;
-    transition: background 0.3s, color 0.3s;
-  }
-
-  /* TOP NAV */
-  .topbar {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 0 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 52px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: var(--shadow);
-  }
-  .topbar-left { display: flex; align-items: center; gap: 16px; }
-  .logo { font-size: 15px; font-weight: 700; letter-spacing: -0.5px; color: var(--text); }
-  .logo span { color: var(--accent2); }
-  .version-badge {
-    background: var(--surface3);
-    border: 1px solid var(--border);
-    color: var(--muted);
-    font-size: 10px; font-weight: 600; letter-spacing: 0.5px;
-    padding: 2px 8px; border-radius: 20px;
-  }
-  .topbar-right { display: flex; align-items: center; gap: 12px; font-size: 12px; color: var(--muted); }
-  .status-pill {
-    display: flex; align-items: center; gap: 5px;
-    background: rgba(76,222,143,0.1);
-    border: 1px solid rgba(76,222,143,0.25);
-    color: var(--green);
-    padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600;
-  }
-  .status-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
-  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
-
-  /* THEME TOGGLE */
-  .theme-toggle {
-    background: var(--surface3);
-    border: 1px solid var(--border);
-    color: var(--text);
-    width: 34px; height: 28px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 14px;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.15s;
-  }
-  .theme-toggle:hover { border-color: var(--accent); }
-
-  /* TABS */
-  .tab-nav {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 0 24px;
-    display: flex; gap: 2px;
-    overflow-x: auto;
-  }
-  .tab-nav::-webkit-scrollbar { display: none; }
-  .tab-btn {
-    background: none; border: none;
-    color: var(--muted);
-    font-size: 12px; font-weight: 500;
-    padding: 12px 14px;
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    white-space: nowrap;
-    transition: all 0.15s;
-    font-family: var(--font);
-  }
-  .tab-btn:hover { color: var(--text); }
-  .tab-btn.active { color: var(--accent2); border-bottom-color: var(--accent2); }
-
-  .content { padding: 20px 24px 40px; }
-  .tab-panel { display: none; }
-  .tab-panel.active { display: block; animation: fadeIn 0.25s; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
-
-  .page-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
-  .page-title { font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.4px; }
-  .page-sub { color: var(--muted); font-size: 12px; margin-top: 2px; }
-  .last-updated { font-size: 11px; color: var(--dim); background: var(--surface2); border: 1px solid var(--border); padding: 4px 10px; border-radius: 6px; }
-
-  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
-  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
-  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; }
-
-  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--card-radius); padding: 16px; box-shadow: var(--shadow); }
-  .card-title { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
-
-  .badge { font-size: 9px; padding: 1px 6px; border-radius: 20px; font-weight: 600; letter-spacing: 0.5px; }
-  .badge-red { background: rgba(255,77,106,0.15); color: var(--red); border: 1px solid rgba(255,77,106,0.25); }
-  .badge-amber { background: rgba(255,183,77,0.15); color: var(--amber); border: 1px solid rgba(255,183,77,0.25); }
-  .badge-green { background: rgba(76,222,143,0.12); color: var(--green); border: 1px solid rgba(76,222,143,0.2); }
-  .badge-blue { background: rgba(74,158,255,0.12); color: var(--blue); border: 1px solid rgba(74,158,255,0.2); }
-  .badge-purple { background: rgba(108,71,255,0.15); color: var(--accent2); border: 1px solid rgba(108,71,255,0.25); }
-
-  .kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--card-radius); padding: 16px; position: relative; overflow: hidden; box-shadow: var(--shadow); }
-  .kpi-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
-  .kpi-card.green::before { background: var(--green); }
-  .kpi-card.red::before { background: var(--red); }
-  .kpi-card.amber::before { background: var(--amber); }
-  .kpi-card.blue::before { background: var(--blue); }
-  .kpi-card.purple::before { background: var(--accent2); }
-  .kpi-label { font-size: 10px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
-  .kpi-value { font-size: 28px; font-weight: 800; letter-spacing: -1px; color: var(--text); }
-  .kpi-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
-  .kpi-trend { font-size: 11px; font-weight: 600; margin-top: 4px; }
-  .trend-up { color: var(--green); }
-  .trend-down { color: var(--red); }
-  .trend-flat { color: var(--amber); }
-
-  .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; margin-top: 20px; }
-  .section-header:first-of-type { margin-top: 0; }
-  .section-label { font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--accent2); }
-  .section-divider { flex: 1; height: 1px; background: var(--border); }
-
-  /* RAG TABLE */
-  .rag-table { width: 100%; border-collapse: collapse; }
-  .rag-table th { font-size: 9px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--muted); padding: 6px 10px; text-align: left; border-bottom: 1px solid var(--border); }
-  .rag-table td { padding: 8px 10px; font-size: 12px; border-bottom: 1px solid var(--border); color: var(--text); }
-  .rag-table tr:last-child td { border-bottom: none; }
-  .rag-table tr:hover td { background: var(--surface2); }
-  .rag-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
-  .rag-red { background: var(--red); }
-  .rag-amber { background: var(--amber); }
-  .rag-green { background: var(--green); }
-
-  .alert-item { display: flex; gap: 10px; padding: 10px 12px; border-radius: 8px; margin-bottom: 8px; border-left: 3px solid; background: var(--surface2); }
-  .alert-item.critical { border-color: var(--red); }
-  .alert-item.warning { border-color: var(--amber); }
-  .alert-item.info { border-color: var(--blue); }
-  .alert-item.success { border-color: var(--green); }
-  .alert-icon { font-size: 14px; flex-shrink: 0; }
-  .alert-body strong { font-size: 12px; color: var(--text); display: block; margin-bottom: 2px; }
-  .alert-body span { font-size: 11px; color: var(--muted); }
-
-  /* TO-DO LIST */
-  .todo-item {
-    display: flex; align-items: flex-start; gap: 10px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px;
-    margin-bottom: 8px;
-    transition: border-color 0.15s;
-  }
-  .todo-item:hover { border-color: var(--accent); }
-  .todo-item.done { opacity: 0.55; }
-  .todo-item.done .todo-title { text-decoration: line-through; }
-  .todo-check {
-    width: 20px; height: 20px;
-    border-radius: 5px;
-    border: 2px solid var(--dim);
-    cursor: pointer;
-    flex-shrink: 0;
-    margin-top: 1px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 12px; color: #fff;
-    transition: all 0.15s;
-    background: transparent;
-  }
-  .todo-check.checked { background: var(--green); border-color: var(--green); }
-  .todo-check.inprogress { background: var(--amber); border-color: var(--amber); }
-  .todo-body { flex: 1; }
-  .todo-head { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; flex-wrap: wrap; }
-  .todo-title { font-size: 12px; font-weight: 600; color: var(--text); }
-  .priority-flag { font-size: 9px; font-weight: 800; letter-spacing: 0.5px; padding: 2px 6px; border-radius: 4px; }
-  .flag-p1 { background: rgba(255,77,106,0.2); color: var(--red); }
-  .flag-p2 { background: rgba(255,183,77,0.2); color: var(--amber); }
-  .flag-p3 { background: rgba(74,158,255,0.15); color: var(--blue); }
-  .todo-owner { font-size: 10px; color: var(--dim); }
-  .todo-guidance {
-    margin-top: 8px;
-    padding: 8px 10px;
-    background: var(--surface3);
-    border-radius: 6px;
-    font-size: 11px;
-    color: var(--muted);
-    border-left: 2px solid var(--accent);
-  }
-  .todo-guidance strong { color: var(--accent2); display: block; margin-bottom: 2px; font-size: 10px; letter-spacing: 0.5px; text-transform: uppercase; }
-  .todo-status-row { display: flex; gap: 6px; margin-top: 8px; }
-  .status-btn {
-    font-size: 10px; font-weight: 600;
-    padding: 3px 10px;
-    border-radius: 5px;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.15s;
-    font-family: var(--font);
-  }
-  .status-btn:hover { border-color: var(--accent); color: var(--text); }
-  .status-btn.active-todo { background: var(--dim); color: #fff; border-color: var(--dim); }
-  .status-btn.active-prog { background: var(--amber); color: #1a1e35; border-color: var(--amber); }
-  .status-btn.active-done { background: var(--green); color: #fff; border-color: var(--green); }
-
-  /* DAILY TRACKER */
-  .tracker-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
-  .tracker-cell { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 12px; }
-  .tracker-cell-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
-  .tracker-cell-value { font-size: 22px; font-weight: 800; color: var(--text); }
-  .tracker-cell-target { font-size: 10px; color: var(--dim); margin-top: 2px; }
-  .tracker-input {
-    width: 100%; background: var(--surface3); border: 1px solid var(--border);
-    border-radius: 5px; color: var(--text); padding: 4px 8px; font-size: 16px; font-weight: 700;
-    font-family: var(--font); margin-top: 4px;
-  }
-
-  .btn {
-    background: var(--accent); color: #fff; border: none;
-    padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 600;
-    cursor: pointer; font-family: var(--font); transition: all 0.15s;
-  }
-  .btn:hover { background: var(--accent2); }
-  .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
-  .btn-outline:hover { border-color: var(--accent); background: var(--surface2); }
-
-  /* TIMELINE INFOGRAPHIC */
-  .timeline { position: relative; padding-left: 20px; }
-  .timeline::before { content: ''; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 2px; background: var(--border); }
-  .timeline-node { position: relative; padding-bottom: 18px; }
-  .timeline-node::before {
-    content: ''; position: absolute; left: -18px; top: 4px;
-    width: 10px; height: 10px; border-radius: 50%;
-    background: var(--accent); border: 2px solid var(--surface);
-  }
-  .timeline-node.green::before { background: var(--green); }
-  .timeline-node.amber::before { background: var(--amber); }
-  .timeline-node.red::before { background: var(--red); }
-  .timeline-date { font-size: 10px; color: var(--muted); font-weight: 600; }
-  .timeline-title { font-size: 12px; font-weight: 600; color: var(--text); margin: 2px 0; }
-  .timeline-detail { font-size: 11px; color: var(--muted); }
-  .timeline-metric { font-size: 18px; font-weight: 800; color: var(--accent2); }
-
-  /* TREND BARS */
-  .trend-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-  .trend-label { font-size: 11px; color: var(--text); width: 130px; flex-shrink: 0; }
-  .trend-track { flex: 1; height: 26px; background: var(--surface3); border-radius: 5px; position: relative; overflow: hidden; display: flex; align-items: center; }
-  .trend-fill { height: 100%; border-radius: 5px; display: flex; align-items: center; padding-left: 8px; font-size: 11px; font-weight: 700; color: #fff; min-width: fit-content; transition: width 0.6s ease; }
-  .trend-value { font-size: 12px; font-weight: 700; width: 60px; text-align: right; flex-shrink: 0; }
-
-  .progress-wrap { margin-bottom: 10px; }
-  .progress-meta { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 11px; }
-  .progress-meta span:first-child { color: var(--text); }
-  .progress-meta span:last-child { color: var(--muted); font-weight: 600; }
-  .progress-bar { height: 6px; background: var(--surface3); border-radius: 3px; overflow: hidden; }
-  .progress-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
-
-  /* GOAL CARD */
-  .goal-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-bottom: 10px; }
-  .goal-head { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 6px; gap: 10px; }
-  .goal-title { font-size: 13px; font-weight: 700; color: var(--text); }
-  .goal-horizon { font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
-  .goal-desc { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
-  .goal-guidance { padding: 10px; background: var(--surface3); border-radius: 6px; font-size: 11px; color: var(--text); border-left: 2px solid var(--teal); }
-  .goal-guidance strong { color: var(--teal); display: block; margin-bottom: 4px; font-size: 10px; letter-spacing: 0.5px; text-transform: uppercase; }
-  .goal-guidance ol { margin: 4px 0 0 16px; color: var(--muted); }
-  .goal-guidance li { margin-bottom: 3px; }
-
-  /* 1:1 SECTION */
-  .oneone-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-bottom: 10px; }
-  .oneone-card.positive { border-left: 3px solid var(--green); }
-  .oneone-card.reframe { border-left: 3px solid var(--blue); }
-  .oneone-card.develop { border-left: 3px solid var(--amber); }
-  .oneone-card.feedback { border-left: 3px solid var(--accent2); }
-  .oneone-label { font-size: 10px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 8px; }
-  .oneone-item { display: flex; gap: 8px; padding: 6px 0; font-size: 12px; color: var(--text); align-items: flex-start; }
-  .oneone-item .dot { color: var(--accent2); flex-shrink: 0; }
-  .reframe-flow { display: flex; align-items: center; gap: 8px; padding: 8px 0; flex-wrap: wrap; }
-  .reframe-from { font-size: 11px; color: var(--muted); background: rgba(255,77,106,0.08); padding: 4px 8px; border-radius: 5px; flex: 1; min-width: 120px; }
-  .reframe-arrow { color: var(--accent2); font-weight: 700; }
-  .reframe-to { font-size: 11px; color: var(--text); background: rgba(76,222,143,0.1); padding: 4px 8px; border-radius: 5px; flex: 1; min-width: 120px; }
-
-  .opp-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 8px; }
-  .opp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; gap: 8px; }
-  .opp-title { font-size: 12px; font-weight: 600; color: var(--text); }
-  .opp-impact { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
-  .impact-high { background: rgba(76,222,143,0.15); color: var(--green); }
-  .impact-med { background: rgba(255,183,77,0.15); color: var(--amber); }
-  .opp-desc { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
-  .opp-meta { font-size: 10px; color: var(--dim); }
-
-  .evidence-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
-  .evidence-item:last-child { border-bottom: none; }
-  .evidence-icon { width: 36px; height: 36px; border-radius: 8px; background: var(--surface3); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
-  .evidence-title { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
-  .evidence-detail { font-size: 11px; color: var(--muted); }
-  .evidence-date { font-size: 10px; color: var(--dim); margin-top: 4px; }
-
-  .tp-item { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
-  .tp-item:last-child { border-bottom: none; }
-  .tp-num { width: 20px; height: 20px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 800; color: #fff; flex-shrink: 0; margin-top: 1px; }
-  .tp-text { font-size: 12px; color: var(--text); }
-  .tp-text strong { color: var(--text); }
-
-  .snapshot-box {
-    background: var(--surface3); border: 1px dashed var(--border); border-radius: 8px;
-    padding: 14px; font-size: 12px; color: var(--text); white-space: pre-wrap;
-    font-family: 'Courier New', monospace; line-height: 1.6; max-height: 300px; overflow-y: auto;
-  }
-
-  .week-tag { display: inline-flex; align-items: center; gap: 4px; background: rgba(108,71,255,0.12); border: 1px solid rgba(108,71,255,0.3); color: var(--accent2); font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 5px; letter-spacing: 0.5px; }
-  .divider { height: 1px; background: var(--border); margin: 16px 0; }
-  .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--green); color: #fff; padding: 10px 20px; border-radius: 8px; font-size: 12px; font-weight: 600; z-index: 999; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
-  .toast.show { opacity: 1; }
-
-  @media (max-width: 900px) {
-    .grid-4 { grid-template-columns: repeat(2, 1fr); }
-    .grid-3 { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width: 600px) {
-    .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
-    .content { padding: 16px; }
-  }
-  ::-webkit-scrollbar { width: 5px; height: 5px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+:root{--bg:#0d0f1a;--sf:#131629;--sf2:#1a1e35;--sf3:#202440;--bd:#2a2f52;--ac:#6c47ff;--ac2:#9b6dff;--gld:#f5a623;--tl:#00c9a7;--rd:#ff4d6a;--am:#ffb74d;--gn:#4cde8f;--bl:#4a9eff;--tx:#e8eaf2;--mt:#7a82a8;--dm:#4a5070;--r:10px;--f:'Segoe UI',system-ui,sans-serif;--sh:0 2px 8px rgba(0,0,0,.2);--sw:240px}
+[data-theme=light]{--bg:#f4f6fb;--sf:#fff;--sf2:#f0f2f9;--sf3:#e8ebf5;--bd:#d9deee;--rd:#e03152;--am:#e09600;--gn:#2aa86a;--bl:#2b7fe0;--tx:#1a1e35;--mt:#6a7395;--dm:#9aa2c0;--sh:0 2px 8px rgba(80,90,140,.1)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--tx);font-family:var(--f);font-size:13px;line-height:1.5;display:flex;min-height:100vh;transition:background .3s,color .3s}
+/* SIDEBAR */
+.sidebar{width:var(--sw);min-width:var(--sw);background:var(--sf);border-right:1px solid var(--bd);display:flex;flex-direction:column;height:100vh;position:sticky;top:0;z-index:200;transition:width .25s ease,min-width .25s ease;overflow:hidden;flex-shrink:0}
+.sidebar.collapsed{width:56px;min-width:56px}
+.sidebar.collapsed .nav-label,.sidebar.collapsed .sidebar-footer,.sidebar.collapsed .logo-text{display:none}
+.sidebar.collapsed .sidebar-head{justify-content:center}
+.sidebar.collapsed .nav-btn{justify-content:center;padding:10px 0}
+.sidebar-head{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--bd);min-height:52px}
+.hamburger{background:none;border:none;color:var(--tx);font-size:18px;cursor:pointer;padding:4px;flex-shrink:0;line-height:1}
+.logo-text{font-size:14px;font-weight:700;white-space:nowrap}.logo-text span{color:var(--ac2)}
+.sidebar-nav{flex:1;overflow-y:auto;padding:8px}
+.sidebar-nav::-webkit-scrollbar{width:3px}.sidebar-nav::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
+.nav-btn{display:flex;align-items:center;gap:10px;width:100%;background:none;border:none;color:var(--mt);font-size:12px;font-weight:500;padding:9px 12px;border-radius:7px;cursor:pointer;white-space:nowrap;transition:all .12s;font-family:var(--f);text-align:left}
+.nav-btn:hover{background:var(--sf2);color:var(--tx)}
+.nav-btn.active{background:rgba(108,71,255,.12);color:var(--ac2);font-weight:600}
+.nav-icon{font-size:15px;width:20px;text-align:center;flex-shrink:0}
+.nav-label{overflow:hidden}
+.sidebar-footer{padding:12px 16px;border-top:1px solid var(--bd);font-size:10px;color:var(--dm);white-space:nowrap}
+.sidebar-footer .theme-toggle{background:var(--sf3);border:1px solid var(--bd);color:var(--tx);width:100%;padding:6px;border-radius:6px;cursor:pointer;font-size:12px;font-family:var(--f);transition:all .15s;margin-top:6px}
+.sidebar-footer .theme-toggle:hover{border-color:var(--ac)}
+/* MAIN */
+.main{flex:1;min-width:0;transition:all .25s ease}
+.topbar{background:var(--sf);border-bottom:1px solid var(--bd);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:48px;position:sticky;top:0;z-index:100;box-shadow:var(--sh)}
+.topbar-right{display:flex;align-items:center;gap:12px;font-size:12px;color:var(--mt)}
+.status-pill{display:flex;align-items:center;gap:5px;background:rgba(76,222,143,.1);border:1px solid rgba(76,222,143,.25);color:var(--gn);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.status-dot{width:6px;height:6px;background:var(--gn);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.content{padding:20px 24px 40px}
+.tab-panel{display:none}.tab-panel.active{display:block;animation:fadeIn .2s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:8px}
+.page-title{font-size:20px;font-weight:700;letter-spacing:-.4px}.page-sub{color:var(--mt);font-size:12px;margin-top:2px}
+.last-updated{font-size:11px;color:var(--dm);background:var(--sf2);border:1px solid var(--bd);padding:4px 10px;border-radius:6px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:14px}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:16px;box-shadow:var(--sh)}
+.card-title{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mt);margin-bottom:10px}
+.kpi{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:14px;position:relative;overflow:hidden;box-shadow:var(--sh)}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.kpi.green::before{background:var(--gn)}.kpi.red::before{background:var(--rd)}.kpi.amber::before{background:var(--am)}.kpi.blue::before{background:var(--bl)}.kpi.purple::before{background:var(--ac2)}
+.kpi-l{font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--mt);margin-bottom:6px}
+.kpi-v{font-size:26px;font-weight:800;letter-spacing:-1px}.kpi-s{font-size:11px;color:var(--mt);margin-top:3px}
+.kpi-t{font-size:11px;font-weight:600;margin-top:3px}.tu{color:var(--gn)}.td{color:var(--rd)}.tf{color:var(--am)}
+.sh{display:flex;align-items:center;gap:10px;margin:18px 0 10px}.sh:first-child{margin-top:0}
+.sl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--ac2)}.sd{flex:1;height:1px;background:var(--bd)}
+.badge{font-size:9px;padding:1px 6px;border-radius:20px;font-weight:600;letter-spacing:.5px}
+.b-rd{background:rgba(255,77,106,.15);color:var(--rd);border:1px solid rgba(255,77,106,.25)}
+.b-am{background:rgba(255,183,77,.15);color:var(--am);border:1px solid rgba(255,183,77,.25)}
+.b-gn{background:rgba(76,222,143,.12);color:var(--gn);border:1px solid rgba(76,222,143,.2)}
+.b-bl{background:rgba(74,158,255,.12);color:var(--bl);border:1px solid rgba(74,158,255,.2)}
+.b-pp{background:rgba(108,71,255,.15);color:var(--ac2);border:1px solid rgba(108,71,255,.25)}
+table.dt{width:100%;border-collapse:collapse;font-size:12px}
+table.dt th{font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--mt);padding:6px 8px;text-align:left;border-bottom:1px solid var(--bd);position:sticky;top:0;background:var(--sf)}
+table.dt td{padding:6px 8px;border-bottom:1px solid var(--bd)}.dt tr:hover td{background:var(--sf2)}
+.rd-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:5px}
+.alert{display:flex;gap:10px;padding:10px 12px;border-radius:8px;margin-bottom:8px;border-left:3px solid;background:var(--sf2)}
+.alert.crit{border-color:var(--rd)}.alert.warn{border-color:var(--am)}.alert.info{border-color:var(--bl)}.alert.ok{border-color:var(--gn)}
+.alert strong{font-size:12px;display:block;margin-bottom:2px}.alert span{font-size:11px;color:var(--mt)}
+.tr-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.tr-lbl{font-size:11px;width:80px;flex-shrink:0;color:var(--tx)}.tr-trk{flex:1;height:24px;background:var(--sf3);border-radius:5px;overflow:hidden;display:flex;align-items:center}
+.tr-fill{height:100%;border-radius:5px;display:flex;align-items:center;padding-left:8px;font-size:11px;font-weight:700;color:#fff;min-width:fit-content;transition:width .5s}
+.tr-val{font-size:12px;font-weight:700;width:55px;text-align:right;flex-shrink:0}
+.todo-item{display:flex;align-items:flex-start;gap:10px;background:var(--sf2);border:1px solid var(--bd);border-radius:8px;padding:12px;margin-bottom:8px}
+.todo-item.done{opacity:.5}.todo-item.done .todo-t{text-decoration:line-through}
+.todo-chk{width:20px;height:20px;border-radius:5px;border:2px solid var(--dm);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;transition:all .15s;background:transparent}
+.todo-chk.ck{background:var(--gn);border-color:var(--gn)}.todo-chk.ip{background:var(--am);border-color:var(--am)}
+.todo-t{font-size:12px;font-weight:600}.pf{font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px}
+.pf1{background:rgba(255,77,106,.2);color:var(--rd)}.pf2{background:rgba(255,183,77,.2);color:var(--am)}.pf3{background:rgba(74,158,255,.15);color:var(--bl)}
+.todo-g{margin-top:8px;padding:8px 10px;background:var(--sf3);border-radius:6px;font-size:11px;color:var(--mt);border-left:2px solid var(--ac)}
+.todo-g strong{color:var(--ac2);display:block;margin-bottom:2px;font-size:10px;letter-spacing:.5px;text-transform:uppercase}
+.sbtn{font-size:10px;font-weight:600;padding:3px 10px;border-radius:5px;border:1px solid var(--bd);background:var(--sf);color:var(--mt);cursor:pointer;transition:all .15s;font-family:var(--f)}
+.sbtn:hover{border-color:var(--ac);color:var(--tx)}.sbtn.a-o{background:var(--dm);color:#fff;border-color:var(--dm)}
+.sbtn.a-p{background:var(--am);color:#1a1e35;border-color:var(--am)}.sbtn.a-d{background:var(--gn);color:#fff;border-color:var(--gn)}
+.tkr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.tkr-cell{background:var(--sf2);border:1px solid var(--bd);border-radius:8px;padding:12px}
+.tkr-cell label{font-size:10px;color:var(--mt);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px}
+.tkr-cell input{width:100%;background:var(--sf3);border:1px solid var(--bd);border-radius:5px;color:var(--tx);padding:4px 8px;font-size:16px;font-weight:700;font-family:var(--f)}
+.tkr-cell small{font-size:10px;color:var(--dm);display:block;margin-top:2px}
+.btn{background:var(--ac);color:#fff;border:none;padding:8px 16px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--f)}.btn:hover{background:var(--ac2)}
+.btn-o{background:transparent;border:1px solid var(--bd);color:var(--tx)}.btn-o:hover{border-color:var(--ac);background:var(--sf2)}
+.snap{background:var(--sf3);border:1px dashed var(--bd);border-radius:8px;padding:14px;font-size:12px;white-space:pre-wrap;font-family:'Courier New',monospace;line-height:1.6;max-height:300px;overflow-y:auto;color:var(--tx)}
+.goal-c{background:var(--sf2);border:1px solid var(--bd);border-radius:8px;padding:14px;margin-bottom:10px}
+.goal-c h4{font-size:13px;font-weight:700;margin-bottom:4px}.goal-c p{font-size:11px;color:var(--mt);margin-bottom:8px}
+.goal-g{padding:10px;background:var(--sf3);border-radius:6px;font-size:11px;border-left:2px solid var(--tl)}
+.goal-g strong{color:var(--tl);display:block;margin-bottom:4px;font-size:10px;letter-spacing:.5px;text-transform:uppercase}
+.goal-g ol{margin:4px 0 0 16px;color:var(--mt)}.goal-g li{margin-bottom:3px}
+.oo-card{background:var(--sf2);border:1px solid var(--bd);border-radius:8px;padding:14px;margin-bottom:10px}
+.oo-card.pos{border-left:3px solid var(--gn)}.oo-card.ref{border-left:3px solid var(--bl)}.oo-card.dev{border-left:3px solid var(--am)}.oo-card.fb{border-left:3px solid var(--ac2)}
+.oo-label{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px}
+.oo-item{display:flex;gap:8px;padding:5px 0;font-size:12px;align-items:flex-start}.oo-item .d{color:var(--ac2);flex-shrink:0}
+.rf-flow{display:flex;align-items:center;gap:8px;padding:7px 0;flex-wrap:wrap}
+.rf-from{font-size:11px;color:var(--mt);background:rgba(255,77,106,.08);padding:4px 8px;border-radius:5px;flex:1;min-width:120px}
+.rf-to{font-size:11px;color:var(--tx);background:rgba(76,222,143,.1);padding:4px 8px;border-radius:5px;flex:1;min-width:120px}
+.rf-ar{color:var(--ac2);font-weight:700}
+.ev-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--bd)}.ev-item:last-child{border-bottom:none}
+.ev-ic{width:34px;height:34px;border-radius:8px;background:var(--sf3);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.ev-t{font-size:12px;font-weight:600;margin-bottom:2px}.ev-d{font-size:11px;color:var(--mt)}.ev-dt{font-size:10px;color:var(--dm);margin-top:3px}
+.tp-item{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid var(--bd);align-items:flex-start}.tp-item:last-child{border-bottom:none}
+.tp-n{width:20px;height:20px;background:var(--ac);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff;flex-shrink:0}
+.tp-tx{font-size:12px}
+.tl-node{position:relative;padding-left:20px;padding-bottom:16px}
+.tl-wrap{position:relative;padding-left:20px}.tl-wrap::before{content:'';position:absolute;left:5px;top:6px;bottom:6px;width:2px;background:var(--bd)}
+.tl-node::before{content:'';position:absolute;left:-18px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--ac);border:2px solid var(--sf)}
+.tl-node.g::before{background:var(--gn)}.tl-node.a::before{background:var(--am)}.tl-node.r::before{background:var(--rd)}
+.tl-date{font-size:10px;color:var(--mt);font-weight:600}.tl-title{font-size:12px;font-weight:600;margin:2px 0}.tl-det{font-size:11px;color:var(--mt)}
+.tl-metric{font-size:18px;font-weight:800;color:var(--ac2)}
+/* Period filter buttons */
+.period-bar{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
+.pbtn{font-size:11px;font-weight:600;padding:5px 14px;border-radius:6px;border:1px solid var(--bd);background:var(--sf);color:var(--mt);cursor:pointer;transition:all .12s;font-family:var(--f)}
+.pbtn:hover{border-color:var(--ac);color:var(--tx)}.pbtn.active{background:var(--ac);color:#fff;border-color:var(--ac)}
+.date-input{font-size:11px;padding:4px 8px;border-radius:5px;border:1px solid var(--bd);background:var(--sf3);color:var(--tx);font-family:var(--f)}
+.ds-scroll{max-height:500px;overflow-y:auto}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--gn);color:#fff;padding:10px 20px;border-radius:8px;font-size:12px;font-weight:600;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none}.toast.show{opacity:1}
+@media(max-width:900px){.g4{grid-template-columns:repeat(2,1fr)}.g3,.g2{grid-template-columns:1fr}.sidebar{display:none}.sidebar.open{display:flex}}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}
 </style>
 </head>
 <body data-theme="dark">
 
-<div class="topbar">
-  <div class="topbar-left">
-    <div class="logo">one<span>com</span> OPS</div>
-    <span class="version-badge">v2.0 - JUNE 2026</span>
-  </div>
-  <div class="topbar-right">
-    <div class="status-pill"><span class="status-dot"></span> SYSTEM ACTIVE</div>
-    <span class="hide-mobile">Satish Kumar - Ops Manager CX</span>
-    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle light/dark mode">🌙</button>
-  </div>
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-head">
+<button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+<span class="logo-text">one<span>com</span> OPS</span>
 </div>
+<div class="sidebar-nav" id="sidebarNav">
+<button class="nav-btn active" onclick="go(0)"><span class="nav-icon">&#9889;</span><span class="nav-label">Command Centre</span></button>
+<button class="nav-btn" onclick="go(1)"><span class="nav-icon">&#9745;</span><span class="nav-label">Daily To-Do</span></button>
+<button class="nav-btn" onclick="go(2)"><span class="nav-icon">&#128203;</span><span class="nav-label">Daily Tracker</span></button>
+<button class="nav-btn" onclick="go(3)"><span class="nav-icon">&#128200;</span><span class="nav-label">Executive</span></button>
+<button class="nav-btn" onclick="go(4)"><span class="nav-icon">&#128222;</span><span class="nav-label">CO Enhanced</span></button>
+<button class="nav-btn" onclick="go(5)"><span class="nav-icon">&#128295;</span><span class="nav-label">TO Enhanced</span></button>
+<button class="nav-btn" onclick="go(6)"><span class="nav-icon">&#128202;</span><span class="nav-label">CO Daily Stats</span></button>
+<button class="nav-btn" onclick="go(7)"><span class="nav-icon">&#128200;</span><span class="nav-label">Performance</span></button>
+<button class="nav-btn" onclick="go(8)"><span class="nav-icon">&#127919;</span><span class="nav-label">Goals</span></button>
+<button class="nav-btn" onclick="go(9)"><span class="nav-icon">&#129309;</span><span class="nav-label">1:1 Leadership</span></button>
+<button class="nav-btn" onclick="go(10)"><span class="nav-icon">&#127942;</span><span class="nav-label">Promotion</span></button>
+</div>
+<div class="sidebar-footer">
+<div>Satish Kumar - Ops Manager CX</div>
+<div style="margin-top:2px">v3.0 - June 2026</div>
+<button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">Switch to Light Mode</button>
+</div>
+</nav>
 
-<div class="tab-nav">
-  <button class="tab-btn active" onclick="switchTab(0)">⚡ Command Centre</button>
-  <button class="tab-btn" onclick="switchTab(1)">✅ Daily To-Do</button>
-  <button class="tab-btn" onclick="switchTab(2)">📋 Daily Tracker</button>
-  <button class="tab-btn" onclick="switchTab(3)">📊 Executive</button>
-  <button class="tab-btn" onclick="switchTab(4)">☎ CO Enhanced</button>
-  <button class="tab-btn" onclick="switchTab(5)">🔧 TO Enhanced</button>
-  <button class="tab-btn" onclick="switchTab(6)">📈 Performance</button>
-  <button class="tab-btn" onclick="switchTab(7)">🎯 Goals</button>
-  <button class="tab-btn" onclick="switchTab(8)">🤝 1:1 with Leadership</button>
-  <button class="tab-btn" onclick="switchTab(9)">🏆 Promotion</button>
+<!-- MAIN CONTENT -->
+<div class="main" id="mainContent">
+<div class="topbar">
+<div class="status-pill"><span class="status-dot"></span> SYSTEM ACTIVE</div>
+<div class="topbar-right">
+<span>Week 3 of 90-Day Roadmap</span>
+<span class="last-updated">Data: SharePoint Live Read - 14 Jun 2026</span>
+</div>
 </div>
 
 <div class="content">
 
-  <!-- TAB 0: COMMAND CENTRE -->
-  <div class="tab-panel active" id="tab-0">
-    <div class="page-header">
-      <div>
-        <div class="page-title">Operations Command Centre</div>
-        <div class="page-sub">Live operational intelligence - CO Enhanced and TO Enhanced, UK Shift</div>
-      </div>
-      <div class="last-updated">Week 3 of 90-Day Roadmap - June 2026</div>
-    </div>
-
-    <div class="grid-4">
-      <div class="kpi-card red">
-        <div class="kpi-label">CO Enh Voice ASA</div>
-        <div class="kpi-value">90s</div>
-        <div class="kpi-sub">Target below 30s - RED</div>
-      </div>
-      <div class="kpi-card amber">
-        <div class="kpi-label">CO Enh Abandon Rate</div>
-        <div class="kpi-value">7.3%</div>
-        <div class="kpi-sub">Target below 5% - Jan peak 22.63%</div>
-      </div>
-      <div class="kpi-card amber">
-        <div class="kpi-label">EWS Agents at Risk</div>
-        <div class="kpi-value">19</div>
-        <div class="kpi-sub">9 Red, 10 Amber across CO and TO</div>
-      </div>
-      <div class="kpi-card green">
-        <div class="kpi-label">90-Day Roadmap</div>
-        <div class="kpi-value">Day 20</div>
-        <div class="kpi-sub">Phase 1 Stabilise - On Track</div>
-      </div>
-    </div>
-
-    <div class="grid-2">
-      <div>
-        <div class="section-header"><span class="section-label">Critical Alerts Today</span><div class="section-divider"></div></div>
-        <div class="alert-item critical">
-          <span class="alert-icon">🔴</span>
-          <div class="alert-body"><strong>Aashish Chauhan - TO Enhanced - Exit 15th June</strong><span>Q1 performer, 5/5 ratings. Backfill JD must be raised immediately.</span></div>
-        </div>
-        <div class="alert-item critical">
-          <span class="alert-icon">🔴</span>
-          <div class="alert-body"><strong>Salary Appraisal - Escalate to Lisa and Michael</strong><span>6 high performers citing pay as exit reason. Ritik, Suneha, Azeem, Tia confirmed.</span></div>
-        </div>
-        <div class="alert-item warning">
-          <span class="alert-icon">🟡</span>
-          <div class="alert-body"><strong>CO Enhanced KPI Failure - Persistent Since Jan</strong><span>Voice ASA and ABN above target. Supplier portal access pending.</span></div>
-        </div>
-        <div class="alert-item warning">
-          <span class="alert-icon">🟡</span>
-          <div class="alert-body"><strong>QA Capacity - 1 Resource for 52 Agents</strong><span>3 audits per agent vs 8 target. QA Auditor JDs urgent.</span></div>
-        </div>
-        <div class="alert-item success">
-          <span class="alert-icon">🟢</span>
-          <div class="alert-body"><strong>Growth Programme - Live, Week 3</strong><span>Harneet, Gaurav, Azeem, Uttam on rotation. Newsletter issued.</span></div>
-        </div>
-      </div>
-
-      <div>
-        <div class="section-header"><span class="section-label">Top Priorities - Pulled from To-Do</span><div class="section-divider"></div></div>
-        <div class="card" id="commandTodoMirror">
-          <div style="font-size:11px;color:var(--muted)">Your top open to-do items appear here automatically. Manage them in the Daily To-Do tab.</div>
-        </div>
-        <div class="section-header"><span class="section-label">Follow-Ups Pending</span><div class="section-divider"></div></div>
-        <div class="card" style="padding:12px">
-          <table class="rag-table">
-            <thead><tr><th>Item</th><th>Stakeholder</th><th>Status</th></tr></thead>
-            <tbody>
-              <tr><td>Salary appraisal approval</td><td>Lisa / Michael</td><td><span class="rag-dot rag-red"></span>Urgent</td></tr>
-              <tr><td>QA Auditor JDs (2 roles)</td><td>Michael / HR</td><td><span class="rag-dot rag-red"></span>Urgent</td></tr>
-              <tr><td>Salesforce data access</td><td>Joanne / Michael</td><td><span class="rag-dot rag-amber"></span>Pending</td></tr>
-              <tr><td>Supplier portal access</td><td>Michael</td><td><span class="rag-dot rag-amber"></span>Pending</td></tr>
-              <tr><td>IJP framework publish</td><td>Joanne / HR</td><td><span class="rag-dot rag-amber"></span>In progress</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TAB 1: DAILY TO-DO -->
-  <div class="tab-panel" id="tab-1">
-    <div class="page-header">
-      <div>
-        <div class="page-title">Daily To-Do List</div>
-        <div class="page-sub">Priority-flagged pending actions with completion guidance. Status saves automatically.</div>
-      </div>
-      <div style="display:flex;gap:8px">
-        <button class="btn btn-outline" onclick="resetTodos()">Reset All</button>
-        <button class="btn" onclick="snapshotTodo()">Generate Snapshot</button>
-      </div>
-    </div>
-
-    <div class="grid-4">
-      <div class="kpi-card red"><div class="kpi-label">P1 Critical Open</div><div class="kpi-value" id="p1count">0</div><div class="kpi-sub">Resolve today</div></div>
-      <div class="kpi-card amber"><div class="kpi-label">In Progress</div><div class="kpi-value" id="progcount">0</div><div class="kpi-sub">Active now</div></div>
-      <div class="kpi-card green"><div class="kpi-label">Completed</div><div class="kpi-value" id="donecount">0</div><div class="kpi-sub">Done today</div></div>
-      <div class="kpi-card blue"><div class="kpi-label">Completion Rate</div><div class="kpi-value" id="ratecount">0%</div><div class="kpi-sub">Of all tasks</div></div>
-    </div>
-
-    <div class="section-header"><span class="section-label">Open Actions</span><div class="section-divider"></div></div>
-    <div class="card">
-      <div id="todoList"></div>
-    </div>
-  </div>
-
-  <!-- TAB 2: DAILY TRACKER -->
-  <div class="tab-panel" id="tab-2">
-    <div class="page-header">
-      <div>
-        <div class="page-title">Daily Operational Tracker</div>
-        <div class="page-sub">End-of-day snapshot for Lisa and Michael. Enter today's numbers, then generate the snapshot.</div>
-      </div>
-      <div style="display:flex;gap:8px">
-        <button class="btn btn-outline" onclick="loadTrackerDefaults()">Clear</button>
-        <button class="btn" onclick="snapshotTracker()">Generate Daily Snapshot</button>
-      </div>
-    </div>
-
-    <div class="section-header"><span class="section-label">CO Enhanced - Today</span><div class="section-divider"></div><span class="week-tag" id="trackerDate">TODAY</span></div>
-    <div class="card" style="margin-bottom:14px">
-      <div class="tracker-grid">
-        <div class="tracker-cell"><div class="tracker-cell-label">Voice ASA (sec)</div><input class="tracker-input" id="co_asa" type="number" placeholder="0"><div class="tracker-cell-target">Target below 30</div></div>
-        <div class="tracker-cell"><div class="tracker-cell-label">Abandon Rate (%)</div><input class="tracker-input" id="co_abn" type="number" step="0.01" placeholder="0"><div class="tracker-cell-target">Target below 5%</div></div>
-        <div class="tracker-cell"><div class="tracker-cell-label">Calls Handled</div><input class="tracker-input" id="co_calls" type="number" placeholder="0"><div class="tracker-cell-target">Daily volume</div></div>
-        <div class="tracker-cell"><div class="tracker-cell-label">Email FRT (hrs)</div><input class="tracker-input" id="co_frt" type="number" step="0.1" placeholder="0"><div class="tracker-cell-target">Target below 4</div></div>
-        <div class="tracker-cell"><div class="tracker-cell-label">Overall CSAT</div><input class="tracker-input" id="co_csat" type="number" step="0.1" placeholder="0"><div class="tracker-cell-target">Target above 4.0</div></div>
-        <div class="tracker-cell"><div class="tracker-cell-label">Escalations</div><input class="tracker-input" id="co_esc" type="number" placeholder="0"><div class="tracker-cell-target">Dealt today</div></div>
-      </div>
-    </div>
-
-    <div class="section-header"><span class="section-label">TO Enhanced - Today</span><div class="section-divider"></div></div>
-    <div class="card" style="margin-bottom:14px">
-      <div class="tracker-grid">
-        <div class="tracker-cell"><div class="tracker-cell-label">Inbound ASA (sec)</div><input class="tracker-input" id="to_asa" type="number" placeholder="0"><div class="tracker-cell-target">Target below 30</div></div>
-        <div class="tracker-cell"><div class="tracker-cell-label">Abandon Rate (%)</div><input class="tracker-input" id="to_abn" type="number" step="0.01" placeholder="0"><div class="tracker-cell-target">Target below 5%</div></div>
-        <div class="tracker-cell"><div class="tracker-cell-label">First Resp SLA (%)</div><input class="tracker-input" id="to_sla" type="number" step="0.1" placeholder="0"><div class="tracker-cell-target">Target 95%</div></div>
-        <div class="tracker-cell"><div class="tracker-cell-label">OOSLA Resolved</div><input class="tracker-input" id="to_oosla" type="number" placeholder="0"><div class="tracker-cell-target">Today</div></div>
-        <div class="tracker-cell"><div class="tracker-cell-label">High Aged Resolved</div><input class="tracker-input" id="to_aged" type="number" placeholder="0"><div class="tracker-cell-target">30+ day cases</div></div>
-        <div class="tracker-cell"><div class="tracker-cell-label">Number of Audits</div><input class="tracker-input" id="to_audit" type="number" placeholder="0"><div class="tracker-cell-target">QA done today</div></div>
-      </div>
-    </div>
-
-    <div class="section-header"><span class="section-label">People and Floor - Today</span><div class="section-divider"></div></div>
-    <div class="card" style="margin-bottom:14px">
-      <div class="tracker-grid">
-        <div class="tracker-cell"><div class="tracker-cell-label">Attendance (%)</div><input class="tracker-input" id="ppl_att" type="number" step="0.1" placeholder="0"><div class="tracker-cell-target">Floor present</div></div>
-        <div class="tracker-cell"><div class="tracker-cell-label">Shrinkage (%)</div><input class="tracker-input" id="ppl_shr" type="number" step="0.1" placeholder="0"><div class="tracker-cell-target">Unplanned</div></div>
-        <div class="tracker-cell"><div class="tracker-cell-label">Floor Cover OK</div><input class="tracker-input" id="ppl_floor" type="text" placeholder="Y/N"><div class="tracker-cell-target">1 TL + 1 SME</div></div>
-        <div class="tracker-cell"><div class="tracker-cell-label">Growth Prog Week</div><input class="tracker-input" id="ppl_prog" type="text" placeholder="W3"><div class="tracker-cell-target">Rotation cycle</div></div>
-      </div>
-    </div>
-
-    <div class="section-header"><span class="section-label">Daily Snapshot - Copy and Send to Lisa and Mike</span><div class="section-divider"></div></div>
-    <div class="card">
-      <div class="snapshot-box" id="trackerSnapshot">Enter today's numbers above, then click "Generate Daily Snapshot". A clean leadership-ready summary will appear here, ready to copy into Teams or email.</div>
-      <div style="margin-top:10px;display:flex;gap:8px">
-        <button class="btn" onclick="copySnapshot('trackerSnapshot')">Copy to Clipboard</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- TAB 3: EXECUTIVE -->
-  <div class="tab-panel" id="tab-3">
-    <div class="page-header">
-      <div><div class="page-title">Executive Dashboard</div><div class="page-sub">Business health - ready for leadership review</div></div>
-      <div class="last-updated">May to June 2026</div>
-    </div>
-    <div class="grid-4">
-      <div class="kpi-card amber"><div class="kpi-label">CO Enh Overall CSAT</div><div class="kpi-value">3.1</div><div class="kpi-sub">Target above 4.0</div><div class="kpi-trend trend-down">Below target - email weakest</div></div>
-      <div class="kpi-card red"><div class="kpi-label">CO Enh Voice ASA</div><div class="kpi-value">90s</div><div class="kpi-sub">Target below 30s</div><div class="kpi-trend trend-down">Jan peak 344s - structural</div></div>
-      <div class="kpi-card green"><div class="kpi-label">TO Enh CSAT</div><div class="kpi-value">4.5</div><div class="kpi-sub">Target above 4.0</div><div class="kpi-trend trend-up">On track across April</div></div>
-      <div class="kpi-card green"><div class="kpi-label">90-Day Programme</div><div class="kpi-value">Day 20</div><div class="kpi-sub">14 actions initiated</div><div class="kpi-trend trend-up">On track</div></div>
-    </div>
-    <div class="grid-2">
-      <div>
-        <div class="section-header"><span class="section-label">Decisions Required from Leadership</span><div class="section-divider"></div></div>
-        <div class="card" style="padding:12px">
-          <table class="rag-table">
-            <thead><tr><th>#</th><th>Decision</th><th>Owner</th><th>Priority</th></tr></thead>
-            <tbody>
-              <tr><td>1</td><td>Salary appraisal - approve and action</td><td>Michael / Lisa</td><td><span class="badge badge-red">URGENT</span></td></tr>
-              <tr><td>2</td><td>JD approval - 4 CO advisors, 2 QA auditors</td><td>Michael / HR</td><td><span class="badge badge-red">URGENT</span></td></tr>
-              <tr><td>3</td><td>Salesforce IT admin access</td><td>Joanne / Michael</td><td><span class="badge badge-red">HIGH</span></td></tr>
-              <tr><td>4</td><td>Supplier portal access</td><td>Michael</td><td><span class="badge badge-amber">HIGH</span></td></tr>
-              <tr><td>5</td><td>IJP framework publish</td><td>Joanne / HR</td><td><span class="badge badge-amber">MEDIUM</span></td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div>
-        <div class="section-header"><span class="section-label">Leadership Talking Points</span><div class="section-divider"></div></div>
-        <div class="card">
-          <div class="tp-item"><div class="tp-num">1</div><div class="tp-text"><strong>CO Enhanced voice SLA is a supplier process issue, not a staffing gap.</strong> ASA peaked at 344s in January because advisors cannot resolve queries without supplier confirmation. The fix is portal access.</div></div>
-          <div class="tp-item"><div class="tp-num">2</div><div class="tp-text"><strong>We are 3 exits away from a TO Enhanced productivity gap in June.</strong> JDs need approval this week.</div></div>
-          <div class="tp-item"><div class="tp-num">3</div><div class="tp-text"><strong>The 90-day roadmap is on track.</strong> Floor rota, break management, coaching and the growth programme are all live in 3 weeks.</div></div>
-          <div class="tp-item"><div class="tp-num">4</div><div class="tp-text"><strong>The Growth Programme is generating leadership output.</strong> 4 tenured advisors on rotation building internal bench strength.</div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TAB 4: CO ENHANCED -->
-  <div class="tab-panel" id="tab-4">
-    <div class="page-header">
-      <div><div class="page-title">CO Enhanced</div><div class="page-sub">TLs: Aniket Kaushik and Yuvraj Singh - UK Shift</div></div>
-    </div>
-    <div class="grid-4">
-      <div class="kpi-card red"><div class="kpi-label">Voice ASA</div><div class="kpi-value">90s</div><div class="kpi-sub">Peak Jan 344s</div></div>
-      <div class="kpi-card amber"><div class="kpi-label">Abandon Rate</div><div class="kpi-value">7.3%</div><div class="kpi-sub">Jan peak 22.63%</div></div>
-      <div class="kpi-card amber"><div class="kpi-label">Email FRT</div><div class="kpi-value">12h</div><div class="kpi-sub">Peak 27.2h Feb</div></div>
-      <div class="kpi-card amber"><div class="kpi-label">Overall CSAT</div><div class="kpi-value">3.1</div><div class="kpi-sub">Target above 4.0</div></div>
-    </div>
-    <div class="section-header"><span class="section-label">CO Enhanced ASA Trend - Monthly Peaks (seconds)</span><div class="section-divider"></div></div>
-    <div class="card" style="margin-bottom:14px">
-      <div class="trend-row"><div class="trend-label">Jan 2026</div><div class="trend-track"><div class="trend-fill" style="width:100%;background:var(--red)">344s</div></div><div class="trend-value" style="color:var(--red)">344</div></div>
-      <div class="trend-row"><div class="trend-label">Feb 2026</div><div class="trend-track"><div class="trend-fill" style="width:33%;background:var(--amber)">114s</div></div><div class="trend-value" style="color:var(--amber)">114</div></div>
-      <div class="trend-row"><div class="trend-label">Mar 2026</div><div class="trend-track"><div class="trend-fill" style="width:9%;background:var(--green)">32s</div></div><div class="trend-value" style="color:var(--green)">32</div></div>
-      <div class="trend-row"><div class="trend-label">Apr 2026</div><div class="trend-track"><div class="trend-fill" style="width:26%;background:var(--amber)">90s</div></div><div class="trend-value" style="color:var(--amber)">90</div></div>
-      <div style="font-size:11px;color:var(--muted);margin-top:8px">Strong recovery Feb to March, but April regression confirms the supplier dependency issue is structural and not yet resolved.</div>
-    </div>
-    <div class="section-header"><span class="section-label">CO Enhanced Critical Challenges</span><div class="section-divider"></div></div>
-    <div class="card">
-      <div class="opp-item">
-        <div class="opp-header"><span class="opp-title">Call Abandons and Supplier Dependency</span><span class="opp-impact impact-high">P1 CRITICAL</span></div>
-        <div class="opp-desc">Majority of CO Enhanced calls require supplier-side confirmation before resolution. Drives ASA to 344s peak and ABN to 22.63%. Structural and persistent Jan to May.</div>
-        <div class="opp-meta">Action: Advisor-level supplier portal access. Daily ABN reason code tracking. Weekly TL review.</div>
-      </div>
-      <div class="opp-item">
-        <div class="opp-header"><span class="opp-title">No Floor TL / SME Coverage</span><span class="opp-impact impact-high">P1 CRITICAL</span></div>
-        <div class="opp-desc">Both TLs leaving floor simultaneously. SMEs monitoring queues not supporting agents. Extends handling time during peak.</div>
-        <div class="opp-meta">Action: Floor rota - 1 TL + 1 SME at all times. 15-min floor check cadence logged.</div>
-      </div>
-      <div class="opp-item">
-        <div class="opp-header"><span class="opp-title">Unplanned Break Management</span><span class="opp-impact impact-high">P1 CRITICAL</span></div>
-        <div class="opp-desc">Breaks taken without TL confirmation. ABN spikes in specific hours consistent with availability loss.</div>
-        <div class="opp-meta">Action: Break confirmation protocol live. Max 2 simultaneous breaks. Shrinkage KPI added.</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TAB 5: TO ENHANCED -->
-  <div class="tab-panel" id="tab-5">
-    <div class="page-header">
-      <div><div class="page-title">TO Enhanced</div><div class="page-sub">TLs: Rutvik Khara and Subham Dutta - UK Shift</div></div>
-    </div>
-    <div class="grid-4">
-      <div class="kpi-card green"><div class="kpi-label">Overall CSAT</div><div class="kpi-value">4.5</div><div class="kpi-sub">On track</div></div>
-      <div class="kpi-card amber"><div class="kpi-label">First Response SLA</div><div class="kpi-value">90.5%</div><div class="kpi-sub">Target 95% - dipping</div></div>
-      <div class="kpi-card amber"><div class="kpi-label">Target Repair SLA</div><div class="kpi-value">94.2%</div><div class="kpi-sub">Trending down</div></div>
-      <div class="kpi-card red"><div class="kpi-label">Planned Exits June</div><div class="kpi-value">1</div><div class="kpi-sub">Aashish Chauhan</div></div>
-    </div>
-    <div class="section-header"><span class="section-label">TO Enhanced First Response SLA Trend (%)</span><div class="section-divider"></div></div>
-    <div class="card" style="margin-bottom:14px">
-      <div class="trend-row"><div class="trend-label">Jan 2026</div><div class="trend-track"><div class="trend-fill" style="width:97%;background:var(--green)">97.4%</div></div><div class="trend-value" style="color:var(--green)">97.4</div></div>
-      <div class="trend-row"><div class="trend-label">Feb 2026</div><div class="trend-track"><div class="trend-fill" style="width:95%;background:var(--green)">95.0%</div></div><div class="trend-value" style="color:var(--green)">95.0</div></div>
-      <div class="trend-row"><div class="trend-label">Mar 2026</div><div class="trend-track"><div class="trend-fill" style="width:96%;background:var(--green)">96.3%</div></div><div class="trend-value" style="color:var(--green)">96.3</div></div>
-      <div class="trend-row"><div class="trend-label">Apr 2026</div><div class="trend-track"><div class="trend-fill" style="width:87%;background:var(--amber)">86.3%</div></div><div class="trend-value" style="color:var(--amber)">86.3</div></div>
-      <div style="font-size:11px;color:var(--muted);margin-top:8px">SLA dipped to 86.27% in the week of 27 April - a declining trend requiring intervention to protect the strong CSAT position.</div>
-    </div>
-    <div class="section-header"><span class="section-label">TO Enhanced Challenges</span><div class="section-divider"></div></div>
-    <div class="card">
-      <div class="opp-item">
-        <div class="opp-header"><span class="opp-title">First Response SLA Declining Trend</span><span class="opp-impact impact-high">P1</span></div>
-        <div class="opp-desc">SLA dropped from 97% to 86% across the period. Volume variation and SME dependency are the drivers. Needs recovery plan before it impacts CSAT.</div>
-        <div class="opp-meta">Owner: Rutvik / Subham - Target: Week 3 recovery plan</div>
-      </div>
-      <div class="opp-item">
-        <div class="opp-header"><span class="opp-title">SME Dependency on Standard Cases</span><span class="opp-impact impact-high">P2</span></div>
-        <div class="opp-desc">Advisors routing standard cases to SMEs. AHT extended, backlogs building.</div>
-        <div class="opp-meta">Action: Guided workflow tool for top 10 issue types by Day 90. SME role redefined by Day 30.</div>
-      </div>
-      <div class="opp-item">
-        <div class="opp-header"><span class="opp-title">20 Process Improvement Ideas - Triage</span><span class="opp-impact impact-med">OPPORTUNITY</span></div>
-        <div class="opp-desc">TO team submitted 20 organic improvement ideas in Week 1. Strong engagement signal. OneView dashboard and guided workflow lead the pipeline.</div>
-        <div class="opp-meta">Owner: Rutvik / Subham - In progress</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TAB 6: PERFORMANCE TIMELINE -->
-  <div class="tab-panel" id="tab-6">
-    <div class="page-header">
-      <div><div class="page-title">Performance Timeline</div><div class="page-sub">Progress infographics with the numbers that matter - CO Enhanced and TO Enhanced</div></div>
-    </div>
-    <div class="grid-4">
-      <div class="kpi-card green"><div class="kpi-label">QC Score Apr</div><div class="kpi-value">95.6%</div><div class="kpi-trend trend-up">Up 0.85% from Mar</div></div>
-      <div class="kpi-card blue"><div class="kpi-label">Gaps Actioned</div><div class="kpi-value">14</div><div class="kpi-sub">Of 18 identified</div></div>
-      <div class="kpi-card purple"><div class="kpi-label">Programme Day</div><div class="kpi-value">20</div><div class="kpi-sub">Of 90</div></div>
-      <div class="kpi-card amber"><div class="kpi-label">EWS Retained</div><div class="kpi-value">In Prog</div><div class="kpi-sub">Conversations active</div></div>
-    </div>
-
-    <div class="grid-2">
-      <div>
-        <div class="section-header"><span class="section-label">QC Score Journey (Feb to Apr 2026)</span><div class="section-divider"></div></div>
-        <div class="card" style="margin-bottom:14px">
-          <div class="trend-row"><div class="trend-label">Feb</div><div class="trend-track"><div class="trend-fill" style="width:93.2%;background:var(--amber)">93.2%</div></div><div class="trend-value">93.2</div></div>
-          <div class="trend-row"><div class="trend-label">Mar</div><div class="trend-track"><div class="trend-fill" style="width:95%;background:var(--blue)">95.0%</div></div><div class="trend-value">95.0</div></div>
-          <div class="trend-row"><div class="trend-label">Apr</div><div class="trend-track"><div class="trend-fill" style="width:95.6%;background:var(--green)">95.6%</div></div><div class="trend-value">95.6</div></div>
-          <div style="font-size:11px;color:var(--muted);margin-top:8px">Steady upward trajectory. Target of 96% set as the Day 90 milestone. Ritik Arora and Abhijeet Kumar both at 100% in April.</div>
-        </div>
-
-        <div class="section-header"><span class="section-label">90-Day Roadmap Milestones</span><div class="section-divider"></div></div>
-        <div class="card">
-          <div class="timeline">
-            <div class="timeline-node green"><div class="timeline-date">DAY 1 to 20 - COMPLETE / IN PROGRESS</div><div class="timeline-title">Phase 1 Stabilise</div><div class="timeline-detail">Floor rota, break protocol, EWS retention, growth programme live. 14 of 18 gaps actioned.</div></div>
-            <div class="timeline-node amber"><div class="timeline-date">DAY 45 - PLANNED</div><div class="timeline-title">TL and SME Scorecards Live</div><div class="timeline-detail">Performance accountability at middle layer. Supplier portal access target.</div></div>
-            <div class="timeline-node"><div class="timeline-date">DAY 60 - PLANNED</div><div class="timeline-title">System-Driven Reporting</div><div class="timeline-detail">Salesforce raw access. QA auditors hired. Manual reporting retired.</div></div>
-            <div class="timeline-node"><div class="timeline-date">DAY 90 - TARGET</div><div class="timeline-title">Transform Complete</div><div class="timeline-detail">ASA below 30s. CSAT above 4.0. OneView dashboard. Chatbot business case.</div></div>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <div class="section-header"><span class="section-label">CO Enhanced ABN Recovery (% abandoned)</span><div class="section-divider"></div></div>
-        <div class="card" style="margin-bottom:14px">
-          <div class="trend-row"><div class="trend-label">Jan</div><div class="trend-track"><div class="trend-fill" style="width:100%;background:var(--red)">22.63%</div></div><div class="trend-value" style="color:var(--red)">22.6</div></div>
-          <div class="trend-row"><div class="trend-label">Feb</div><div class="trend-track"><div class="trend-fill" style="width:45%;background:var(--amber)">10.3%</div></div><div class="trend-value" style="color:var(--amber)">10.3</div></div>
-          <div class="trend-row"><div class="trend-label">Mar</div><div class="trend-track"><div class="trend-fill" style="width:14%;background:var(--green)">3.21%</div></div><div class="trend-value" style="color:var(--green)">3.2</div></div>
-          <div class="trend-row"><div class="trend-label">Apr</div><div class="trend-track"><div class="trend-fill" style="width:23%;background:var(--amber)">5.10%</div></div><div class="trend-value" style="color:var(--amber)">5.1</div></div>
-          <div style="font-size:11px;color:var(--muted);margin-top:8px">Major improvement from January. April uptick tracks the ASA regression - same supplier root cause.</div>
-        </div>
-
-        <div class="section-header"><span class="section-label">Deliverables Shipped - First 3 Weeks</span><div class="section-divider"></div></div>
-        <div class="card">
-          <div class="timeline">
-            <div class="timeline-node green"><div class="timeline-date">WEEK 1</div><div class="timeline-title">CX Operations Review - 15 pages</div><div class="timeline-detail">18 gaps, EWS table, KPI analysis, 90-day roadmap. Presented to Jo, Michael, Lisa.</div></div>
-            <div class="timeline-node green"><div class="timeline-date">WEEK 1</div><div class="timeline-title">Floor Rota and Break Protocol</div><div class="timeline-detail">Two structural failures actioned without escalation.</div></div>
-            <div class="timeline-node green"><div class="timeline-date">WEEK 2</div><div class="timeline-title">Growth Programme Launched</div><div class="timeline-detail">4 advisors on GROW rotation. Newsletter and tracker issued.</div></div>
-            <div class="timeline-node green"><div class="timeline-date">WEEK 3</div><div class="timeline-title">Operations Command Centre v2.0</div><div class="timeline-detail">AI-powered live management system deployed and hosted.</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TAB 7: GOALS -->
-  <div class="tab-panel" id="tab-7">
-    <div class="page-header">
-      <div><div class="page-title">Goals and Future Plans</div><div class="page-sub">Strategic objectives with step-by-step guidance on how to achieve each one</div></div>
-    </div>
-
-    <div class="section-header"><span class="section-label">Operational Goals - Next 90 Days</span><div class="section-divider"></div></div>
-
-    <div class="goal-card">
-      <div class="goal-head"><div class="goal-title">Recover CO Enhanced Voice ASA below 30 seconds</div><span class="goal-horizon badge-red">DAY 90</span></div>
-      <div class="goal-desc">Bring ASA from 90s peak back under the 30s SLA target consistently, not just in good weeks.</div>
-      <div class="goal-guidance">
-        <strong>How to achieve this</strong>
-        <ol>
-          <li>Secure advisor-level supplier portal access via Michael's escalation to account management.</li>
-          <li>Introduce a priority transfer path for supplier-dependent cases to cut hold time.</li>
-          <li>Run daily ABN reason code tracking to separate supplier-caused from staffing-caused abandons.</li>
-          <li>Enforce peak-hour floor cover (10am-1pm, 3pm-6pm) where the data shows the collapse.</li>
-        </ol>
-      </div>
-    </div>
-
-    <div class="goal-card">
-      <div class="goal-head"><div class="goal-title">Lift Overall CSAT above 4.0 across CO Enhanced</div><span class="goal-horizon badge-amber">DAY 90</span></div>
-      <div class="goal-desc">Current 3.1. Email is the weakest channel at 2.1. Move all channels above target.</div>
-      <div class="goal-guidance">
-        <strong>How to achieve this</strong>
-        <ol>
-          <li>Target email FRT first - it is the largest CSAT drag. Reduce from 12h toward the 4h SLA.</li>
-          <li>Build the QA calibration and coaching structure so quality feedback is consistent.</li>
-          <li>Use the QC journey (95.6% and rising) as the quality backbone for CSAT lift.</li>
-          <li>Close the loop on resolution time so unresolved contacts stop returning as emails.</li>
-        </ol>
-      </div>
-    </div>
-
-    <div class="goal-card">
-      <div class="goal-head"><div class="goal-title">Recover TO Enhanced First Response SLA above 95%</div><span class="goal-horizon badge-amber">DAY 60</span></div>
-      <div class="goal-desc">Reverse the decline from 97% to 86%, protecting the strong 4.5 CSAT position.</div>
-      <div class="goal-guidance">
-        <strong>How to achieve this</strong>
-        <ol>
-          <li>Run a root cause analysis on the April dip, using the best-performing week as the reference.</li>
-          <li>Reduce SME dependency through guided workflows for the top 10 standard issue types.</li>
-          <li>Introduce weekly volume planning so response capacity matches inbound demand.</li>
-          <li>Set an escalation trigger if SLA falls below 90% for two consecutive weeks.</li>
-        </ol>
-      </div>
-    </div>
-
-    <div class="section-header"><span class="section-label">Strategic and Career Goals</span><div class="section-divider"></div></div>
-
-    <div class="goal-card">
-      <div class="goal-head"><div class="goal-title">Build 2 internally promotable candidates from the Growth Programme</div><span class="goal-horizon badge-purple">WEEK 12</span></div>
-      <div class="goal-desc">Harneet and Gaurav (QA), Azeem and Uttam (Ops) role-ready by programme end.</div>
-      <div class="goal-guidance">
-        <strong>How to achieve this</strong>
-        <ol>
-          <li>Maintain the weekly rotation rhythm with GROW coaching sign-off every cycle.</li>
-          <li>Hold the 4-week and 8-week formal reviews with readiness scored against role competencies.</li>
-          <li>Secure salary appraisal and IJP framework so there is a real role to promote into.</li>
-          <li>Present transition recommendations to Lisa at Week 12 with data-backed evidence.</li>
-        </ol>
-      </div>
-    </div>
-
-    <div class="goal-card">
-      <div class="goal-head"><div class="goal-title">Transition to fully system-driven reporting</div><span class="goal-horizon badge-blue">DAY 60</span></div>
-      <div class="goal-desc">Retire all manual reporting once Salesforce raw access and the MIS analyst are in place.</div>
-      <div class="goal-guidance">
-        <strong>How to achieve this</strong>
-        <ol>
-          <li>Secure Salesforce IT admin access through Joanne or Michael (currently pending).</li>
-          <li>Hire the MIS analyst flagged in the headcount plan.</li>
-          <li>Build the daily, weekly and monthly automated report pack.</li>
-          <li>Move OT calculations from assumed case counts to actual login hours.</li>
-        </ol>
-      </div>
-    </div>
-
-    <div class="goal-card">
-      <div class="goal-head"><div class="goal-title">Progress toward Senior Manager</div><span class="goal-horizon badge-purple">NORTH STAR</span></div>
-      <div class="goal-desc">Build the evidence base and leadership visibility to earn the next grade.</div>
-      <div class="goal-guidance">
-        <strong>How to achieve this</strong>
-        <ol>
-          <li>Deliver measurable SLA and CSAT recovery against the 90-day roadmap.</li>
-          <li>Keep producing senior-level deliverables (reviews, programmes, dashboards).</li>
-          <li>Convert the 1:1 development areas into visible strengths (see 1:1 tab).</li>
-          <li>Build cross-functional influence with QA, Training and HR on shared initiatives.</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-
-  <!-- TAB 8: 1:1 WITH LEADERSHIP -->
-  <div class="tab-panel" id="tab-8">
-    <div class="page-header">
-      <div><div class="page-title">1:1 with Leadership</div><div class="page-sub">Structured record from Lisa and Michael 1:1s - achievements, growth areas reframed as actions, and visibility</div></div>
-      <div class="last-updated">Update with each 1:1 cycle</div>
-    </div>
-
-    <div style="background:var(--surface3);border:1px dashed var(--border);border-radius:8px;padding:12px;margin-bottom:16px;font-size:11px;color:var(--muted)">
-      Note: This section is structured and ready. Share the actual 1:1 form content from Lisa and Michael and I will populate it precisely. The entries below are a working framework based on current context.
-    </div>
-
-    <div class="grid-2">
-      <div>
-        <div class="section-header"><span class="section-label">Key Achievements - Make These Visible</span><div class="section-divider"></div></div>
-        <div class="oneone-card positive">
-          <div class="oneone-label" style="color:var(--green)">RECOGNISED STRENGTHS</div>
-          <div class="oneone-item"><span class="dot">▸</span><div>Delivered a full 15-page CX operations review independently within the first week of joining.</div></div>
-          <div class="oneone-item"><span class="dot">▸</span><div>Identified 18 operational gaps with root cause and actions, not just observations.</div></div>
-          <div class="oneone-item"><span class="dot">▸</span><div>Launched a structured career development programme generating internal pipeline.</div></div>
-          <div class="oneone-item"><span class="dot">▸</span><div>Implemented floor rota and break protocols without needing leadership escalation.</div></div>
-          <div class="oneone-item"><span class="dot">▸</span><div>Built and deployed an AI-powered live operations command centre.</div></div>
-        </div>
-
-        <div class="section-header"><span class="section-label">Feedback Summary</span><div class="section-divider"></div></div>
-        <div class="oneone-card feedback">
-          <div class="oneone-label" style="color:var(--accent2)">FROM LISA AND MICHAEL</div>
-          <div class="oneone-item"><span class="dot">▸</span><div>Strong analytical and structural thinking demonstrated early.</div></div>
-          <div class="oneone-item"><span class="dot">▸</span><div>Commercial framing of operational issues aligns with leadership priorities.</div></div>
-          <div class="oneone-item"><span class="dot">▸</span><div style="color:var(--dim)">Add specific quotes and feedback from the actual 1:1 form here.</div></div>
-        </div>
-      </div>
-
-      <div>
-        <div class="section-header"><span class="section-label">Challenges Reframed as Action</span><div class="section-divider"></div></div>
-        <div class="oneone-card reframe">
-          <div class="oneone-label" style="color:var(--blue)">TURNING NEGATIVES INTO POSITIVES</div>
-          <div class="reframe-flow"><div class="reframe-from">Observed first before moving fast</div><span class="reframe-arrow">→</span><div class="reframe-to">Took 3 weeks to ship 4 major deliverables while building floor trust</div></div>
-          <div class="reframe-flow"><div class="reframe-from">Reliant on manual data</div><span class="reframe-arrow">→</span><div class="reframe-to">Drove the business case for Salesforce access and MIS hire</div></div>
-          <div class="reframe-flow"><div class="reframe-from">Resistance from a tenured TL</div><span class="reframe-arrow">→</span><div class="reframe-to">Chose structural visibility and SOPs over confrontation - sustainable change</div></div>
-          <div class="reframe-flow"><div class="reframe-from">KPI gaps inherited</div><span class="reframe-arrow">→</span><div class="reframe-to">Diagnosed supplier root cause others had labelled a staffing issue</div></div>
-        </div>
-
-        <div class="section-header"><span class="section-label">Development Areas - Active Work</span><div class="section-divider"></div></div>
-        <div class="oneone-card develop">
-          <div class="oneone-label" style="color:var(--amber)">THINGS I AM WORKING ON</div>
-          <div class="oneone-item"><span class="dot">▸</span><div><strong>WFM and forecasting:</strong> building the intraday planning model, Day 75 target.</div></div>
-          <div class="oneone-item"><span class="dot">▸</span><div><strong>Commercial literacy:</strong> developing the chatbot ROI business case for Day 90.</div></div>
-          <div class="oneone-item"><span class="dot">▸</span><div><strong>Cross-functional influence:</strong> deepening links with QA, Training and HR.</div></div>
-          <div class="oneone-item"><span class="dot">▸</span><div style="color:var(--dim)">Add development areas from the actual 1:1 form here.</div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TAB 9: PROMOTION -->
-  <div class="tab-panel" id="tab-9">
-    <div class="page-header">
-      <div><div class="page-title">Promotion Portfolio</div><div class="page-sub">Evidence base for progression to Senior Manager</div></div>
-    </div>
-    <div class="grid-4">
-      <div class="kpi-card purple"><div class="kpi-label">Strategic Deliverables</div><div class="kpi-value">5</div><div class="kpi-sub">First 3 weeks</div></div>
-      <div class="kpi-card green"><div class="kpi-label">Gaps Identified</div><div class="kpi-value">18</div><div class="kpi-sub">Root cause + action</div></div>
-      <div class="kpi-card blue"><div class="kpi-label">Advisors Developing</div><div class="kpi-value">4</div><div class="kpi-sub">Internal pipeline</div></div>
-      <div class="kpi-card amber"><div class="kpi-label">Promotion Readiness</div><div class="kpi-value">Day 90</div><div class="kpi-sub">Review target</div></div>
-    </div>
-    <div class="grid-2">
-      <div>
-        <div class="section-header"><span class="section-label">Evidence Log</span><div class="section-divider"></div></div>
-        <div class="card">
-          <div class="evidence-item"><div class="evidence-icon">📋</div><div><div class="evidence-title">CX Operations Review - Presented to Jo, Michael, Lisa</div><div class="evidence-detail">15-page assessment, 18 gaps, EWS, 90-day roadmap, 5 leadership asks. Week 1.</div><div class="evidence-date">May 2026</div></div></div>
-          <div class="evidence-item"><div class="evidence-icon">🎯</div><div><div class="evidence-title">Growth Programme - 4 Tenured Advisors</div><div class="evidence-detail">GROW rotation, KPI tracker, leadership newsletter. Succession from within.</div><div class="evidence-date">May 2026</div></div></div>
-          <div class="evidence-item"><div class="evidence-icon">📊</div><div><div class="evidence-title">Operations Command Centre v2.0</div><div class="evidence-detail">Director-level AI-powered 10-tab management system, deployed and hosted.</div><div class="evidence-date">June 2026</div></div></div>
-          <div class="evidence-item"><div class="evidence-icon">💡</div><div><div class="evidence-title">TO Process Improvement Culture</div><div class="evidence-detail">20 organic improvement ideas in Week 1. Immediate cultural impact.</div><div class="evidence-date">May 2026</div></div></div>
-        </div>
-      </div>
-      <div>
-        <div class="section-header"><span class="section-label">Why Promote Satish Kumar</span><div class="section-divider"></div></div>
-        <div class="card">
-          <div class="tp-item"><div class="tp-num">1</div><div class="tp-text"><strong>Operates above current grade.</strong> 4 major deliverables in 3 weeks at senior quality.</div></div>
-          <div class="tp-item"><div class="tp-num">2</div><div class="tp-text"><strong>Root cause discipline.</strong> Diagnosed CO Enhanced SLA as a supplier issue, not staffing.</div></div>
-          <div class="tp-item"><div class="tp-num">3</div><div class="tp-text"><strong>Builds from within.</strong> Growth programme creates QA and Ops pipeline, cutting hiring cost.</div></div>
-          <div class="tp-item"><div class="tp-num">4</div><div class="tp-text"><strong>Structural maturity.</strong> Systems and documentation over confrontation.</div></div>
-          <div class="tp-item"><div class="tp-num">5</div><div class="tp-text"><strong>Commercial awareness.</strong> Frames every recommendation against revenue, cost and SLA risk.</div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
+<!-- TAB 0: COMMAND CENTRE -->
+<div class="tab-panel active" id="tab-0">
+<div class="page-header"><div><div class="page-title">Operations Command Centre</div><div class="page-sub">CO Enhanced + TO Enhanced - UK Shift - Live Intelligence</div></div></div>
+<div class="g4">
+<div class="kpi red"><div class="kpi-l">CO Enh ASA (Jun MTD)</div><div class="kpi-v">199s</div><div class="kpi-s">Target below 30s - CRITICAL regression</div></div>
+<div class="kpi red"><div class="kpi-l">CO Enh ABN (Jun MTD)</div><div class="kpi-v">12.0%</div><div class="kpi-s">Target below 5% - spiked from May 2%</div></div>
+<div class="kpi amber"><div class="kpi-l">EWS At Risk</div><div class="kpi-v">19</div><div class="kpi-s">9 Red, 10 Amber</div></div>
+<div class="kpi green"><div class="kpi-l">90-Day Roadmap</div><div class="kpi-v">Day 20</div><div class="kpi-s">Phase 1 Stabilise</div></div>
 </div>
+<div class="g2"><div>
+<div class="sh"><span class="sl">Critical Alerts</span><div class="sd"></div></div>
+<div class="alert crit"><div><strong>JUNE REGRESSION - CO Enhanced ASA back to 199s MTD</strong><span>May was 22s MTD. June has spiked to 81-356s daily. Supplier dependency confirmed. Escalate portal access immediately.</span></div></div>
+<div class="alert crit"><div><strong>Aashish Chauhan - TO - Exit 15 June</strong><span>Q1 performer. Backfill JD must be raised this week.</span></div></div>
+<div class="alert crit"><div><strong>Salary Appraisal - 6 high performers at risk</strong><span>Ritik, Suneha, Azeem, Tia, Abhijeet, Amit - all citing pay.</span></div></div>
+<div class="alert ok"><div><strong>Growth Programme - Week 3 Live</strong><span>Azeem Gani on Ops rotation this week. Harneet and Gaurav completed cycles.</span></div></div>
+</div><div>
+<div class="sh"><span class="sl">Follow-Ups Pending</span><div class="sd"></div></div>
+<div class="card" style="padding:12px"><table class="dt"><thead><tr><th>Item</th><th>Owner</th><th>Status</th></tr></thead><tbody>
+<tr><td>Salary appraisal</td><td>Lisa / Michael</td><td><span class="rd-dot" style="background:var(--rd)"></span>Urgent</td></tr>
+<tr><td>QA Auditor JDs (2)</td><td>Michael / HR</td><td><span class="rd-dot" style="background:var(--rd)"></span>Urgent</td></tr>
+<tr><td>Supplier portal access</td><td>Michael</td><td><span class="rd-dot" style="background:var(--am)"></span>Pending</td></tr>
+<tr><td>Salesforce raw access</td><td>Joanne</td><td><span class="rd-dot" style="background:var(--am)"></span>Pending</td></tr>
+<tr><td>IJP framework</td><td>Joanne / HR</td><td><span class="rd-dot" style="background:var(--am)"></span>In progress</td></tr>
+</tbody></table></div>
+</div></div>
+</div>
+
+<!-- TAB 1: DAILY TO-DO -->
+<div class="tab-panel" id="tab-1">
+<div class="page-header"><div><div class="page-title">Daily To-Do List</div><div class="page-sub">Priority-flagged actions with guidance. Status saves automatically.</div></div>
+<div style="display:flex;gap:8px"><button class="btn btn-o" onclick="resetTodos()">Reset</button><button class="btn" onclick="snapshotTodo()">Copy Snapshot</button></div></div>
+<div class="g4">
+<div class="kpi red"><div class="kpi-l">P1 Open</div><div class="kpi-v" id="p1c">0</div></div>
+<div class="kpi amber"><div class="kpi-l">In Progress</div><div class="kpi-v" id="ipc">0</div></div>
+<div class="kpi green"><div class="kpi-l">Done</div><div class="kpi-v" id="dnc">0</div></div>
+<div class="kpi blue"><div class="kpi-l">Rate</div><div class="kpi-v" id="rtc">0%</div></div>
+</div>
+<div class="card"><div id="todoList"></div></div>
+</div>
+
+<!-- TAB 2: DAILY TRACKER -->
+<div class="tab-panel" id="tab-2">
+<div class="page-header"><div><div class="page-title">Daily Tracker</div><div class="page-sub">Enter today's numbers. Generate snapshot for Lisa and Mike.</div></div>
+<div style="display:flex;gap:8px"><button class="btn btn-o" onclick="clearTracker()">Clear</button><button class="btn" onclick="genSnap()">Generate Snapshot</button></div></div>
+<div class="sh"><span class="sl">CO Enhanced</span><div class="sd"></div></div>
+<div class="card" style="margin-bottom:12px"><div class="tkr-grid">
+<div class="tkr-cell"><label>Voice ASA (sec)</label><input id="co_asa" type="number" placeholder="0"><small>Target below 30</small></div>
+<div class="tkr-cell"><label>Abandon Rate (%)</label><input id="co_abn" type="number" step=".01" placeholder="0"><small>Target below 5%</small></div>
+<div class="tkr-cell"><label>Calls Handled</label><input id="co_calls" type="number" placeholder="0"><small>Daily volume</small></div>
+<div class="tkr-cell"><label>Email FRT (hrs)</label><input id="co_frt" type="number" step=".1" placeholder="0"><small>Target below 4</small></div>
+<div class="tkr-cell"><label>Overall CSAT</label><input id="co_csat" type="number" step=".1" placeholder="0"><small>Target above 4.0</small></div>
+<div class="tkr-cell"><label>Escalations</label><input id="co_esc" type="number" placeholder="0"><small>Dealt today</small></div>
+</div></div>
+<div class="sh"><span class="sl">TO Enhanced</span><div class="sd"></div></div>
+<div class="card" style="margin-bottom:12px"><div class="tkr-grid">
+<div class="tkr-cell"><label>Inbound ASA (sec)</label><input id="to_asa" type="number" placeholder="0"><small>Target below 30</small></div>
+<div class="tkr-cell"><label>ABN Rate (%)</label><input id="to_abn" type="number" step=".01" placeholder="0"><small>Target below 5%</small></div>
+<div class="tkr-cell"><label>First Resp SLA (%)</label><input id="to_sla" type="number" step=".1" placeholder="0"><small>Target 95%</small></div>
+<div class="tkr-cell"><label>OOSLA Resolved</label><input id="to_oosla" type="number" placeholder="0"></div>
+<div class="tkr-cell"><label>High Aged Resolved</label><input id="to_aged" type="number" placeholder="0"></div>
+<div class="tkr-cell"><label>Audits Done</label><input id="to_audit" type="number" placeholder="0"></div>
+</div></div>
+<div class="sh"><span class="sl">Snapshot for Lisa and Mike</span><div class="sd"></div></div>
+<div class="card"><div class="snap" id="snapBox">Enter numbers above, click Generate Snapshot.</div>
+<div style="margin-top:10px"><button class="btn" onclick="copySnap()">Copy to Clipboard</button></div></div>
+</div>
+
+<!-- TAB 3: EXECUTIVE -->
+<div class="tab-panel" id="tab-3">
+<div class="page-header"><div><div class="page-title">Executive Dashboard</div><div class="page-sub">Leadership-ready overview</div></div></div>
+<div class="g4">
+<div class="kpi red"><div class="kpi-l">CO Enh ASA Jun</div><div class="kpi-v">199s</div><div class="kpi-t td">Regression from May 22s</div></div>
+<div class="kpi red"><div class="kpi-l">CO Enh ABN Jun</div><div class="kpi-v">12.0%</div><div class="kpi-t td">Was 2.04% in May</div></div>
+<div class="kpi green"><div class="kpi-l">TO Enh CSAT</div><div class="kpi-v">4.5</div><div class="kpi-t tu">On track</div></div>
+<div class="kpi green"><div class="kpi-l">QC Score Apr</div><div class="kpi-v">95.6%</div><div class="kpi-t tu">+0.85% from Mar</div></div>
+</div>
+<div class="g2"><div>
+<div class="sh"><span class="sl">Decisions Required</span><div class="sd"></div></div>
+<div class="card" style="padding:12px"><table class="dt"><thead><tr><th>#</th><th>Decision</th><th>Owner</th><th>Priority</th></tr></thead><tbody>
+<tr><td>1</td><td>Salary appraisal - approve</td><td>Michael / Lisa</td><td><span class="badge b-rd">URGENT</span></td></tr>
+<tr><td>2</td><td>4 CO advisors + 2 QA JDs</td><td>Michael / HR</td><td><span class="badge b-rd">URGENT</span></td></tr>
+<tr><td>3</td><td>Supplier portal access</td><td>Michael</td><td><span class="badge b-rd">HIGH</span></td></tr>
+<tr><td>4</td><td>Salesforce data access</td><td>Joanne</td><td><span class="badge b-am">HIGH</span></td></tr>
+<tr><td>5</td><td>IJP framework</td><td>Joanne / HR</td><td><span class="badge b-am">MEDIUM</span></td></tr>
+</tbody></table></div>
+</div><div>
+<div class="sh"><span class="sl">Talking Points</span><div class="sd"></div></div>
+<div class="card">
+<div class="tp-item"><div class="tp-n">1</div><div class="tp-tx"><strong>June ASA regression confirms supplier dependency is unresolved.</strong> May recovered to 22s MTD. June spiked back without portal access fix.</div></div>
+<div class="tp-item"><div class="tp-n">2</div><div class="tp-tx"><strong>3 exits by end June = TO productivity gap.</strong> JDs needed this week.</div></div>
+<div class="tp-item"><div class="tp-n">3</div><div class="tp-tx"><strong>Growth Programme delivering.</strong> 4 advisors building internal bench.</div></div>
+<div class="tp-item"><div class="tp-n">4</div><div class="tp-tx"><strong>April recovered well (ASA 23s MTD, ABN 1.67%).</strong> Proves the team can perform when supplier load is lower.</div></div>
+</div>
+</div></div>
+</div>
+
+<!-- TAB 4: CO ENHANCED -->
+<div class="tab-panel" id="tab-4">
+<div class="page-header"><div><div class="page-title">CO Enhanced</div><div class="page-sub">TLs: Aniket Kaushik, Yuvraj Singh</div></div></div>
+<div class="g4">
+<div class="kpi red"><div class="kpi-l">Jun MTD ASA</div><div class="kpi-v">199s</div><div class="kpi-s">Was 22s in May</div></div>
+<div class="kpi red"><div class="kpi-l">Jun MTD ABN</div><div class="kpi-v">12.0%</div><div class="kpi-s">Was 2.04% in May</div></div>
+<div class="kpi amber"><div class="kpi-l">Jun Email FRT</div><div class="kpi-v">16.7h</div><div class="kpi-s">Target below 4h</div></div>
+<div class="kpi amber"><div class="kpi-l">Jun CSAT</div><div class="kpi-v">3.3</div><div class="kpi-s">Target above 4.0</div></div>
+</div>
+<div class="sh"><span class="sl">Monthly ASA Trend (seconds)</span><div class="sd"></div></div>
+<div class="card" style="margin-bottom:14px">
+<div class="tr-row"><div class="tr-lbl">Jan</div><div class="tr-trk"><div class="tr-fill" style="width:100%;background:var(--rd)">344s</div></div><div class="tr-val" style="color:var(--rd)">344</div></div>
+<div class="tr-row"><div class="tr-lbl">Feb</div><div class="tr-trk"><div class="tr-fill" style="width:33%;background:var(--am)">114s</div></div><div class="tr-val" style="color:var(--am)">114</div></div>
+<div class="tr-row"><div class="tr-lbl">Mar</div><div class="tr-trk"><div class="tr-fill" style="width:9%;background:var(--gn)">32s</div></div><div class="tr-val" style="color:var(--gn)">32</div></div>
+<div class="tr-row"><div class="tr-lbl">Apr</div><div class="tr-trk"><div class="tr-fill" style="width:7%;background:var(--gn)">23s</div></div><div class="tr-val" style="color:var(--gn)">23</div></div>
+<div class="tr-row"><div class="tr-lbl">May</div><div class="tr-trk"><div class="tr-fill" style="width:6%;background:var(--gn)">22s</div></div><div class="tr-val" style="color:var(--gn)">22</div></div>
+<div class="tr-row"><div class="tr-lbl">Jun*</div><div class="tr-trk"><div class="tr-fill" style="width:58%;background:var(--rd)">199s</div></div><div class="tr-val" style="color:var(--rd)">199</div></div>
+<div style="font-size:11px;color:var(--mt);margin-top:6px">*June MTD to 12 June. April-May recovery proves capability. June regression confirms supplier access is the structural fix needed.</div>
+</div>
+</div>
+
+<!-- TAB 5: TO ENHANCED -->
+<div class="tab-panel" id="tab-5">
+<div class="page-header"><div><div class="page-title">TO Enhanced</div><div class="page-sub">TLs: Rutvik Khara, Subham Dutta</div></div></div>
+<div class="g4">
+<div class="kpi green"><div class="kpi-l">CSAT</div><div class="kpi-v">4.5</div><div class="kpi-s">On track</div></div>
+<div class="kpi amber"><div class="kpi-l">First Resp SLA</div><div class="kpi-v">91.4%</div><div class="kpi-s">Target 95% - declining</div></div>
+<div class="kpi amber"><div class="kpi-l">Repair SLA</div><div class="kpi-v">94.2%</div><div class="kpi-s">Trending down</div></div>
+<div class="kpi red"><div class="kpi-l">Exit Jun</div><div class="kpi-v">1</div><div class="kpi-s">Aashish Chauhan</div></div>
+</div>
+<div class="sh"><span class="sl">First Response SLA Trend (%)</span><div class="sd"></div></div>
+<div class="card" style="margin-bottom:14px">
+<div class="tr-row"><div class="tr-lbl">Jan</div><div class="tr-trk"><div class="tr-fill" style="width:97%;background:var(--gn)">96.9%</div></div><div class="tr-val" style="color:var(--gn)">96.9</div></div>
+<div class="tr-row"><div class="tr-lbl">Feb</div><div class="tr-trk"><div class="tr-fill" style="width:96%;background:var(--gn)">95.9%</div></div><div class="tr-val" style="color:var(--gn)">95.9</div></div>
+<div class="tr-row"><div class="tr-lbl">Mar</div><div class="tr-trk"><div class="tr-fill" style="width:98%;background:var(--gn)">97.7%</div></div><div class="tr-val" style="color:var(--gn)">97.7</div></div>
+<div class="tr-row"><div class="tr-lbl">Apr</div><div class="tr-trk"><div class="tr-fill" style="width:91%;background:var(--am)">91.4%</div></div><div class="tr-val" style="color:var(--am)">91.4</div></div>
+<div style="font-size:11px;color:var(--mt);margin-top:6px">Declining trend needs intervention before it impacts the strong 4.5 CSAT.</div>
+</div>
+</div>
+
+<!-- TAB 6: CO DAILY STATS -->
+<div class="tab-panel" id="tab-6">
+<div class="page-header"><div><div class="page-title">CO Enhanced Daily Stats</div><div class="page-sub">Live from SharePoint - last 90 days - source: Enhanced Daily Stats.xlsx (updated 14 Jun)</div></div></div>
+<div class="period-bar">
+<button class="pbtn active" onclick="filterDS('7d')">Last 7 Days</button>
+<button class="pbtn" onclick="filterDS('30d')">Last 30 Days</button>
+<button class="pbtn" onclick="filterDS('90d')">All 90 Days</button>
+<span style="margin-left:8px;font-size:11px;color:var(--mt)">Custom:</span>
+<input type="date" class="date-input" id="dsFrom" value="2026-05-01">
+<span style="font-size:11px;color:var(--dm)">to</span>
+<input type="date" class="date-input" id="dsTo" value="2026-06-12">
+<button class="pbtn" onclick="filterDS('custom')">Apply</button>
+</div>
+<div class="g4" id="dsSummary"></div>
+<div class="card"><div class="ds-scroll"><table class="dt" id="dsTable"><thead><tr><th>Date</th><th>ASA (s)</th><th>Calls</th><th>ABN %</th><th>Chats</th><th>Emails</th><th>FRT (h)</th><th>CSAT</th></tr></thead><tbody id="dsBody"></tbody></table></div></div>
+</div>
+
+<!-- TAB 7: PERFORMANCE -->
+<div class="tab-panel" id="tab-7">
+<div class="page-header"><div><div class="page-title">Performance</div><div class="page-sub">Interactive view - Daily, Weekly, Monthly with real data</div></div></div>
+<div class="period-bar">
+<button class="pbtn active" onclick="perfView('daily')">Daily</button>
+<button class="pbtn" onclick="perfView('weekly')">Weekly</button>
+<button class="pbtn" onclick="perfView('monthly')">Monthly</button>
+</div>
+<div class="g4" id="perfKPIs"></div>
+<div class="g2"><div>
+<div class="sh"><span class="sl">ASA Trend</span><div class="sd"></div></div>
+<div class="card" id="perfASA"></div>
+</div><div>
+<div class="sh"><span class="sl">ABN Trend</span><div class="sd"></div></div>
+<div class="card" id="perfABN"></div>
+</div></div>
+<div class="sh"><span class="sl">Milestones</span><div class="sd"></div></div>
+<div class="card"><div class="tl-wrap">
+<div class="tl-node g"><div class="tl-date">WEEKS 1-3 COMPLETE</div><div class="tl-title">Phase 1 Stabilise</div><div class="tl-det">Floor rota, break protocol, growth programme, EWS conversations, 14/18 gaps actioned</div></div>
+<div class="tl-node a"><div class="tl-date">DAY 45</div><div class="tl-title">TL/SME Scorecards + QA Calibration</div><div class="tl-det">Mid-layer accountability. Supplier portal target.</div></div>
+<div class="tl-node"><div class="tl-date">DAY 60</div><div class="tl-title">System Reporting Live</div><div class="tl-det">Salesforce access. MIS analyst. Manual reporting retired.</div></div>
+<div class="tl-node"><div class="tl-date">DAY 90</div><div class="tl-title">Transform</div><div class="tl-det">ASA below 30s, CSAT above 4.0, OneView dashboard, chatbot case.</div></div>
+</div></div>
+</div>
+
+<!-- TAB 8: GOALS -->
+<div class="tab-panel" id="tab-8">
+<div class="page-header"><div><div class="page-title">Goals</div><div class="page-sub">Strategic objectives with step-by-step guidance</div></div></div>
+<div class="goal-c"><h4>Resolve June CO Enhanced ASA Regression</h4><p>ASA spiked from 22s (May) to 199s (June MTD). This is the #1 operational priority right now.</p><div class="goal-g"><strong>How to achieve</strong><ol><li>Escalate supplier portal access through Michael immediately - this is now proven as THE fix.</li><li>April/May data proves the team performs under 30s when supplier load is manageable.</li><li>Run daily ABN reason code tracking to separate supplier from staffing causes.</li><li>Enforce peak-hour cover (10am-1pm, 3pm-6pm UK).</li></ol></div></div>
+<div class="goal-c"><h4>Lift CSAT above 4.0 across CO Enhanced</h4><p>Currently 3.3. Email is weakest at 2.5 average.</p><div class="goal-g"><strong>How to achieve</strong><ol><li>Target email FRT first - reduce from 16.7h toward 4h SLA.</li><li>Build QA calibration so quality feedback is consistent.</li><li>Use the QC journey (93.2% to 95.6%) as quality backbone.</li></ol></div></div>
+<div class="goal-c"><h4>Recover TO Enhanced First Response SLA above 95%</h4><p>Dropped from 97.7% (Mar) to 91.4% (Apr).</p><div class="goal-g"><strong>How to achieve</strong><ol><li>Root cause analysis on April dip using best week as reference.</li><li>Guided workflows for top 10 standard issue types.</li><li>Weekly volume planning. Escalation trigger if below 90% for 2 weeks.</li></ol></div></div>
+<div class="goal-c"><h4>Build 2 Promotable Candidates from Growth Programme</h4><p>Harneet, Gaurav (QA), Azeem, Uttam (Ops) - role-ready by Week 12.</p><div class="goal-g"><strong>How to achieve</strong><ol><li>Maintain weekly rotation with GROW coaching sign-off every cycle.</li><li>4-week and 8-week reviews scored against competencies.</li><li>Secure salary appraisal and IJP framework.</li><li>Week 12 final review to Lisa with data evidence.</li></ol></div></div>
+<div class="goal-c"><h4>System-Driven Reporting by Day 60</h4><p>Retire manual reporting once Salesforce access + MIS analyst in place.</p><div class="goal-g"><strong>How to achieve</strong><ol><li>Secure Salesforce IT admin access (pending Joanne/Michael).</li><li>Hire MIS analyst (headcount plan approved).</li><li>Build automated daily/weekly/monthly pack.</li><li>Transition OT from case-count to actual login hours.</li></ol></div></div>
+<div class="goal-c"><h4>Progress toward Senior Manager</h4><p>Build evidence and visibility for promotion.</p><div class="goal-g"><strong>How to achieve</strong><ol><li>Deliver measurable recovery on the 90-day roadmap.</li><li>Keep producing senior-grade deliverables.</li><li>Convert 1:1 development areas into visible strengths.</li><li>Build cross-functional influence with QA, Training, HR.</li></ol></div></div>
+</div>
+
+<!-- TAB 9: 1:1 LEADERSHIP -->
+<div class="tab-panel" id="tab-9">
+<div class="page-header"><div><div class="page-title">1:1 with Leadership</div><div class="page-sub">Lisa and Michael - achievements, reframed challenges, development</div></div></div>
+<div style="background:var(--sf3);border:1px dashed var(--bd);border-radius:8px;padding:12px;margin-bottom:14px;font-size:11px;color:var(--mt)">Share the actual 1:1 form from Lisa/Michael and I will populate precisely. Below is the working framework.</div>
+<div class="g2"><div>
+<div class="sh"><span class="sl">Key Achievements</span><div class="sd"></div></div>
+<div class="oo-card pos"><div class="oo-label" style="color:var(--gn)">MAKE THESE VISIBLE</div>
+<div class="oo-item"><span class="d">&#9656;</span><div>15-page CX review delivered independently in Week 1</div></div>
+<div class="oo-item"><span class="d">&#9656;</span><div>18 gaps identified with root cause + action plans</div></div>
+<div class="oo-item"><span class="d">&#9656;</span><div>Growth programme launched - 4 advisors building pipeline</div></div>
+<div class="oo-item"><span class="d">&#9656;</span><div>Floor rota and break protocol deployed without escalation</div></div>
+<div class="oo-item"><span class="d">&#9656;</span><div>Operations Command Centre v3.0 built and hosted</div></div>
+</div>
+<div class="sh"><span class="sl">Feedback Summary</span><div class="sd"></div></div>
+<div class="oo-card fb"><div class="oo-label" style="color:var(--ac2)">FROM LISA AND MICHAEL</div>
+<div class="oo-item"><span class="d">&#9656;</span><div>Strong analytical and structural thinking demonstrated early</div></div>
+<div class="oo-item"><span class="d">&#9656;</span><div>Commercial framing aligns with leadership priorities</div></div>
+<div class="oo-item"><span class="d">&#9656;</span><div style="color:var(--dm)">Add specific feedback from 1:1 form here</div></div>
+</div>
+</div><div>
+<div class="sh"><span class="sl">Challenges Reframed</span><div class="sd"></div></div>
+<div class="oo-card ref"><div class="oo-label" style="color:var(--bl)">NEGATIVES INTO POSITIVES</div>
+<div class="rf-flow"><div class="rf-from">Observed before acting</div><span class="rf-ar">&#8594;</span><div class="rf-to">4 major deliverables in 3 weeks while building floor trust</div></div>
+<div class="rf-flow"><div class="rf-from">Manual data reliance</div><span class="rf-ar">&#8594;</span><div class="rf-to">Built the business case for Salesforce access and MIS hire</div></div>
+<div class="rf-flow"><div class="rf-from">KPI gaps inherited</div><span class="rf-ar">&#8594;</span><div class="rf-to">Diagnosed supplier root cause others called a staffing issue</div></div>
+<div class="rf-flow"><div class="rf-from">TL resistance</div><span class="rf-ar">&#8594;</span><div class="rf-to">Used SOPs and structural visibility over confrontation</div></div>
+</div>
+<div class="sh"><span class="sl">Development Areas</span><div class="sd"></div></div>
+<div class="oo-card dev"><div class="oo-label" style="color:var(--am)">ACTIVELY WORKING ON</div>
+<div class="oo-item"><span class="d">&#9656;</span><div><strong>WFM/Forecasting:</strong> intraday planning model, Day 75</div></div>
+<div class="oo-item"><span class="d">&#9656;</span><div><strong>Commercial literacy:</strong> chatbot ROI case for Day 90</div></div>
+<div class="oo-item"><span class="d">&#9656;</span><div><strong>Cross-functional:</strong> deepening QA, Training, HR links</div></div>
+</div>
+</div></div>
+</div>
+
+<!-- TAB 10: PROMOTION -->
+<div class="tab-panel" id="tab-10">
+<div class="page-header"><div><div class="page-title">Promotion Portfolio</div><div class="page-sub">Evidence for Senior Manager</div></div></div>
+<div class="g4">
+<div class="kpi purple"><div class="kpi-l">Deliverables</div><div class="kpi-v">5</div><div class="kpi-s">First 3 weeks</div></div>
+<div class="kpi green"><div class="kpi-l">Gaps Actioned</div><div class="kpi-v">14/18</div></div>
+<div class="kpi blue"><div class="kpi-l">Pipeline</div><div class="kpi-v">4</div><div class="kpi-s">Internal candidates</div></div>
+<div class="kpi amber"><div class="kpi-l">Review</div><div class="kpi-v">Day 90</div></div>
+</div>
+<div class="g2"><div>
+<div class="sh"><span class="sl">Evidence Log</span><div class="sd"></div></div>
+<div class="card">
+<div class="ev-item"><div class="ev-ic">&#128203;</div><div><div class="ev-t">CX Operations Review</div><div class="ev-d">15 pages, 18 gaps, EWS, roadmap. Week 1.</div><div class="ev-dt">May 2026</div></div></div>
+<div class="ev-item"><div class="ev-ic">&#127919;</div><div><div class="ev-t">Growth Programme</div><div class="ev-d">4 advisors, GROW rotation, leadership newsletter.</div><div class="ev-dt">May 2026</div></div></div>
+<div class="ev-item"><div class="ev-ic">&#128200;</div><div><div class="ev-t">Ops Command Centre v3.0</div><div class="ev-d">11-tab AI-powered system with live SharePoint data.</div><div class="ev-dt">June 2026</div></div></div>
+<div class="ev-item"><div class="ev-ic">&#128161;</div><div><div class="ev-t">June Regression Diagnosed</div><div class="ev-d">Proved supplier root cause with Apr/May recovery data.</div><div class="ev-dt">June 2026</div></div></div>
+</div>
+</div><div>
+<div class="sh"><span class="sl">Why Promote Satish Kumar</span><div class="sd"></div></div>
+<div class="card">
+<div class="tp-item"><div class="tp-n">1</div><div class="tp-tx"><strong>Operates above grade.</strong> 5 deliverables in 3 weeks at senior quality.</div></div>
+<div class="tp-item"><div class="tp-n">2</div><div class="tp-tx"><strong>Root cause discipline.</strong> Diagnosed supplier dependency, not staffing.</div></div>
+<div class="tp-item"><div class="tp-n">3</div><div class="tp-tx"><strong>Builds from within.</strong> Growth programme cuts hiring cost.</div></div>
+<div class="tp-item"><div class="tp-n">4</div><div class="tp-tx"><strong>Data-driven.</strong> Live SharePoint-connected command centre.</div></div>
+<div class="tp-item"><div class="tp-n">5</div><div class="tp-tx"><strong>Commercial framing.</strong> Every rec tied to revenue, cost, SLA.</div></div>
+</div>
+</div></div>
+</div>
+
+</div><!-- /content -->
+</div><!-- /main -->
 
 <div class="toast" id="toast">Saved</div>
 
 <script>
-  // ---------- THEME ----------
-  function toggleTheme() {
-    const body = document.body;
-    const next = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    body.setAttribute('data-theme', next);
-    document.getElementById('themeToggle').textContent = next === 'dark' ? '🌙' : '☀️';
-    saveState('ops_theme', next);
-  }
+// ========== DATA ==========
+const D=[["2026-03-03",81,428,6.3,94,75,1.4,3.3],["2026-03-04",70,474,4.43,61,89,4.7,3],["2026-03-05",28,439,2.44,75,62,1.9,3],["2026-03-06",23,371,2.69,65,90,2.8,3.2],["2026-03-07",26,379,3.56,73,63,.7,2.6],["2026-03-10",24,438,1.13,105,75,2.6,2.8],["2026-03-11",10,322,0,78,103,13.1,3],["2026-03-12",10,350,1.12,61,75,1.5,2.8],["2026-03-13",18,317,2.16,67,92,2.4,3],["2026-03-14",31,320,2.43,74,60,4.2,2.5],["2026-03-17",64,486,5.07,100,94,3.4,3],["2026-03-18",42,482,3.79,108,45,5.9,2.7],["2026-03-19",29,407,3.09,51,82,11.8,2.8],["2026-03-20",15,367,1.34,98,70,1.3,2.3],["2026-03-21",17,353,.84,47,75,15.3,2.7],["2026-03-24",38,527,4,148,92,2.2,2.4],["2026-03-25",12,453,0,101,52,3.6,2.6],["2026-03-26",40,450,4.05,102,48,1.6,2.6],["2026-03-27",12,353,.56,89,85,1.6,2.9],["2026-03-28",14,367,1.07,82,78,1.8,3],["2026-03-31",28,442,2.64,106,110,7.3,2.8],["2026-04-01",16,425,.93,36,95,4.8,2.6],["2026-04-02",14,340,1.16,38,111,2.8,2.9],["2026-04-03",16,362,.82,41,97,3.3,3.3],["2026-04-04",30,320,1.53,23,61,1.9,3.1],["2026-04-07",28,427,3.39,35,93,4.1,3.2],["2026-04-08",11,353,.56,24,106,3.1,3.4],["2026-04-09",29,322,2.71,28,81,1.3,3.9],["2026-04-10",10,354,.56,16,97,1.5,3.7],["2026-04-11",28,302,1.62,15,69,2.8,4.1],["2026-04-14",16,416,.71,40,88,2.7,3.3],["2026-04-15",42,433,2.47,48,118,3,3.1],["2026-04-16",38,474,2.06,25,104,2.4,3.3],["2026-04-17",14,392,2,29,89,1.9,3.2],["2026-04-22",37,525,2.68,47,163,2.8,3.4],["2026-04-23",13,415,.47,47,111,2.3,3.7],["2026-04-24",13,401,1.23,29,87,2.9,3.5],["2026-04-25",36,395,1.25,36,94,2.2,3.5],["2026-04-28",51,531,3.27,58,139,3,3.1],["2026-04-29",13,386,.25,47,115,1.2,3.4],["2026-04-30",12,416,.23,38,64,1,3.4],["2026-05-01",22,352,2.76,34,80,2.4,3.5],["2026-05-02",16,334,.29,30,88,3,3.6],["2026-05-06",51,522,4.04,55,120,3.2,3.3],["2026-05-07",16,382,1.03,38,91,3.1,3],["2026-05-08",23,355,1.93,45,89,2.5,3.5],["2026-05-09",16,331,2.07,15,75,3.8,3],["2026-05-12",10,406,1.21,32,112,1.4,2.8],["2026-05-13",9,324,.31,37,92,1.3,3.1],["2026-05-14",11,339,1.44,37,99,.7,3.1],["2026-05-15",12,348,.85,29,72,2.3,3.8],["2026-05-16",16,331,2.06,16,128,1.6,4],["2026-05-19",51,538,3.41,46,61,2.5,3.6],["2026-05-20",24,451,2.38,43,136,4.8,2.7],["2026-05-21",15,365,1.34,35,104,4.2,2.8],["2026-05-22",12,387,1.02,38,110,4.7,3.2],["2026-05-23",14,328,.3,24,78,1.1,3.6],["2026-05-27",29,489,2.58,36,96,7.3,3],["2026-05-28",14,426,2.06,33,92,3.5,3.4],["2026-05-29",13,399,1.23,45,173,6.9,3.8],["2026-05-30",13,391,3.19,32,240,7,3.5],["2026-06-01",229,458,15.65,46,24,2.2,3.5],["2026-06-02",93,421,6.03,31,30,88.7,4.3],["2026-06-03",159,402,12.04,40,42,20.6,3.1],["2026-06-04",183,400,12.85,37,60,11.2,3.6],["2026-06-05",356,337,21.81,29,37,25.5,2.6],["2026-06-08",330,434,21.66,43,63,12.1,3.4],["2026-06-09",174,386,14.41,28,40,11,2.6],["2026-06-10",209,403,14.98,20,19,12,4.4],["2026-06-11",89,365,6.41,19,48,15.3,3.3],["2026-06-12",81,389,6.27,32,56,11.5,3.8]];
 
-  // ---------- TABS ----------
-  function switchTab(index) {
-    document.querySelectorAll('.tab-panel').forEach((p, i) => p.classList.toggle('active', i === index));
-    document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === index));
-  }
+// ========== SIDEBAR ==========
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('collapsed')}
+function go(i){document.querySelectorAll('.tab-panel').forEach((p,j)=>p.classList.toggle('active',j===i));document.querySelectorAll('.nav-btn').forEach((b,j)=>b.classList.toggle('active',j===i))}
 
-  // ---------- STORAGE WRAPPER (persists across sessions via window.storage) ----------
-  async function saveState(key, value) {
-    try { await window.storage.set(key, JSON.stringify(value)); } catch(e) {}
-  }
-  async function loadState(key) {
-    try { const r = await window.storage.get(key); return r ? JSON.parse(r.value) : null; } catch(e) { return null; }
-  }
+// ========== THEME ==========
+function toggleTheme(){const b=document.body,n=b.getAttribute('data-theme')==='dark'?'light':'dark';b.setAttribute('data-theme',n);document.getElementById('themeBtn').textContent=n==='dark'?'Switch to Light Mode':'Switch to Dark Mode';try{localStorage.setItem('ops_theme',n)}catch(e){}}
 
-  // ---------- TO-DO DATA ----------
-  const TODOS = [
-    { id:'t1', title:'Enforce floor rota - 1 TL + 1 SME at all times', flag:'P1', owner:'Aniket / Yuvraj',
-      guidance:'Publish the weekly rota today. Log a 15-minute floor check each shift. Both TLs must not leave the floor together. Review adherence weekly.' },
-    { id:'t2', title:'Escalate salary appraisal to Lisa and Michael', flag:'P1', owner:'Satish',
-      guidance:'Send the EWS data as supporting evidence. Name the 6 at-risk performers. Request a targeted appraisal review before Week 2 retention conversations close.' },
-    { id:'t3', title:'Raise Aashish Chauhan backfill JD (TO Enhanced)', flag:'P1', owner:'Satish / HR',
-      guidance:'LWD is 15th June. Raise the JD via Team Tailor this week. Brief HR jointly with Michael to start sourcing immediately.' },
-    { id:'t4', title:'Chase Salesforce data access approval', flag:'P2', owner:'Satish → Michael',
-      guidance:'Follow up with Joanne or Michael on IT admin access. Frame it as the prerequisite blocking all Phase 2 and 3 reporting actions. Target access within 30 days.' },
-    { id:'t5', title:'Go live with break confirmation protocol', flag:'P2', owner:'All TLs',
-      guidance:'Require TL notification before any break. Cap at 2 simultaneous breaks on the voice queue. Start reporting shrinkage as a weekly KPI from this week.' },
-    { id:'t6', title:'Growth Programme Week 3 check-in', flag:'P2', owner:'Satish',
-      guidance:'Run the end-of-rotation 1:1 using the GROW coaching doc. Share written feedback within 24 hours. Confirm tracker completion 5/5 days.' },
-    { id:'t7', title:'Raise tech ticket for recording mismatch', flag:'P3', owner:'Satish → Telephony',
-      guidance:'Reference the sample case numbers. Ask QA to flag and re-audit dead-air recordings. Add a recording quality check to the monthly QA calibration.' }
-  ];
+// ========== TO-DO ==========
+const TODOS=[
+{id:'t1',title:'ESCALATE supplier portal access - June regression proof',flag:'P1',owner:'Satish -> Michael',guidance:'June data proves the fix. ASA went from 22s (May) back to 199s (Jun) without portal access. Present the Apr/May recovery as evidence the team performs when supplier load is lower.'},
+{id:'t2',title:'Salary appraisal to Lisa and Michael with EWS evidence',flag:'P1',owner:'Satish',guidance:'Send the EWS table naming the 6 at-risk performers. Request targeted review before retention conversations close.'},
+{id:'t3',title:'Raise Aashish Chauhan backfill JD (TO Enhanced)',flag:'P1',owner:'Satish / HR',guidance:'LWD 15 June. Raise via Team Tailor this week. Brief HR jointly with Michael.'},
+{id:'t4',title:'Chase Salesforce raw data access',flag:'P2',owner:'Satish -> Joanne',guidance:'Frame as prerequisite blocking all Phase 2/3 reporting. Target 30 days.'},
+{id:'t5',title:'Break confirmation protocol enforcement',flag:'P2',owner:'All TLs',guidance:'TL notification required before breaks. Max 2 simultaneous on voice. Report shrinkage weekly.'},
+{id:'t6',title:'Growth Programme Week 3 check-in (Azeem)',flag:'P2',owner:'Satish',guidance:'End-of-rotation 1:1 using GROW doc. Written feedback within 24h. Confirm tracker 5/5 days.'},
+{id:'t7',title:'Recording mismatch tech ticket',flag:'P3',owner:'Satish -> Telephony',guidance:'Reference sample cases. QA to flag dead-air recordings. Add recording quality check to monthly calibration.'}
+];
+let TS={};
+function initTodos(){try{const s=localStorage.getItem('ops_todos');if(s)TS=JSON.parse(s)}catch(e){}renderTodos()}
+function renderTodos(){const l=document.getElementById('todoList');l.innerHTML='';TODOS.forEach(t=>{const s=TS[t.id]||'open',fc=t.flag==='P1'?'pf1':t.flag==='P2'?'pf2':'pf3',cc=s==='done'?'ck':s==='inprogress'?'ip':'',cm=s==='done'?'&#10003;':s==='inprogress'?'&#9684;':'';
+const el=document.createElement('div');el.className='todo-item'+(s==='done'?' done':'');
+el.innerHTML=`<div class="todo-chk ${cc}" onclick="cyc('${t.id}')">${cm}</div><div style="flex:1"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:3px"><span class="pf ${fc}">${t.flag}</span><span class="todo-t">${t.title}</span></div><div style="font-size:10px;color:var(--dm)">Owner: ${t.owner}</div><div class="todo-g"><strong>How to complete</strong>${t.guidance}</div><div style="display:flex;gap:6px;margin-top:8px"><button class="sbtn ${s==='open'?'a-o':''}" onclick="setS('${t.id}','open')">Open</button><button class="sbtn ${s==='inprogress'?'a-p':''}" onclick="setS('${t.id}','inprogress')">In Progress</button><button class="sbtn ${s==='done'?'a-d':''}" onclick="setS('${t.id}','done')">Done</button></div></div>`;
+l.appendChild(el)});updCounts()}
+function setS(id,s){TS[id]=s;try{localStorage.setItem('ops_todos',JSON.stringify(TS))}catch(e){}renderTodos();toast(s==='done'?'Done':'Updated')}
+function cyc(id){const c=TS[id]||'open';setS(id,c==='open'?'inprogress':c==='inprogress'?'done':'open')}
+function resetTodos(){TS={};try{localStorage.removeItem('ops_todos')}catch(e){}renderTodos();toast('Reset')}
+function updCounts(){let p=0,ip=0,dn=0;TODOS.forEach(t=>{const s=TS[t.id]||'open';if(s!=='done'&&t.flag==='P1')p++;if(s==='inprogress')ip++;if(s==='done')dn++});
+document.getElementById('p1c').textContent=p;document.getElementById('ipc').textContent=ip;document.getElementById('dnc').textContent=dn;document.getElementById('rtc').textContent=Math.round(dn/TODOS.length*100)+'%'}
+function snapshotTodo(){const dt=new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});let t=`TO-DO SNAPSHOT\n${dt}\nSatish Kumar\n\n`;['P1','P2','P3'].forEach(f=>{TODOS.filter(x=>x.flag===f).forEach(x=>{const s=TS[x.id]||'open';t+=`${f} [${s.toUpperCase()}] ${x.title}\n`})});const dn=TODOS.filter(x=>TS[x.id]==='done').length;t+=`\n${dn}/${TODOS.length} complete`;navigator.clipboard.writeText(t).then(()=>toast('Copied'))}
 
-  let todoState = {};
+// ========== TRACKER ==========
+const TF=['co_asa','co_abn','co_calls','co_frt','co_csat','co_esc','to_asa','to_abn','to_sla','to_oosla','to_aged','to_audit'];
+function clearTracker(){TF.forEach(f=>document.getElementById(f).value='');toast('Cleared')}
+function v(id,sfx){const val=document.getElementById(id).value;return val===''?'NR':val+sfx}
+function genSnap(){const dt=new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+document.getElementById('snapBox').textContent=`DAILY OPS SNAPSHOT\n${dt}\nSatish Kumar - For Lisa and Mike\n\nCO ENHANCED\n  ASA: ${v('co_asa','s')} (tgt <30s)\n  ABN: ${v('co_abn','%')} (tgt <5%)\n  Calls: ${v('co_calls','')}\n  Email FRT: ${v('co_frt','h')} (tgt <4h)\n  CSAT: ${v('co_csat','')} (tgt >4.0)\n  Escalations: ${v('co_esc','')}\n\nTO ENHANCED\n  ASA: ${v('to_asa','s')}\n  ABN: ${v('to_abn','%')}\n  First Resp SLA: ${v('to_sla','%')} (tgt 95%)\n  OOSLA Resolved: ${v('to_oosla','')}\n  High Aged: ${v('to_aged','')}\n  Audits: ${v('to_audit','')}\n\nNR = not recorded`;toast('Generated')}
+function copySnap(){navigator.clipboard.writeText(document.getElementById('snapBox').textContent).then(()=>toast('Copied'))}
 
-  async function initTodos() {
-    const saved = await loadState('ops_todo_state');
-    if (saved) todoState = saved;
-    renderTodos();
-  }
+// ========== CO DAILY STATS ==========
+function filterDS(mode){document.querySelectorAll('#tab-6 .pbtn').forEach(b=>b.classList.remove('active'));
+if(mode!=='custom')document.querySelectorAll('#tab-6 .pbtn').forEach(b=>{if(b.textContent.includes(mode==='7d'?'7':mode==='30d'?'30':'90'))b.classList.add('active')});
+const now=new Date('2026-06-12');let from;
+if(mode==='7d')from=new Date('2026-06-04');else if(mode==='30d')from=new Date('2026-05-12');else if(mode==='90d')from=new Date('2026-03-03');
+else{from=new Date(document.getElementById('dsFrom').value);const to=new Date(document.getElementById('dsTo').value);renderDS(D.filter(r=>{const d=new Date(r[0]);return d>=from&&d<=to}));return}
+renderDS(D.filter(r=>new Date(r[0])>=from))}
+function renderDS(data){
+const body=document.getElementById('dsBody');body.innerHTML='';
+let sumASA=0,sumH=0,sumABN=0,sumCSAT=0,n=data.length;
+data.slice().reverse().forEach(r=>{const d=new Date(r[0]),ds=d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'});
+const ac=r[1]>30?'color:var(--rd)':'color:var(--gn)',bc=r[3]>5?'color:var(--rd)':r[3]>3?'color:var(--am)':'color:var(--gn)',cc=r[7]>=4?'color:var(--gn)':r[7]>=3?'color:var(--am)':'color:var(--rd)';
+body.innerHTML+=`<tr><td>${ds}</td><td style="${ac};font-weight:700">${r[1]}</td><td>${r[2]}</td><td style="${bc};font-weight:600">${r[3].toFixed(1)}%</td><td>${r[4]}</td><td>${r[5]}</td><td>${r[6]}</td><td style="${cc};font-weight:600">${r[7]}</td></tr>`;
+sumASA+=r[1];sumH+=r[2];sumABN+=r[3];sumCSAT+=r[7]});
+const avgASA=n?Math.round(sumASA/n):0,avgABN=n?(sumABN/n).toFixed(1):0,avgCSAT=n?(sumCSAT/n).toFixed(1):0;
+document.getElementById('dsSummary').innerHTML=`
+<div class="kpi ${avgASA>30?'red':'green'}"><div class="kpi-l">Avg ASA</div><div class="kpi-v">${avgASA}s</div><div class="kpi-s">${n} days</div></div>
+<div class="kpi ${avgABN>5?'red':avgABN>3?'amber':'green'}"><div class="kpi-l">Avg ABN</div><div class="kpi-v">${avgABN}%</div></div>
+<div class="kpi blue"><div class="kpi-l">Total Calls</div><div class="kpi-v">${sumH.toLocaleString()}</div></div>
+<div class="kpi ${avgCSAT<3.5?'amber':'green'}"><div class="kpi-l">Avg CSAT</div><div class="kpi-v">${avgCSAT}</div></div>`}
 
-  function renderTodos() {
-    const list = document.getElementById('todoList');
-    list.innerHTML = '';
-    TODOS.forEach(t => {
-      const status = todoState[t.id] || 'open';
-      const flagClass = t.flag === 'P1' ? 'flag-p1' : t.flag === 'P2' ? 'flag-p2' : 'flag-p3';
-      const checkClass = status === 'done' ? 'checked' : status === 'inprogress' ? 'inprogress' : '';
-      const checkMark = status === 'done' ? '✓' : status === 'inprogress' ? '◐' : '';
-      const el = document.createElement('div');
-      el.className = 'todo-item' + (status === 'done' ? ' done' : '');
-      el.innerHTML = `
-        <div class="todo-check ${checkClass}" onclick="cycleStatus('${t.id}')">${checkMark}</div>
-        <div class="todo-body">
-          <div class="todo-head">
-            <span class="priority-flag ${flagClass}">${t.flag}</span>
-            <span class="todo-title">${t.title}</span>
-          </div>
-          <div class="todo-owner">Owner: ${t.owner}</div>
-          <div class="todo-guidance"><strong>How to complete</strong>${t.guidance}</div>
-          <div class="todo-status-row">
-            <button class="status-btn ${status==='open'?'active-todo':''}" onclick="setStatus('${t.id}','open')">Open</button>
-            <button class="status-btn ${status==='inprogress'?'active-prog':''}" onclick="setStatus('${t.id}','inprogress')">In Progress</button>
-            <button class="status-btn ${status==='done'?'active-done':''}" onclick="setStatus('${t.id}','done')">Done</button>
-          </div>
-        </div>`;
-      list.appendChild(el);
-    });
-    updateTodoCounts();
-    mirrorToCommand();
-  }
+// ========== PERFORMANCE ==========
+function perfView(mode){document.querySelectorAll('#tab-7 .pbtn').forEach(b=>b.classList.remove('active'));
+document.querySelectorAll('#tab-7 .pbtn').forEach(b=>{if(b.textContent.toLowerCase()===mode)b.classList.add('active')});
+let groups;
+if(mode==='daily'){groups=D.slice(-10).map(r=>({label:new Date(r[0]).toLocaleDateString('en-GB',{day:'2-digit',month:'short'}),asa:r[1],abn:r[3],calls:r[2],csat:r[7]}))}
+else if(mode==='weekly'){const wks={};D.forEach(r=>{const d=new Date(r[0]),wk=d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'});const wkStart=new Date(d);wkStart.setDate(d.getDate()-d.getDay()+1);const key=wkStart.toLocaleDateString('en-GB',{day:'2-digit',month:'short'});if(!wks[key])wks[key]={asa:[],abn:[],calls:0,csat:[]};wks[key].asa.push(r[1]);wks[key].abn.push(r[3]);wks[key].calls+=r[2];wks[key].csat.push(r[7])});
+groups=Object.entries(wks).slice(-8).map(([k,v])=>({label:'w/e '+k,asa:Math.round(v.asa.reduce((a,b)=>a+b,0)/v.asa.length),abn:+(v.abn.reduce((a,b)=>a+b,0)/v.abn.length).toFixed(1),calls:v.calls,csat:+(v.csat.reduce((a,b)=>a+b,0)/v.csat.length).toFixed(1)}))}
+else{const mos={};D.forEach(r=>{const m=r[0].substring(0,7);if(!mos[m])mos[m]={asa:[],abn:[],calls:0,csat:[]};mos[m].asa.push(r[1]);mos[m].abn.push(r[3]);mos[m].calls+=r[2];mos[m].csat.push(r[7])});
+groups=Object.entries(mos).map(([k,v])=>({label:new Date(k+'-15').toLocaleDateString('en-GB',{month:'short',year:'2-digit'}),asa:Math.round(v.asa.reduce((a,b)=>a+b,0)/v.asa.length),abn:+(v.abn.reduce((a,b)=>a+b,0)/v.abn.length).toFixed(1),calls:v.calls,csat:+(v.csat.reduce((a,b)=>a+b,0)/v.csat.length).toFixed(1)}))}
+const last=groups[groups.length-1]||{asa:0,abn:0,calls:0,csat:0};
+document.getElementById('perfKPIs').innerHTML=`
+<div class="kpi ${last.asa>30?'red':'green'}"><div class="kpi-l">ASA</div><div class="kpi-v">${last.asa}s</div></div>
+<div class="kpi ${last.abn>5?'red':'green'}"><div class="kpi-l">ABN</div><div class="kpi-v">${last.abn}%</div></div>
+<div class="kpi blue"><div class="kpi-l">Calls</div><div class="kpi-v">${last.calls.toLocaleString()}</div></div>
+<div class="kpi ${last.csat<3.5?'amber':'green'}"><div class="kpi-l">CSAT</div><div class="kpi-v">${last.csat}</div></div>`;
+const maxASA=Math.max(...groups.map(g=>g.asa),30);
+document.getElementById('perfASA').innerHTML=groups.map(g=>{const w=Math.max(5,g.asa/maxASA*100),c=g.asa>30?'var(--rd)':g.asa>20?'var(--am)':'var(--gn)';return`<div class="tr-row"><div class="tr-lbl">${g.label}</div><div class="tr-trk"><div class="tr-fill" style="width:${w}%;background:${c}">${g.asa}s</div></div><div class="tr-val" style="color:${c}">${g.asa}</div></div>`}).join('');
+const maxABN=Math.max(...groups.map(g=>g.abn),5);
+document.getElementById('perfABN').innerHTML=groups.map(g=>{const w=Math.max(5,g.abn/maxABN*100),c=g.abn>5?'var(--rd)':g.abn>3?'var(--am)':'var(--gn)';return`<div class="tr-row"><div class="tr-lbl">${g.label}</div><div class="tr-trk"><div class="tr-fill" style="width:${w}%;background:${c}">${g.abn}%</div></div><div class="tr-val" style="color:${c}">${g.abn}</div></div>`}).join('')}
 
-  function setStatus(id, status) {
-    todoState[id] = status;
-    saveState('ops_todo_state', todoState);
-    renderTodos();
-    showToast(status === 'done' ? 'Marked complete' : 'Status updated');
-  }
+// ========== TOAST ==========
+let tt;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1800)}
 
-  function cycleStatus(id) {
-    const cur = todoState[id] || 'open';
-    const next = cur === 'open' ? 'inprogress' : cur === 'inprogress' ? 'done' : 'open';
-    setStatus(id, next);
-  }
-
-  function resetTodos() {
-    todoState = {};
-    saveState('ops_todo_state', todoState);
-    renderTodos();
-    showToast('All reset');
-  }
-
-  function updateTodoCounts() {
-    let p1=0, prog=0, done=0;
-    TODOS.forEach(t => {
-      const s = todoState[t.id] || 'open';
-      if (s !== 'done' && t.flag === 'P1') p1++;
-      if (s === 'inprogress') prog++;
-      if (s === 'done') done++;
-    });
-    document.getElementById('p1count').textContent = p1;
-    document.getElementById('progcount').textContent = prog;
-    document.getElementById('donecount').textContent = done;
-    document.getElementById('ratecount').textContent = Math.round(done / TODOS.length * 100) + '%';
-  }
-
-  function mirrorToCommand() {
-    const box = document.getElementById('commandTodoMirror');
-    const open = TODOS.filter(t => (todoState[t.id]||'open') !== 'done');
-    if (open.length === 0) { box.innerHTML = '<div style="font-size:11px;color:var(--green)">All to-do items complete. Strong day.</div>'; return; }
-    box.innerHTML = open.slice(0,5).map(t => {
-      const s = todoState[t.id] || 'open';
-      const dot = s === 'inprogress' ? 'rag-amber' : 'rag-red';
-      return `<div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px"><span class="rag-dot ${dot}" style="margin-top:5px"></span><div><strong style="color:var(--text)">${t.flag}</strong> ${t.title}<div style="font-size:10px;color:var(--dim)">${t.owner}</div></div></div>`;
-    }).join('');
-  }
-
-  function snapshotTodo() {
-    const date = new Date().toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
-    let txt = `OPERATIONS TO-DO SNAPSHOT\n${date}\nSatish Kumar - Ops Manager CX\n\n`;
-    ['P1','P2','P3'].forEach(flag => {
-      const items = TODOS.filter(t => t.flag === flag);
-      items.forEach(t => {
-        const s = todoState[t.id] || 'open';
-        const mark = s === 'done' ? '[DONE]' : s === 'inprogress' ? '[IN PROGRESS]' : '[OPEN]';
-        txt += `${flag} ${mark} ${t.title} (${t.owner})\n`;
-      });
-    });
-    const done = TODOS.filter(t => todoState[t.id]==='done').length;
-    txt += `\nCompletion: ${done}/${TODOS.length} (${Math.round(done/TODOS.length*100)}%)`;
-    navigator.clipboard.writeText(txt).then(()=>showToast('To-do snapshot copied'));
-  }
-
-  // ---------- DAILY TRACKER ----------
-  const TRACKER_FIELDS = ['co_asa','co_abn','co_calls','co_frt','co_csat','co_esc','to_asa','to_abn','to_sla','to_oosla','to_aged','to_audit','ppl_att','ppl_shr','ppl_floor','ppl_prog'];
-
-  async function initTracker() {
-    const saved = await loadState('ops_tracker_today');
-    if (saved) TRACKER_FIELDS.forEach(f => { if (saved[f] !== undefined) document.getElementById(f).value = saved[f]; });
-    TRACKER_FIELDS.forEach(f => {
-      document.getElementById(f).addEventListener('input', () => {
-        const data = {}; TRACKER_FIELDS.forEach(x => data[x] = document.getElementById(x).value);
-        saveState('ops_tracker_today', data);
-      });
-    });
-    document.getElementById('trackerDate').textContent = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short'}).toUpperCase();
-  }
-
-  function loadTrackerDefaults() {
-    TRACKER_FIELDS.forEach(f => document.getElementById(f).value = '');
-    saveState('ops_tracker_today', {});
-    showToast('Tracker cleared');
-  }
-
-  function v(id, suffix='') { const val = document.getElementById(id).value; return val === '' ? 'NR' : val + suffix; }
-
-  function snapshotTracker() {
-    const date = new Date().toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
-    const txt =
-`DAILY OPERATIONS SNAPSHOT
-${date}
-Satish Kumar - Ops Manager CX | For: Lisa and Mike
-
-CO ENHANCED
-  Voice ASA:        ${v('co_asa','s')}   (target below 30s)
-  Abandon Rate:     ${v('co_abn','%')}   (target below 5%)
-  Calls Handled:    ${v('co_calls')}
-  Email FRT:        ${v('co_frt','h')}   (target below 4h)
-  Overall CSAT:     ${v('co_csat')}   (target above 4.0)
-  Escalations:      ${v('co_esc')}
-
-TO ENHANCED
-  Inbound ASA:      ${v('to_asa','s')}   (target below 30s)
-  Abandon Rate:     ${v('to_abn','%')}   (target below 5%)
-  First Resp SLA:   ${v('to_sla','%')}   (target 95%)
-  OOSLA Resolved:   ${v('to_oosla')}
-  High Aged Resolved: ${v('to_aged')}
-  Audits Done:      ${v('to_audit')}
-
-PEOPLE AND FLOOR
-  Attendance:       ${v('ppl_att','%')}
-  Shrinkage:        ${v('ppl_shr','%')}
-  Floor Cover OK:   ${v('ppl_floor')}
-  Growth Prog Week: ${v('ppl_prog')}
-
-NR = not recorded`;
-    document.getElementById('trackerSnapshot').textContent = txt;
-    showToast('Snapshot generated');
-  }
-
-  function copySnapshot(id) {
-    const txt = document.getElementById(id).textContent;
-    navigator.clipboard.writeText(txt).then(()=>showToast('Copied to clipboard'));
-  }
-
-  // ---------- TOAST ----------
-  let toastTimer;
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg; t.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(()=>t.classList.remove('show'), 1800);
-  }
-
-  // ---------- INIT ----------
-  (async function() {
-    const theme = await loadState('ops_theme');
-    if (theme) { document.body.setAttribute('data-theme', theme); document.getElementById('themeToggle').textContent = theme === 'dark' ? '🌙' : '☀️'; }
-    await initTodos();
-    await initTracker();
-  })();
+// ========== INIT ==========
+(function(){try{const t=localStorage.getItem('ops_theme');if(t){document.body.setAttribute('data-theme',t);document.getElementById('themeBtn').textContent=t==='dark'?'Switch to Light Mode':'Switch to Dark Mode'}}catch(e){}
+initTodos();filterDS('7d');perfView('daily')})();
 </script>
-
 </body>
 </html>
