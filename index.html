@@ -2,702 +2,481 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Onecom Operations Command Centre - Satish Kumar</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Onecom Operations Command Centre</title>
 <style>
-:root{
- --bg:#0d0f1a; --surface:#131629; --surface2:#1a1e35; --surface3:#202440;
- --border:#2a2f52; --accent:#6c47ff; --accent2:#9b6dff;
- --gold:#f5a623; --teal:#00c9a7; --red:#ff4d6a; --amber:#ffb74d; --green:#4cde8f; --blue:#4a9eff;
- --text:#e8eaf2; --muted:#7a82a8; --dim:#4a5070;
- --r:10px; --font:'Segoe UI',system-ui,-apple-system,sans-serif;
-}
-body[data-theme="light"]{
- --bg:#f4f5fb; --surface:#ffffff; --surface2:#f0f1f8; --surface3:#e7e9f4;
- --border:#dcdff0; --text:#1b1f33; --muted:#6b7295; --dim:#9aa0c0;
-}
+:root{--bg:#0d0f1a;--sf:#131629;--sf2:#1a1e35;--sf3:#202440;--bd:#2a2f52;--ac:#6c47ff;--ac2:#9b6dff;--tl:#00c9a7;--rd:#ff4d6a;--am:#ffb74d;--gn:#4cde8f;--bl:#4a9eff;--tx:#e8eaf2;--mt:#7a82a8;--dm:#4a5070;--r:10px;--f:'Segoe UI',system-ui,sans-serif;--sh:0 2px 8px rgba(0,0,0,.2);--sw:220px}
+[data-theme=light]{--bg:#f4f6fb;--sf:#fff;--sf2:#f0f2f9;--sf3:#e8ebf5;--bd:#d9deee;--rd:#e03152;--am:#e09600;--gn:#2aa86a;--bl:#2b7fe0;--tx:#1a1e35;--mt:#6a7395;--dm:#9aa2c0;--sh:0 2px 8px rgba(80,90,140,.1)}
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:13px;line-height:1.5;min-height:100vh;display:flex}
-a{color:var(--accent2)}
-@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
-
-/* SIDEBAR */
-.sidebar{width:210px;background:var(--surface);border-right:1px solid var(--border);min-height:100vh;display:flex;flex-direction:column;flex-shrink:0;position:sticky;top:0;height:100vh;transition:width .2s}
-.sidebar.collapsed{width:58px}
-.sb-head{display:flex;align-items:center;gap:10px;padding:14px 16px;height:52px;border-bottom:1px solid var(--border)}
-.hamburger{background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;line-height:1;padding:2px}
-.hamburger:hover{color:var(--text)}
-.logo-text{font-size:15px;font-weight:700;letter-spacing:-.5px;color:var(--text);white-space:nowrap}
-.logo-text span{color:var(--accent2)}
-.sidebar.collapsed .logo-text,.sidebar.collapsed .nav-label,.sidebar.collapsed .sb-foot-txt{display:none}
-.sb-nav{flex:1;padding:8px 0;overflow-y:auto}
-.nav-btn{width:100%;display:flex;align-items:center;gap:11px;padding:9px 16px;background:none;border:none;color:var(--muted);font-size:12.5px;font-family:inherit;cursor:pointer;text-align:left;border-left:2px solid transparent;white-space:nowrap}
-.nav-btn:hover{background:var(--surface2);color:var(--text)}
-.nav-btn.active{background:var(--surface2);color:var(--accent2);border-left-color:var(--accent)}
-.nav-btn:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
-.nav-icon{font-size:15px;width:18px;text-align:center;flex-shrink:0}
-.nav-group-lbl{font-size:9px;font-weight:700;letter-spacing:1px;color:var(--dim);padding:12px 16px 4px;text-transform:uppercase;white-space:nowrap}
-.sidebar.collapsed .nav-group-lbl{text-align:center;padding:12px 0 4px;font-size:8px}
-.sb-foot{padding:12px 16px;border-top:1px solid var(--border);font-size:10px;color:var(--muted)}
-.theme-btn{margin-top:8px;width:100%;background:var(--surface3);border:1px solid var(--border);color:var(--muted);font-size:10px;padding:6px;border-radius:6px;cursor:pointer;font-family:inherit}
-.theme-btn:hover{color:var(--text)}
-
-/* MAIN */
+body{background:var(--bg);color:var(--tx);font-family:var(--f);font-size:13px;line-height:1.5;display:flex;min-height:100vh;transition:background .3s,color .3s}
+.sidebar{width:var(--sw);min-width:var(--sw);background:var(--sf);border-right:1px solid var(--bd);display:flex;flex-direction:column;height:100vh;position:sticky;top:0;z-index:200;transition:all .25s ease;overflow:hidden;flex-shrink:0}
+.sidebar.collapsed{width:52px;min-width:52px}
+.sidebar.collapsed .nav-label,.sidebar.collapsed .sb-footer,.sidebar.collapsed .logo-text{display:none}
+.sidebar.collapsed .sb-head{justify-content:center}
+.sidebar.collapsed .nav-btn{justify-content:center;padding:10px 0}
+.sb-head{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--bd);min-height:48px}
+.hamburger{background:none;border:none;color:var(--tx);font-size:20px;cursor:pointer;padding:2px;flex-shrink:0;line-height:1}
+.logo-text{font-size:13px;font-weight:700;white-space:nowrap}.logo-text span{color:var(--ac2)}
+.sb-nav{flex:1;overflow-y:auto;padding:6px}
+.sb-nav::-webkit-scrollbar{width:3px}.sb-nav::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
+.nav-btn{display:flex;align-items:center;gap:9px;width:100%;background:none;border:none;color:var(--mt);font-size:11.5px;font-weight:500;padding:8px 10px;border-radius:7px;cursor:pointer;white-space:nowrap;transition:all .12s;font-family:var(--f);text-align:left}
+.nav-btn:hover{background:var(--sf2);color:var(--tx)}
+.nav-btn.active{background:rgba(108,71,255,.12);color:var(--ac2);font-weight:600}
+.nav-icon{font-size:14px;width:18px;text-align:center;flex-shrink:0}
+.nav-label{overflow:hidden}
+.sb-footer{padding:10px 14px;border-top:1px solid var(--bd);font-size:10px;color:var(--dm);white-space:nowrap}
+.theme-btn{background:var(--sf3);border:1px solid var(--bd);color:var(--tx);width:100%;padding:5px;border-radius:6px;cursor:pointer;font-size:11px;font-family:var(--f);margin-top:5px}
+.theme-btn:hover{border-color:var(--ac)}
 .main{flex:1;min-width:0;display:flex;flex-direction:column}
-.topbar{height:52px;border-bottom:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:space-between;padding:0 22px;position:sticky;top:0;z-index:50}
-.mob-ham{display:none;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer}
-.status-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(76,222,143,.1);border:1px solid rgba(76,222,143,.25);color:var(--green);padding:3px 11px;border-radius:20px;font-size:11px;font-weight:600}
-.status-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green)}
-.topbar-right{font-size:11px;color:var(--muted)}
-.content{padding:24px;max-width:1400px;width:100%}
-
-/* TAB PANELS */
-.tab-panel{display:none}
-.tab-panel.active{display:block;animation:fade .25s ease}
-@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
-.pg-h{margin-bottom:18px}
-.pg-t{font-size:21px;font-weight:700;color:var(--text);letter-spacing:-.4px}
-.pg-s{font-size:12px;color:var(--muted);margin-top:2px}
-
-/* CARDS / GRID */
-.grid{display:grid;gap:14px}
-.g4{grid-template-columns:repeat(4,1fr)}
-.g3{grid-template-columns:repeat(3,1fr)}
-.g2{grid-template-columns:repeat(2,1fr)}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px}
-.card-t{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent2);margin-bottom:12px}
-.section-lbl{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent2);margin:22px 0 10px}
-
-/* KPI CARD */
-.kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:15px 16px;border-top:3px solid var(--accent)}
-.kpi.red{border-top-color:var(--red)} .kpi.green{border-top-color:var(--green)}
-.kpi.amber{border-top-color:var(--amber)} .kpi.blue{border-top-color:var(--blue)}
-.kpi-l{font-size:10px;font-weight:700;letter-spacing:1px;color:var(--muted);text-transform:uppercase}
-.kpi-v{font-size:28px;font-weight:800;color:var(--text);margin:4px 0 2px;letter-spacing:-1px}
-.kpi-n{font-size:10px;color:var(--dim)}
-
-/* TREND BARS */
-.trend{margin-top:4px}
-.tr-row{display:flex;align-items:center;gap:10px;margin-bottom:7px}
-.tr-lbl{width:54px;font-size:11px;color:var(--muted);flex-shrink:0}
-.tr-trk{flex:1;background:var(--surface3);border-radius:4px;height:20px;position:relative;overflow:hidden}
-.tr-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:8px;font-size:10px;font-weight:700;color:#0d0f1a;min-width:34px;transition:width .4s}
-.tr-val{width:46px;text-align:right;font-size:12px;font-weight:700;flex-shrink:0}
-
-/* SEGMENT / TOGGLE */
-.seg{display:inline-flex;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:3px;gap:2px;flex-wrap:wrap}
-.seg-btn{background:none;border:none;color:var(--muted);font-size:12px;font-family:inherit;padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:600}
-.seg-btn.active{background:var(--accent);color:#fff}
-.seg-btn:focus-visible{outline:2px solid var(--accent2);outline-offset:1px}
-.seg.small .seg-btn{padding:4px 10px;font-size:11px}
-
-/* BADGES */
-.badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:3px 9px;border-radius:5px;letter-spacing:.4px}
-.b-co{background:rgba(108,71,255,.15);color:var(--accent2);border:1px solid rgba(108,71,255,.3)}
-.b-to{background:rgba(0,201,167,.13);color:var(--teal);border:1px solid rgba(0,201,167,.3)}
-.b-p1{background:rgba(255,77,106,.15);color:var(--red)}
-.b-p2{background:rgba(255,183,77,.15);color:var(--amber)}
-.b-p3{background:rgba(74,158,255,.13);color:var(--blue)}
-.rag-dot{width:9px;height:9px;border-radius:50%;display:inline-block}
-.rag-Green{background:var(--green)} .rag-Amber{background:var(--amber)} .rag-Red{background:var(--red)}
-
-/* ACTION PLAN CARD */
-.ap-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;overflow:hidden}
-.ap-head{display:flex;align-items:center;gap:10px;padding:13px 16px;cursor:pointer;user-select:none}
-.ap-head:hover{background:var(--surface2)}
-.ap-title{font-size:13.5px;font-weight:700;color:var(--text);flex:1}
-.ap-chev{color:var(--muted);font-size:12px;transition:transform .2s}
-.ap-card.open .ap-chev{transform:rotate(90deg)}
-.ap-body{display:none;padding:0 16px 16px;border-top:1px solid var(--border)}
-.ap-card.open .ap-body{display:block}
-.ap-field{margin-top:12px}
-.ap-flbl{font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--accent2);margin-bottom:3px}
-.ap-ftxt{font-size:12.5px;color:var(--text);line-height:1.55}
-.ap-ftxt.muted{color:var(--muted)}
-.filter-bar{display:flex;gap:8px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
-
-/* RAG BAR */
-.ragbar{display:flex;height:14px;border-radius:7px;overflow:hidden;margin:8px 0}
-.ragbar div{height:100%}
-.rag-leg{display:flex;gap:14px;font-size:11px;color:var(--muted);flex-wrap:wrap}
-.rag-leg span{display:inline-flex;align-items:center;gap:5px}
-
-/* PEOPLE TABLE */
-.ptbl{width:100%;border-collapse:collapse;font-size:12px}
-.ptbl th{text-align:left;font-size:9px;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);padding:7px 8px;border-bottom:1px solid var(--border);font-weight:700}
-.ptbl td{padding:8px;border-bottom:1px solid rgba(42,47,82,.4);vertical-align:top;color:var(--text)}
-.ptbl tr:hover td{background:var(--surface2)}
-
-/* MISC */
-.advisor{background:linear-gradient(90deg,rgba(108,71,255,.12),rgba(0,201,167,.06));border:1px solid rgba(108,71,255,.25);border-left:3px solid var(--accent);border-radius:8px;padding:13px 16px;font-size:12.5px;color:var(--text);line-height:1.6;margin-bottom:16px}
-.todo{display:flex;align-items:flex-start;gap:11px;padding:11px 14px;background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-bottom:9px}
-.todo input{margin-top:3px;width:15px;height:15px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
-.todo.done .td-txt{text-decoration:line-through;color:var(--dim)}
-.td-txt{font-size:12.5px}.td-meta{font-size:10px;color:var(--muted);margin-top:2px}
-.pill{display:inline-block;font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;margin-right:5px}
-.pill.p1{background:rgba(255,77,106,.15);color:var(--red)}
-.pill.p2{background:rgba(255,183,77,.15);color:var(--amber)}
-.li{display:flex;gap:9px;padding:7px 0;font-size:12.5px;line-height:1.5;border-bottom:1px solid rgba(42,47,82,.35)}
-.li:last-child{border:none}
-.li .ic{color:var(--accent2);flex-shrink:0}
-.note{font-size:11px;color:var(--dim);margin-top:8px;font-style:italic}
-.mile{display:flex;gap:13px;padding:11px 0}
-.mile-dot{width:11px;height:11px;border-radius:50%;margin-top:3px;flex-shrink:0;border:2px solid var(--bg)}
-.mile-d{font-size:9px;font-weight:700;letter-spacing:.8px;color:var(--muted);text-transform:uppercase}
-.mile-t{font-size:13px;font-weight:700;color:var(--text);margin:1px 0}
-.mile-s{font-size:11px;color:var(--muted)}
-.compare-col{display:flex;flex-direction:column;gap:6px}
-.compare-head{font-size:12px;font-weight:700;text-align:center;padding:8px;border-radius:7px;margin-bottom:4px}
-
-/* RESPONSIVE */
-.backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:60}
-@media (max-width:1000px){.g4{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:1fr}}
-@media (max-width:780px){
- .sidebar{position:fixed;left:0;top:0;z-index:70;transform:translateX(-100%);width:210px;box-shadow:4px 0 20px rgba(0,0,0,.4)}
- .sidebar.mob-open{transform:none}
- .mob-ham{display:block}.g2,.g4{grid-template-columns:1fr}
- .content{padding:16px}.backdrop.show{display:block}
+.topbar{background:var(--sf);border-bottom:1px solid var(--bd);padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:44px;position:sticky;top:0;z-index:100;box-shadow:var(--sh);flex-shrink:0}
+.topbar-left{display:flex;align-items:center;gap:10px}
+.mob-ham{display:none;background:none;border:none;color:var(--tx);font-size:20px;cursor:pointer;padding:2px}
+.status-pill{display:flex;align-items:center;gap:4px;background:rgba(76,222,143,.1);border:1px solid rgba(76,222,143,.25);color:var(--gn);padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600}
+.status-dot{width:5px;height:5px;background:var(--gn);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.topbar-right{display:flex;align-items:center;gap:10px;font-size:11px;color:var(--mt)}
+.content{padding:16px;flex:1;overflow-y:auto}
+.tab-panel{display:none}.tab-panel.active{display:block;animation:fadeIn .2s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+.pg-h{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:6px}
+.pg-t{font-size:18px;font-weight:700;letter-spacing:-.3px}.pg-s{color:var(--mt);font-size:11px;margin-top:2px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:14px;box-shadow:var(--sh)}
+.kpi{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:12px;position:relative;overflow:hidden;box-shadow:var(--sh)}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.kpi.green::before{background:var(--gn)}.kpi.red::before{background:var(--rd)}.kpi.amber::before{background:var(--am)}.kpi.blue::before{background:var(--bl)}.kpi.purple::before{background:var(--ac2)}
+.kpi-l{font-size:9px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--mt);margin-bottom:4px}
+.kpi-v{font-size:22px;font-weight:800;letter-spacing:-1px}.kpi-s{font-size:10px;color:var(--mt);margin-top:2px}
+.kpi-t{font-size:10px;font-weight:600;margin-top:2px}.tu{color:var(--gn)}.td{color:var(--rd)}.tf{color:var(--am)}
+.sh{display:flex;align-items:center;gap:8px;margin:14px 0 8px}.sh:first-child{margin-top:0}
+.sl{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ac2)}.sd{flex:1;height:1px;background:var(--bd)}
+.badge{font-size:8px;padding:1px 5px;border-radius:20px;font-weight:700;letter-spacing:.4px}
+.b-rd{background:rgba(255,77,106,.15);color:var(--rd);border:1px solid rgba(255,77,106,.25)}
+.b-am{background:rgba(255,183,77,.15);color:var(--am);border:1px solid rgba(255,183,77,.25)}
+.b-gn{background:rgba(76,222,143,.12);color:var(--gn);border:1px solid rgba(76,222,143,.2)}
+.b-bl{background:rgba(74,158,255,.12);color:var(--bl);border:1px solid rgba(74,158,255,.2)}
+table.dt{width:100%;border-collapse:collapse;font-size:11px}
+table.dt th{font-size:8px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--mt);padding:5px 6px;text-align:left;border-bottom:1px solid var(--bd);position:sticky;top:0;background:var(--sf)}
+table.dt td{padding:5px 6px;border-bottom:1px solid var(--bd)}.dt tr:hover td{background:var(--sf2)}
+.rd-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:4px}
+.alert{display:flex;gap:8px;padding:8px 10px;border-radius:8px;margin-bottom:6px;border-left:3px solid;background:var(--sf2);font-size:12px}
+.alert.crit{border-color:var(--rd)}.alert.warn{border-color:var(--am)}.alert.ok{border-color:var(--gn)}
+.alert strong{display:block;margin-bottom:1px}.alert span{font-size:10px;color:var(--mt)}
+.tr-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.tr-lbl{font-size:10px;width:50px;flex-shrink:0}.tr-trk{flex:1;height:22px;background:var(--sf3);border-radius:4px;overflow:hidden;display:flex;align-items:center}
+.tr-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:6px;font-size:10px;font-weight:700;color:#fff;min-width:fit-content;transition:width .5s}
+.tr-val{font-size:11px;font-weight:700;width:45px;text-align:right;flex-shrink:0}
+/* TODO */
+.todo-item{background:var(--sf2);border:1px solid var(--bd);border-radius:8px;padding:10px;margin-bottom:6px}
+.todo-item.done{opacity:.5}.todo-item.done .todo-t{text-decoration:line-through}
+.todo-hd{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:3px}
+.todo-t{font-size:12px;font-weight:600}
+.pf{font-size:8px;font-weight:800;padding:1px 5px;border-radius:3px}
+.pf1{background:rgba(255,77,106,.2);color:var(--rd)}.pf2{background:rgba(255,183,77,.2);color:var(--am)}.pf3{background:rgba(74,158,255,.15);color:var(--bl)}
+.todo-g{margin-top:6px;padding:6px 8px;background:var(--sf3);border-radius:5px;font-size:10px;color:var(--mt);border-left:2px solid var(--ac)}
+.todo-g strong{color:var(--ac2);display:block;margin-bottom:2px;font-size:9px;letter-spacing:.4px;text-transform:uppercase}
+.sbtn{font-size:9px;font-weight:600;padding:2px 8px;border-radius:4px;border:1px solid var(--bd);background:var(--sf);color:var(--mt);cursor:pointer;font-family:var(--f)}
+.sbtn.a-o{background:var(--dm);color:#fff;border-color:var(--dm)}
+.sbtn.a-p{background:var(--am);color:#1a1e35;border-color:var(--am)}.sbtn.a-d{background:var(--gn);color:#fff;border-color:var(--gn)}
+/* ACTION PLAN */
+.ap-item{background:var(--sf2);border:1px solid var(--bd);border-radius:8px;padding:12px;margin-bottom:8px}
+.ap-head{display:flex;justify-content:space-between;align-items:flex-start;gap:6px;margin-bottom:4px;flex-wrap:wrap}
+.ap-title{font-size:12px;font-weight:700}.ap-meta{font-size:10px;color:var(--mt);margin-bottom:6px}
+.ap-guide{padding:8px;background:var(--sf3);border-radius:6px;font-size:10px;border-left:2px solid var(--tl);color:var(--mt)}
+.ap-guide strong{color:var(--tl);display:block;margin-bottom:3px;font-size:9px;letter-spacing:.4px;text-transform:uppercase}
+.ap-guide ol{margin:3px 0 0 14px}.ap-guide li{margin-bottom:2px}
+.phase-hdr{background:var(--ac);color:#fff;padding:6px 12px;border-radius:6px;font-size:11px;font-weight:700;display:inline-block;margin-bottom:10px}
+/* GOALS */
+.goal-c{background:var(--sf2);border:1px solid var(--bd);border-radius:8px;padding:12px;margin-bottom:8px}
+.goal-c h4{font-size:12px;font-weight:700;margin-bottom:3px}.goal-c p{font-size:10px;color:var(--mt);margin-bottom:6px}
+.goal-g{padding:8px;background:var(--sf3);border-radius:6px;font-size:10px;border-left:2px solid var(--tl)}
+.goal-g strong{color:var(--tl);display:block;margin-bottom:3px;font-size:9px;letter-spacing:.4px;text-transform:uppercase}
+.goal-g ol{margin:3px 0 0 14px;color:var(--mt)}.goal-g li{margin-bottom:2px}
+/* 1:1 */
+.oo-card{background:var(--sf2);border:1px solid var(--bd);border-radius:8px;padding:12px;margin-bottom:8px}
+.oo-card.pos{border-left:3px solid var(--gn)}.oo-card.ref{border-left:3px solid var(--bl)}.oo-card.dev{border-left:3px solid var(--am)}.oo-card.fb{border-left:3px solid var(--ac2)}
+.oo-label{font-size:9px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;margin-bottom:6px}
+.oo-item{display:flex;gap:6px;padding:4px 0;font-size:11px}.oo-item .d{color:var(--ac2);flex-shrink:0}
+.rf-flow{display:flex;align-items:center;gap:6px;padding:5px 0;flex-wrap:wrap}
+.rf-from{font-size:10px;color:var(--mt);background:rgba(255,77,106,.08);padding:3px 6px;border-radius:4px;flex:1;min-width:100px}
+.rf-to{font-size:10px;color:var(--tx);background:rgba(76,222,143,.1);padding:3px 6px;border-radius:4px;flex:1;min-width:100px}
+.rf-ar{color:var(--ac2);font-weight:700;font-size:12px}
+.ev-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd)}.ev-item:last-child{border-bottom:none}
+.ev-ic{width:30px;height:30px;border-radius:7px;background:var(--sf3);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.ev-t{font-size:11px;font-weight:600;margin-bottom:1px}.ev-d{font-size:10px;color:var(--mt)}.ev-dt{font-size:9px;color:var(--dm);margin-top:2px}
+.tp-item{display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--bd);align-items:flex-start}.tp-item:last-child{border-bottom:none}
+.tp-n{width:18px;height:18px;background:var(--ac);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;color:#fff;flex-shrink:0}
+.tp-tx{font-size:11px}
+.tl-wrap{position:relative;padding-left:18px}.tl-wrap::before{content:'';position:absolute;left:4px;top:5px;bottom:5px;width:2px;background:var(--bd)}
+.tl-node{position:relative;padding-left:18px;padding-bottom:14px}
+.tl-node::before{content:'';position:absolute;left:-16px;top:3px;width:8px;height:8px;border-radius:50%;background:var(--ac);border:2px solid var(--sf)}
+.tl-node.g::before{background:var(--gn)}.tl-node.a::before{background:var(--am)}
+.tl-date{font-size:9px;color:var(--mt);font-weight:600}.tl-title{font-size:11px;font-weight:600;margin:1px 0}.tl-det{font-size:10px;color:var(--mt)}
+.period-bar{display:flex;gap:5px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
+.pbtn{font-size:10px;font-weight:600;padding:4px 12px;border-radius:5px;border:1px solid var(--bd);background:var(--sf);color:var(--mt);cursor:pointer;font-family:var(--f)}
+.pbtn:hover{border-color:var(--ac);color:var(--tx)}.pbtn.active{background:var(--ac);color:#fff;border-color:var(--ac)}
+.date-input{font-size:10px;padding:3px 6px;border-radius:4px;border:1px solid var(--bd);background:var(--sf3);color:var(--tx);font-family:var(--f)}
+.ds-scroll{max-height:400px;overflow-y:auto}
+.btn{background:var(--ac);color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:var(--f)}.btn:hover{background:var(--ac2)}
+.btn-o{background:transparent;border:1px solid var(--bd);color:var(--tx)}
+/* ADVISOR NOTE */
+.advisor{background:rgba(108,71,255,.06);border:1px solid rgba(108,71,255,.2);border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:11px;color:var(--tx)}
+.advisor::before{content:'STRATEGIC GUIDANCE';display:block;font-size:9px;font-weight:700;letter-spacing:.8px;color:var(--ac2);margin-bottom:4px}
+.sidebar-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:190}
+.toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--gn);color:#fff;padding:8px 16px;border-radius:8px;font-size:11px;font-weight:600;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none}.toast.show{opacity:1}
+@media(max-width:900px){
+.g4{grid-template-columns:repeat(2,1fr)}.g3,.g2{grid-template-columns:1fr}
+.sidebar{position:fixed;top:0;left:0;bottom:0;transform:translateX(-100%);z-index:201}
+.sidebar.mob-open{transform:translateX(0)}
+.sidebar-overlay.mob-open{display:block}
+.mob-ham{display:block}
+.topbar-right .hide-mob{display:none}
 }
-::-webkit-scrollbar{width:5px;height:5px}
-::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
-
-/* DAILY ANALYTICS */
-.insight-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.insight{background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:12px 13px}
-.insight .il{font-size:9px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--muted)}
-.insight .iv{font-size:18px;font-weight:800;margin-top:3px;letter-spacing:-.3px}
-.insight .is{font-size:10px;color:var(--dim);margin-top:1px}
-.chart-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-top:14px}
-.chart-card svg{width:100%;height:auto;display:block}
-.chart-leg{display:flex;gap:16px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin-top:10px}
-.chart-leg span{display:inline-flex;align-items:center;gap:6px}
-.leg-line{width:16px;border-top:2px solid;display:inline-block}
-.leg-dash{width:16px;border-top:2px dashed;display:inline-block}
-.heatstrip{display:flex;gap:4px;margin-top:12px;flex-wrap:wrap}
-.heatcell{flex:1;min-width:52px;border-radius:6px;padding:7px 4px;text-align:center;color:#0d0f1a}
-.heatcell .hd{font-size:9px;font-weight:700;opacity:.85}
-.heatcell .hv{font-size:13px;font-weight:800}
-.spark-card{background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:13px}
-.spark-card .sl{font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
-.spark-stats{display:flex;gap:14px;font-size:10px;color:var(--muted);margin-top:6px;flex-wrap:wrap}
-.spark-stats b{color:var(--text)}
-.dly-tools{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin:6px 0 8px}
-.exp-btn{background:var(--surface3);border:1px solid var(--border);color:var(--text);font-size:11px;font-family:inherit;padding:6px 12px;border-radius:6px;cursor:pointer}
-.exp-btn:hover{border-color:var(--accent)}
-.dly-tblwrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--r)}
-.dly-tbl{width:100%;border-collapse:collapse;font-size:12px;min-width:560px}
-.dly-tbl th{position:sticky;top:0;background:var(--surface2);text-align:right;font-size:9px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);padding:9px 10px;border-bottom:1px solid var(--border);cursor:pointer;white-space:nowrap;user-select:none}
-.dly-tbl th:first-child,.dly-tbl td:first-child{text-align:left}
-.dly-tbl th:hover{color:var(--text)}
-.dly-tbl td{text-align:right;padding:9px 10px;border-bottom:1px solid rgba(42,47,82,.4);white-space:nowrap}
-.dly-tbl tr:hover td{background:var(--surface2)}
-.dly-tbl tr.best td{box-shadow:inset 3px 0 0 var(--green)}
-.dly-tbl tr.worst td{box-shadow:inset 3px 0 0 var(--red)}
-.tag{font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px}
-.tag.g{background:rgba(76,222,143,.15);color:var(--green)}
-.tag.a{background:rgba(255,183,77,.15);color:var(--amber)}
-.tag.r{background:rgba(255,77,106,.15);color:var(--red)}
-.arw-up{color:var(--red);font-weight:700} .arw-dn{color:var(--green);font-weight:700} .arw-fl{color:var(--muted)}
-@media(max-width:1000px){.insight-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:400px){.g4{grid-template-columns:1fr}}
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
 </style>
 </head>
 <body data-theme="dark">
-
+<div class="sidebar-overlay" id="sbOverlay" onclick="closeMobSB()"></div>
 <nav class="sidebar" id="sidebar">
- <div class="sb-head">
-  <button class="hamburger" onclick="toggleSB()" aria-label="Toggle sidebar">&#9776;</button>
-  <span class="logo-text">one<span>com</span> OPS</span>
- </div>
- <div class="sb-nav">
-  <button class="nav-btn active" onclick="go(0,this)"><span class="nav-icon">&#9889;</span><span class="nav-label">Command Centre</span></button>
-  <button class="nav-btn" onclick="go(1,this)"><span class="nav-icon">&#9745;</span><span class="nav-label">Daily To-Do</span></button>
-  <button class="nav-btn" onclick="go(2,this)"><span class="nav-icon">&#128202;</span><span class="nav-label">Executive</span></button>
-  <div class="nav-group-lbl">Metrics</div>
-  <button class="nav-btn" onclick="go(3,this)"><span class="nav-icon">&#128200;</span><span class="nav-label">Metrics Hub</span></button>
-  <div class="nav-group-lbl">Insights</div>
-  <button class="nav-btn" onclick="go(4,this)"><span class="nav-icon">&#128221;</span><span class="nav-label">Action Plan</span></button>
-  <button class="nav-btn" onclick="go(5,this)"><span class="nav-icon">&#127919;</span><span class="nav-label">Goals</span></button>
-  <button class="nav-btn" onclick="go(6,this)"><span class="nav-icon">&#129309;</span><span class="nav-label">1:1 Leadership</span></button>
-  <button class="nav-btn" onclick="go(7,this)"><span class="nav-icon">&#127942;</span><span class="nav-label">Promotion</span></button>
- </div>
- <div class="sb-foot">
-  <div class="sb-foot-txt">Satish Kumar - Ops Manager CX</div>
-  <div class="sb-foot-txt" style="margin-top:2px">v4.1 - June 2026</div>
-  <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">Switch to Light</button>
- </div>
+<div class="sb-head"><button class="hamburger" onclick="toggleSB()">&#9776;</button><span class="logo-text">one<span>com</span> OPS</span></div>
+<div class="sb-nav">
+<button class="nav-btn active" onclick="go(0)"><span class="nav-icon">&#9889;</span><span class="nav-label">Command Centre</span></button>
+<button class="nav-btn" onclick="go(1)"><span class="nav-icon">&#9745;</span><span class="nav-label">Daily To-Do</span></button>
+<button class="nav-btn" onclick="go(2)"><span class="nav-icon">&#128200;</span><span class="nav-label">Executive</span></button>
+<button class="nav-btn" onclick="go(3)"><span class="nav-icon">&#128222;</span><span class="nav-label">CO Enhanced</span></button>
+<button class="nav-btn" onclick="go(4)"><span class="nav-icon">&#128295;</span><span class="nav-label">TO Enhanced</span></button>
+<button class="nav-btn" onclick="go(5)"><span class="nav-icon">&#128202;</span><span class="nav-label">CO Daily Stats</span></button>
+<button class="nav-btn" onclick="go(6)"><span class="nav-icon">&#128200;</span><span class="nav-label">Performance</span></button>
+<button class="nav-btn" onclick="go(7)"><span class="nav-icon">&#128221;</span><span class="nav-label">Action Plan</span></button>
+<button class="nav-btn" onclick="go(8)"><span class="nav-icon">&#127919;</span><span class="nav-label">Goals</span></button>
+<button class="nav-btn" onclick="go(9)"><span class="nav-icon">&#129309;</span><span class="nav-label">1:1 Leadership</span></button>
+<button class="nav-btn" onclick="go(10)"><span class="nav-icon">&#127942;</span><span class="nav-label">Promotion</span></button>
+</div>
+<div class="sb-footer"><div>Satish Kumar - Ops Manager CX</div><div style="margin-top:2px">v3.2 - June 2026</div><button class="theme-btn" onclick="toggleTheme()" id="themeBtn">Switch to Light</button></div>
 </nav>
-<div class="backdrop" id="backdrop" onclick="closeMob()"></div>
-
 <div class="main">
- <div class="topbar">
-  <div style="display:flex;align-items:center;gap:12px">
-   <button class="mob-ham" onclick="openMob()" aria-label="Open menu">&#9776;</button>
-   <div class="status-pill"><span class="status-dot"></span> ACTIVE</div>
-  </div>
-  <div class="topbar-right">Data: SharePoint 14 Jun 2026</div>
- </div>
- <div class="content">
+<div class="topbar">
+<div class="topbar-left"><button class="mob-ham" onclick="openMobSB()">&#9776;</button><div class="status-pill"><span class="status-dot"></span>ACTIVE</div></div>
+<div class="topbar-right"><span class="hide-mob">Data: SharePoint 14 Jun 2026</span></div>
+</div>
+<div class="content">
 
-  <!-- 0 COMMAND CENTRE -->
-  <div class="tab-panel active" id="tab-0">
-   <div class="pg-h"><div class="pg-t">Operations Command Centre</div><div class="pg-s">CO Enhanced + TO Enhanced - UK Shift</div></div>
-   <div class="advisor">June has exposed the core vulnerability. CO Enhanced ASA has regressed from 22s in May to 199s month to date because the supplier portal access fix was not actioned when first raised. The data proves this is a process dependency, not a staffing failure. Use the April and May recovery as the evidence in your escalation. TO Enhanced, by contrast, is holding target on every voice metric and shows what good looks like.</div>
-   <div class="grid g4">
-    <div class="kpi red"><div class="kpi-l">CO ASA (Jun)</div><div class="kpi-v">199s</div><div class="kpi-n">Target below 30s</div></div>
-    <div class="kpi red"><div class="kpi-l">CO ABN (Jun)</div><div class="kpi-v">12.0%</div><div class="kpi-n">Target below 5%</div></div>
-    <div class="kpi green"><div class="kpi-l">TO ASA (May)</div><div class="kpi-v">57s</div><div class="kpi-n">Watch item, was 29s</div></div>
-    <div class="kpi green"><div class="kpi-l">TO CSAT</div><div class="kpi-v">4.77</div><div class="kpi-n">Above 4.0 target</div></div>
-   </div>
-   <div class="section-lbl">Today's Priorities</div>
-   <div class="todo"><div><span class="pill p1">P1</span></div><div><div class="td-txt">Escalate supplier portal access for CO advisors, citing June ASA regression to 199s</div><div class="td-meta">Owner: Satish | Stakeholders: Lisa, Michael</div></div></div>
-   <div class="todo"><div><span class="pill p1">P1</span></div><div><div class="td-txt">Confirm minimum floor cover (1 TL + 1 SME) rule is live on both shifts</div><div class="td-meta">Owner: Team Leaders</div></div></div>
-   <div class="todo"><div><span class="pill p2">P2</span></div><div><div class="td-txt">Stand up technical-issue tracker for network and VPN drops</div><div class="td-meta">Owner: Satish + IT</div></div></div>
-   <div class="todo"><div><span class="pill p2">P2</span></div><div><div class="td-txt">Confirm QA auditor business case (2 CO, 1 TO) for Lisa</div><div class="td-meta">Owner: Satish</div></div></div>
-   <div class="section-lbl">Open People Risks</div>
-   <div class="grid g3">
-    <div class="card"><div class="card-t">CO Exits Confirmed</div><div class="ap-ftxt">Chandan Soni (15 May), Md Tasnim (29 May). Three further CO advisors actively looking on pay and growth.</div></div>
-    <div class="card"><div class="card-t">TO Exits / Moves</div><div class="ap-ftxt">Aashish Chauhan exit (15 Jun). Ravika and Nikhil internal moves. Two amber on pay risk.</div></div>
-    <div class="card"><div class="card-t">Top Watch Item</div><div class="ap-ftxt">Appraisal and pay gap is the single biggest driver of flight risk across both teams. Raise with Talent.</div></div>
-   </div>
-  </div>
+<!-- TAB 0: COMMAND CENTRE -->
+<div class="tab-panel active" id="tab-0">
+<div class="pg-h"><div><div class="pg-t">Operations Command Centre</div><div class="pg-s">CO Enhanced + TO Enhanced - UK Shift</div></div></div>
+<div class="advisor">June has exposed the core vulnerability. CO Enhanced ASA has regressed from 22s (May) to 199s (June MTD) because the supplier portal access fix was not actioned in April when it was first raised. The data now proves this is not a staffing issue. Use the April/May recovery as evidence in your escalation. This is the single highest-impact conversation you can have this week.</div>
+<div class="g4">
+<div class="kpi red"><div class="kpi-l">CO Enh ASA Jun</div><div class="kpi-v">199s</div><div class="kpi-s">Target below 30s</div></div>
+<div class="kpi red"><div class="kpi-l">CO Enh ABN Jun</div><div class="kpi-v">12.0%</div><div class="kpi-s">Spiked from May 2%</div></div>
+<div class="kpi amber"><div class="kpi-l">EWS At Risk</div><div class="kpi-v">19</div><div class="kpi-s">9 Red, 10 Amber</div></div>
+<div class="kpi green"><div class="kpi-l">Roadmap</div><div class="kpi-v">Day 20</div><div class="kpi-s">Phase 1</div></div>
+</div>
+<div class="sh"><span class="sl">Critical Alerts</span><div class="sd"></div></div>
+<div class="alert crit"><div><strong>JUNE REGRESSION - ASA back to 199s</strong><span>May was 22s. Supplier dependency confirmed. Escalate portal access now.</span></div></div>
+<div class="alert crit"><div><strong>Aashish Chauhan - TO - Exit 15 June</strong><span>Q1 performer. Backfill JD this week.</span></div></div>
+<div class="alert crit"><div><strong>Salary Appraisal - 6 high performers at risk</strong><span>Ritik, Suneha, Azeem, Tia, Abhijeet, Amit.</span></div></div>
+<div class="alert ok"><div><strong>Growth Programme - Week 3 Live</strong><span>Azeem on Ops rotation. Harneet/Gaurav completed.</span></div></div>
+<div class="sh"><span class="sl">Follow-Ups</span><div class="sd"></div></div>
+<div class="card" style="padding:10px"><table class="dt"><thead><tr><th>Item</th><th>Owner</th><th>Status</th></tr></thead><tbody>
+<tr><td>Salary appraisal</td><td>Lisa / Michael</td><td><span class="rd-dot" style="background:var(--rd)"></span>Urgent</td></tr>
+<tr><td>QA Auditor JDs</td><td>Michael / HR</td><td><span class="rd-dot" style="background:var(--rd)"></span>Urgent</td></tr>
+<tr><td>Supplier portal</td><td>Michael</td><td><span class="rd-dot" style="background:var(--am)"></span>Pending</td></tr>
+<tr><td>SF raw access</td><td>Joanne</td><td><span class="rd-dot" style="background:var(--am)"></span>Pending</td></tr>
+<tr><td>IJP framework</td><td>Joanne / HR</td><td><span class="rd-dot" style="background:var(--am)"></span>In progress</td></tr>
+</tbody></table></div>
 
-  <!-- 1 DAILY TO-DO -->
-  <div class="tab-panel" id="tab-1">
-   <div class="pg-h"><div class="pg-t">Daily To-Do</div><div class="pg-s">Tick items as you close them. Status saves on this device.</div></div>
-   <div id="todoList"></div>
-  </div>
+<div class="sh" style="margin-top:14px"><span class="sl">CO Review - Key Decisions (17 Jun 2026)</span><div class="sd"></div></div>
+<div style="font-size:9px;color:var(--mt);margin-bottom:8px">TL Review with Aniket Kaushik and Yuvraj Singh | Chaired by Satish Kumar | Not for external circulation</div>
+<div class="g2" style="margin-bottom:8px">
+<div>
+<div class="alert crit" style="flex-direction:column;gap:4px;margin-bottom:6px"><strong style="color:var(--rd);font-size:9px;letter-spacing:.5px">PERFORMANCE AND CHANNEL STRUCTURE</strong><span>Multi-channel breach confirmed: Voice 14.5% abandon, Chat 646s ASA, Email 12.1hr FRT. Structural cause, not effort. Channel priority model agreed: Voice first, Chat second, Email flexes within 4hr band. Digital Team (5 HC) ring-fenced to email/chat - cannot move to voice.</span></div>
+<div class="alert warn" style="flex-direction:column;gap:4px"><strong style="color:var(--am);font-size:9px;letter-spacing:.5px">TL ACCOUNTABILITIES AND DOCUMENTATION</strong><span>TL Daily Planner in place and shared - activation from July. Coaching/1:1 files exist - real-time updates required, not retrospective. Floor must run with same rigour when TLs are away. Floorwalkers to lead in TL absence - that rigour is currently missing. Documentation: timely, not excessive - goal is accountability, not overhead.</span></div>
+</div>
+<div>
+<div class="alert ok" style="flex-direction:column;gap:4px;margin-bottom:6px"><strong style="color:var(--gn);font-size:9px;letter-spacing:.5px">NEW ROLES - LEAD AGENT AND QUEUE CONTROLLER</strong><span>Lead Agent = SME role: complex/billing queries, escalation point, Jira tracking, process improvement. Queue Controller = email queue, assignment and routing: allocates cases, monitors SLA risk, escalation coordination. Selection scorecard to be built (quartile, process knowledge, behaviour, QA). Appointments confirmed before 08 Jul.</span></div>
+<div class="alert" style="border-color:var(--ac2);flex-direction:column;gap:4px"><strong style="color:var(--ac2);font-size:9px;letter-spacing:.5px">HEADCOUNT, RAMP AND RETENTION</strong><span>HC: 23 (5 Digital + 18 main floor). 6 voice joiners from 08 Jul - ramp plan required before that date. Latest attrition: Lakshya (15 Jun). Earlier: Chandan Soni, Md Tasnim. Red risk: Ritik Arora, Suneha Thakur, Saloni Dabas - immediate 1:1s. Ritik and Suneha are natural Lead Agent candidates - formalise role to retain.</span></div>
+</div>
+</div>
+<div class="card" style="padding:8px"><div style="font-size:9px;font-weight:700;letter-spacing:.5px;color:var(--mt);text-transform:uppercase;margin-bottom:5px">Cross-functional Asks - Satish to Raise</div><div style="display:flex;gap:6px;flex-wrap:wrap;font-size:10px"><span style="background:var(--sf2);border:1px solid var(--bd);padding:2px 8px;border-radius:4px">Case Routing doc - Aniket drafts, leadership validates before official</span><span style="background:var(--sf2);border:1px solid var(--bd);padding:2px 8px;border-radius:4px">Salesforce raw data access</span><span style="background:var(--sf2);border:1px solid var(--bd);padding:2px 8px;border-radius:4px">Additional QA auditor</span><span style="background:var(--sf2);border:1px solid var(--bd);padding:2px 8px;border-radius:4px">Supplier portal for Lead Agent</span><span style="background:var(--sf2);border:1px solid var(--bd);padding:2px 8px;border-radius:4px">MIS support</span></div></div>
 
-  <!-- 2 EXECUTIVE -->
-  <div class="tab-panel" id="tab-2">
-   <div class="pg-h"><div class="pg-t">Executive Dashboard</div><div class="pg-s">Leadership-ready summary for Jo, Michael and Lisa</div></div>
-   <div class="grid g4">
-    <div class="kpi amber"><div class="kpi-l">Business Health</div><div class="kpi-v">Mixed</div><div class="kpi-n">TO strong, CO at risk</div></div>
-    <div class="kpi red"><div class="kpi-l">Top Risk</div><div class="kpi-v">CO ASA</div><div class="kpi-n">199s vs 30s target</div></div>
-    <div class="kpi green"><div class="kpi-l">Top Win</div><div class="kpi-v">TO CSAT</div><div class="kpi-n">4.77, above target</div></div>
-    <div class="kpi blue"><div class="kpi-l">Decisions Due</div><div class="kpi-v">3</div><div class="kpi-n">Portal, QA, appraisal</div></div>
-   </div>
-   <div class="grid g2" style="margin-top:14px">
-    <div class="card"><div class="card-t">Wins</div>
-     <div class="li"><span class="ic">&#9656;</span>TO Enhanced held ASA and ABN inside target every month Jan to Apr.</div>
-     <div class="li"><span class="ic">&#9656;</span>CO ASA recovered to 22s in May, proving the operation can hit target when the dependency is removed.</div>
-     <div class="li"><span class="ic">&#9656;</span>Growth programme live for four tenured advisors targeting QA and Ops roles.</div>
-    </div>
-    <div class="card"><div class="card-t">Risks and Decisions Required</div>
-     <div class="li"><span class="ic">&#9656;</span><b>Portal access</b> for CO advisors. Decision owner: Lisa and Michael. Evidence: June regression.</div>
-     <div class="li"><span class="ic">&#9656;</span><b>QA capacity.</b> One QA for the whole floor. Proposal: 2 CO + 1 TO auditors.</div>
-     <div class="li"><span class="ic">&#9656;</span><b>Appraisal gap</b> driving attrition. Decision owner: Talent (Eshan).</div>
-    </div>
-   </div>
-   <div class="card" style="margin-top:14px"><div class="card-t">Leadership Talking Points</div>
-    <div class="ap-ftxt">The June CO regression is a controlled, explainable event with a known fix, not a loss of grip. April and May data shows target-level performance the moment the supplier dependency eases. The ask is structural: portal access, QA capacity, and an appraisal decision. Granting these converts a reactive floor into a proactive, CX-led operation and protects revenue and retention.</div>
-   </div>
-  </div>
-
-  <!-- 3 METRICS HUB -->
-  <div class="tab-panel" id="tab-3">
-   <div class="pg-h"><div class="pg-t">Metrics Hub</div><div class="pg-s">One place for all team performance. Pick a team, then a view.</div></div>
-   <div class="filter-bar">
-    <span style="font-size:11px;color:var(--muted);font-weight:700">TEAM</span>
-    <div class="seg" id="teamSeg">
-     <button class="seg-btn active" onclick="setTeam('co',this)">CO Enhanced</button>
-     <button class="seg-btn" onclick="setTeam('to',this)">TO Enhanced</button>
-     <button class="seg-btn" onclick="setTeam('cmp',this)">Compare Teams</button>
-    </div>
-   </div>
-   <div class="filter-bar">
-    <span style="font-size:11px;color:var(--muted);font-weight:700">VIEW</span>
-    <div class="seg small" id="catSeg">
-     <button class="seg-btn active" onclick="setCat('summary',this)">Summary</button>
-     <button class="seg-btn" onclick="setCat('trends',this)">Performance Trends</button>
-     <button class="seg-btn" onclick="setCat('daily',this)">Daily Stats</button>
-    </div>
-    <div class="seg small" id="periodSeg" style="display:none">
-     <button class="seg-btn" onclick="setPeriod('daily',this)">Daily</button>
-     <button class="seg-btn" onclick="setPeriod('weekly',this)">Weekly</button>
-     <button class="seg-btn active" onclick="setPeriod('monthly',this)">Monthly</button>
-    </div>
-   </div>
-   <div id="metricsBody"></div>
-  </div>
-
-  <!-- 4 ACTION PLAN -->
-  <div class="tab-panel" id="tab-4">
-   <div class="pg-h"><div class="pg-t">Action Plan</div><div class="pg-s">Every recommendation is tagged to its owning team. Click any card to expand the full detail.</div></div>
-   <div class="filter-bar">
-    <div class="seg small" id="apFilter">
-     <button class="seg-btn active" onclick="apFil('all',this)">All</button>
-     <button class="seg-btn" onclick="apFil('CO',this)">Customer Operations</button>
-     <button class="seg-btn" onclick="apFil('TO',this)">Technical Operations</button>
-     <button class="seg-btn" onclick="apFil('P1',this)">P1 only</button>
-    </div>
-    <span id="apCount" style="font-size:11px;color:var(--muted)"></span>
-   </div>
-   <div id="apList"></div>
-  </div>
-
-  <!-- 5 GOALS -->
-  <div class="tab-panel" id="tab-5">
-   <div class="pg-h"><div class="pg-t">Goals</div><div class="pg-s">90-day operational roadmap, tied to the action plan</div></div>
-   <div class="card">
-    <div class="mile"><span class="mile-dot" style="background:var(--green)"></span><div><div class="mile-d">Weeks 1-3 Done</div><div class="mile-t">Phase 1 Stabilise</div><div class="mile-s">Floor rota, availability breaks, growth programme, 14 of 18 gaps actioned.</div></div></div>
-    <div class="mile"><span class="mile-dot" style="background:var(--amber)"></span><div><div class="mile-d">Day 45</div><div class="mile-t">TL and SME Scorecards plus QA uplift</div><div class="mile-s">Stand up scorecards and additional audit cadence; secure QA auditor approval.</div></div></div>
-    <div class="mile"><span class="mile-dot" style="background:var(--accent)"></span><div><div class="mile-d">Day 60</div><div class="mile-t">System Reporting</div><div class="mile-s">Move OT and KPI reporting from manual to Salesforce system data.</div></div></div>
-    <div class="mile"><span class="mile-dot" style="background:var(--accent)"></span><div><div class="mile-d">Day 90</div><div class="mile-t">Transform</div><div class="mile-s">Forecasting, OneView KPI dashboard, decision-tree workflows live across both teams.</div></div></div>
-   </div>
-   <div class="section-lbl">Quarter Targets</div>
-   <div class="grid g3">
-    <div class="kpi green"><div class="kpi-l">CO ASA</div><div class="kpi-v">&lt;30s</div><div class="kpi-n">Sustained, post portal fix</div></div>
-    <div class="kpi green"><div class="kpi-l">CO ABN</div><div class="kpi-v">&lt;5%</div><div class="kpi-n">From 12% June</div></div>
-    <div class="kpi blue"><div class="kpi-l">QA Audits</div><div class="kpi-v">Weekly</div><div class="kpi-n">From 3 per agent monthly</div></div>
-   </div>
-  </div>
-
-  <!-- 6 LEADERSHIP -->
-  <div class="tab-panel" id="tab-6">
-   <div class="pg-h"><div class="pg-t">1:1 Leadership Review</div><div class="pg-s">Team health, sentiment, and coaching, grounded in the Early Warning System data</div></div>
-   <div id="leadBody"></div>
-  </div>
-
-  <!-- 7 PROMOTION -->
-  <div class="tab-panel" id="tab-7">
-   <div class="pg-h"><div class="pg-t">Promotion Portfolio</div><div class="pg-s">Evidence of leadership impact</div></div>
-   <div class="grid g2">
-    <div class="card"><div class="card-t">Operational Impact</div>
-     <div class="li"><span class="ic">&#9656;</span>Diagnosed the CO ASA regression as a supplier dependency, not staffing, with weekly data to prove it.</div>
-     <div class="li"><span class="ic">&#9656;</span>Introduced availability-based break management and minimum floor-cover rules.</div>
-     <div class="li"><span class="ic">&#9656;</span>Built a 43-item, team-tagged action plan spanning CO and TO with owners and outcomes.</div>
-    </div>
-    <div class="card"><div class="card-t">People and Strategy</div>
-     <div class="li"><span class="ic">&#9656;</span>Launched a growth programme for four tenured advisors targeting QA and Ops roles.</div>
-     <div class="li"><span class="ic">&#9656;</span>Built the Early Warning System view to flag flight risk early across 53 agents.</div>
-     <div class="li"><span class="ic">&#9656;</span>Stood up a self-built operations command centre with live KPI visibility.</div>
-    </div>
-   </div>
-   <div class="advisor" style="margin-top:14px">Why promote Satish Kumar: he turned a reactive BPO-style floor into a measured, evidence-led operation in weeks, isolating root causes leadership had accepted as noise, and building the systems and people pipeline to sustain the improvement. The case for senior leadership is the shift from firefighting to structural fixes that protect revenue, CSAT, and retention.</div>
-  </div>
-
- </div>
 </div>
 
+<!-- TAB 1: DAILY TO-DO -->
+<div class="tab-panel" id="tab-1">
+<div class="pg-h"><div><div class="pg-t">Daily To-Do</div><div class="pg-s">Priority actions with guidance. Status persists.</div></div>
+<div style="display:flex;gap:6px"><button class="btn btn-o" onclick="resetTodos()">Reset</button><button class="btn" onclick="snapshotTodo()">Copy</button></div></div>
+<div class="g4">
+<div class="kpi red"><div class="kpi-l">P1 Open</div><div class="kpi-v" id="p1c">0</div></div>
+<div class="kpi amber"><div class="kpi-l">In Progress</div><div class="kpi-v" id="ipc">0</div></div>
+<div class="kpi green"><div class="kpi-l">Done</div><div class="kpi-v" id="dnc">0</div></div>
+<div class="kpi blue"><div class="kpi-l">Rate</div><div class="kpi-v" id="rtc">0%</div></div>
+</div>
+<div id="todoList"></div>
+</div>
+
+<!-- TAB 2: EXECUTIVE -->
+<div class="tab-panel" id="tab-2">
+<div class="pg-h"><div><div class="pg-t">Executive Dashboard</div><div class="pg-s">Leadership-ready overview</div></div></div>
+<div class="advisor">Frame the June regression as proof your April diagnosis was correct, not as a setback. You identified supplier dependency in Week 1. The data now confirms it: April and May recovered when supplier load was lower, June regressed without the portal fix. This is a structural win for your credibility.</div>
+<div class="g4">
+<div class="kpi red"><div class="kpi-l">CO ASA Jun</div><div class="kpi-v">199s</div><div class="kpi-t td">From 22s May</div></div>
+<div class="kpi red"><div class="kpi-l">CO ABN Jun</div><div class="kpi-v">12.0%</div><div class="kpi-t td">From 2% May</div></div>
+<div class="kpi green"><div class="kpi-l">TO CSAT</div><div class="kpi-v">4.5</div><div class="kpi-t tu">On track</div></div>
+<div class="kpi green"><div class="kpi-l">QC Score</div><div class="kpi-v">95.6%</div><div class="kpi-t tu">+0.85%</div></div>
+</div>
+<div class="sh"><span class="sl">Decisions Required</span><div class="sd"></div></div>
+<div class="card" style="padding:10px"><table class="dt"><thead><tr><th>#</th><th>Decision</th><th>Owner</th><th>Priority</th></tr></thead><tbody>
+<tr><td>1</td><td>Salary appraisal</td><td>Michael / Lisa</td><td><span class="badge b-rd">URGENT</span></td></tr>
+<tr><td>2</td><td>4 CO + 2 QA JDs</td><td>Michael / HR</td><td><span class="badge b-rd">URGENT</span></td></tr>
+<tr><td>3</td><td>Supplier portal</td><td>Michael</td><td><span class="badge b-rd">HIGH</span></td></tr>
+<tr><td>4</td><td>SF data access</td><td>Joanne</td><td><span class="badge b-am">HIGH</span></td></tr>
+<tr><td>5</td><td>IJP framework</td><td>Joanne / HR</td><td><span class="badge b-am">MEDIUM</span></td></tr>
+</tbody></table></div>
+<div class="sh"><span class="sl">Talking Points</span><div class="sd"></div></div>
+<div class="card">
+<div class="tp-item"><div class="tp-n">1</div><div class="tp-tx"><strong>June regression confirms supplier root cause.</strong> Not staffing. April/May proved capability.</div></div>
+<div class="tp-item"><div class="tp-n">2</div><div class="tp-tx"><strong>3 exits by end June = TO gap.</strong> JDs needed this week.</div></div>
+<div class="tp-item"><div class="tp-n">3</div><div class="tp-tx"><strong>Growth Programme delivering.</strong> 4 advisors building pipeline.</div></div>
+</div>
+</div>
+
+<!-- TAB 3: CO ENHANCED -->
+<div class="tab-panel" id="tab-3">
+<div class="pg-h"><div><div class="pg-t">CO Enhanced</div><div class="pg-s">TLs: Aniket Kaushik, Yuvraj Singh</div></div></div>
+<div class="g4">
+<div class="kpi red"><div class="kpi-l">Jun ASA</div><div class="kpi-v">199s</div><div class="kpi-s">Was 22s May</div></div>
+<div class="kpi red"><div class="kpi-l">Jun ABN</div><div class="kpi-v">12.0%</div></div>
+<div class="kpi amber"><div class="kpi-l">Jun FRT</div><div class="kpi-v">16.7h</div><div class="kpi-s">Tgt below 4h</div></div>
+<div class="kpi amber"><div class="kpi-l">Jun CSAT</div><div class="kpi-v">3.3</div><div class="kpi-s">Tgt above 4.0</div></div>
+</div>
+<div class="sh"><span class="sl">Monthly ASA Trend (sec)</span><div class="sd"></div></div>
+<div class="card">
+<div class="tr-row"><div class="tr-lbl">Jan</div><div class="tr-trk"><div class="tr-fill" style="width:100%;background:var(--rd)">344s</div></div><div class="tr-val" style="color:var(--rd)">344</div></div>
+<div class="tr-row"><div class="tr-lbl">Feb</div><div class="tr-trk"><div class="tr-fill" style="width:33%;background:var(--am)">114s</div></div><div class="tr-val" style="color:var(--am)">114</div></div>
+<div class="tr-row"><div class="tr-lbl">Mar</div><div class="tr-trk"><div class="tr-fill" style="width:9%;background:var(--gn)">32s</div></div><div class="tr-val" style="color:var(--gn)">32</div></div>
+<div class="tr-row"><div class="tr-lbl">Apr</div><div class="tr-trk"><div class="tr-fill" style="width:7%;background:var(--gn)">23s</div></div><div class="tr-val" style="color:var(--gn)">23</div></div>
+<div class="tr-row"><div class="tr-lbl">May</div><div class="tr-trk"><div class="tr-fill" style="width:6%;background:var(--gn)">22s</div></div><div class="tr-val" style="color:var(--gn)">22</div></div>
+<div class="tr-row"><div class="tr-lbl">Jun*</div><div class="tr-trk"><div class="tr-fill" style="width:58%;background:var(--rd)">199s</div></div><div class="tr-val" style="color:var(--rd)">199</div></div>
+<div style="font-size:10px;color:var(--mt);margin-top:4px">*June MTD to 12 June. Apr-May recovery proves capability. June regression = supplier fix not actioned.</div>
+</div>
+</div>
+
+<!-- TAB 4: TO ENHANCED -->
+<div class="tab-panel" id="tab-4">
+<div class="pg-h"><div><div class="pg-t">TO Enhanced</div><div class="pg-s">TLs: Rutvik Khara, Subham Dutta</div></div></div>
+<div class="g4">
+<div class="kpi green"><div class="kpi-l">CSAT</div><div class="kpi-v">4.5</div></div>
+<div class="kpi amber"><div class="kpi-l">FR SLA</div><div class="kpi-v">91.4%</div><div class="kpi-s">Tgt 95%</div></div>
+<div class="kpi amber"><div class="kpi-l">Repair SLA</div><div class="kpi-v">94.2%</div></div>
+<div class="kpi red"><div class="kpi-l">Exit Jun</div><div class="kpi-v">1</div><div class="kpi-s">Aashish</div></div>
+</div>
+<div class="sh"><span class="sl">First Resp SLA Trend (%)</span><div class="sd"></div></div>
+<div class="card">
+<div class="tr-row"><div class="tr-lbl">Jan</div><div class="tr-trk"><div class="tr-fill" style="width:97%;background:var(--gn)">96.9%</div></div><div class="tr-val" style="color:var(--gn)">96.9</div></div>
+<div class="tr-row"><div class="tr-lbl">Feb</div><div class="tr-trk"><div class="tr-fill" style="width:96%;background:var(--gn)">95.9%</div></div><div class="tr-val" style="color:var(--gn)">95.9</div></div>
+<div class="tr-row"><div class="tr-lbl">Mar</div><div class="tr-trk"><div class="tr-fill" style="width:98%;background:var(--gn)">97.7%</div></div><div class="tr-val" style="color:var(--gn)">97.7</div></div>
+<div class="tr-row"><div class="tr-lbl">Apr</div><div class="tr-trk"><div class="tr-fill" style="width:91%;background:var(--am)">91.4%</div></div><div class="tr-val" style="color:var(--am)">91.4</div></div>
+</div>
+</div>
+
+<!-- TAB 5: CO DAILY STATS -->
+<div class="tab-panel" id="tab-5">
+<div class="pg-h"><div><div class="pg-t">CO Enhanced Daily Stats</div><div class="pg-s">Source: Enhanced Daily Stats.xlsx (14 Jun)</div></div></div>
+<div class="period-bar">
+<button class="pbtn active" onclick="filterDS('7d')">7 Days</button>
+<button class="pbtn" onclick="filterDS('30d')">30 Days</button>
+<button class="pbtn" onclick="filterDS('90d')">All</button>
+<input type="date" class="date-input" id="dsFrom" value="2026-05-01">
+<span style="font-size:10px;color:var(--dm)">to</span>
+<input type="date" class="date-input" id="dsTo" value="2026-06-12">
+<button class="pbtn" onclick="filterDS('custom')">Apply</button>
+</div>
+<div class="g4" id="dsSummary"></div>
+<div class="card"><div class="ds-scroll"><table class="dt" id="dsTable"><thead><tr><th>Date</th><th>ASA</th><th>Calls</th><th>ABN%</th><th>Chat</th><th>Email</th><th>FRT</th><th>CSAT</th></tr></thead><tbody id="dsBody"></tbody></table></div></div>
+</div>
+
+<!-- TAB 6: PERFORMANCE -->
+<div class="tab-panel" id="tab-6">
+<div class="pg-h"><div><div class="pg-t">Performance</div><div class="pg-s">Interactive - Daily, Weekly, Monthly</div></div></div>
+<div class="period-bar">
+<button class="pbtn active" onclick="perfView('daily')">Daily</button>
+<button class="pbtn" onclick="perfView('weekly')">Weekly</button>
+<button class="pbtn" onclick="perfView('monthly')">Monthly</button>
+</div>
+<div class="g4" id="perfKPIs"></div>
+<div class="sh"><span class="sl">ASA Trend</span><div class="sd"></div></div>
+<div class="card" id="perfASA" style="margin-bottom:12px"></div>
+<div class="sh"><span class="sl">ABN Trend</span><div class="sd"></div></div>
+<div class="card" id="perfABN" style="margin-bottom:12px"></div>
+<div class="sh"><span class="sl">Milestones</span><div class="sd"></div></div>
+<div class="card"><div class="tl-wrap">
+<div class="tl-node g"><div class="tl-date">WEEKS 1-3 DONE</div><div class="tl-title">Phase 1 Stabilise</div><div class="tl-det">Floor rota, breaks, growth programme, 14/18 gaps actioned</div></div>
+<div class="tl-node a"><div class="tl-date">DAY 45</div><div class="tl-title">TL/SME Scorecards + QA</div></div>
+<div class="tl-node"><div class="tl-date">DAY 60</div><div class="tl-title">System Reporting</div></div>
+<div class="tl-node"><div class="tl-date">DAY 90</div><div class="tl-title">Transform</div></div>
+</div></div>
+</div>
+
+<!-- TAB 7: ACTION PLAN -->
+<div class="tab-panel" id="tab-7">
+<div class="pg-h"><div><div class="pg-t">Action Plan</div><div class="pg-s">Every item requiring attention with ownership, priority and step-by-step guidance</div></div></div>
+<div class="advisor">This tab is your operational execution map. Present it to Lisa and Michael as a structured tracker. Visibility into your action plan at this level of detail is what separates an Operations Manager from a team lead. It shows you are managing the operation, not reacting to it.</div>
+
+<div class="phase-hdr" style="background:var(--rd)">PHASE 1 - STABILISE - DAYS 1 to 30</div>
+<div class="ap-item"><div class="ap-head"><span class="ap-title">1. Supplier Portal Access Escalation</span><span class="badge b-rd">P1 CRITICAL</span></div><div class="ap-meta">Owner: Satish -> Michael | Target: Week 3 | Status: Pending leadership action</div><div class="ap-guide"><strong>How to execute</strong><ol><li>Pull the June MTD data (ASA 199s) alongside April (23s) and May (22s) into a one-page comparison.</li><li>Frame to Michael: "The team recovered to target in April and May. June regression happened because the portal fix was not actioned. This is not a staffing issue."</li><li>Request advisor-level supplier portal access through the account relationship team.</li><li>Introduce a priority transfer path for supplier-dependent cases immediately.</li></ol></div></div>
+
+<div class="ap-item"><div class="ap-head"><span class="ap-title">2. Salary Appraisal Escalation</span><span class="badge b-rd">P1 CRITICAL</span></div><div class="ap-meta">Owner: Satish -> Lisa / Michael | Target: Week 2 | Status: Conversation pending</div><div class="ap-guide"><strong>How to execute</strong><ol><li>Prepare the EWS table with the 6 named agents (Ritik, Suneha, Azeem, Tia, Abhijeet, Amit).</li><li>Quantify the replacement cost: each tenured agent takes 3-5 months to replace. Losing 6 = operational collapse.</li><li>Frame as: "These are not average performers. They are QC anchors and floor walkers. The ask is a targeted review, not a blanket increase."</li><li>Submit formally with EWS data attached before retention conversations close.</li></ol></div></div>
+
+<div class="ap-item"><div class="ap-head"><span class="ap-title">3. Floor Coverage Rota</span><span class="badge b-gn">LIVE</span></div><div class="ap-meta">Owner: Satish / TLs | Target: Week 1 | Status: Implemented</div><div class="ap-guide"><strong>Maintenance</strong><ol><li>Weekly rota published. 1 TL + 1 SME minimum at all times during operational hours.</li><li>Log 15-minute floor check cadence per shift. Review adherence weekly.</li><li>Non-adherence logged and discussed in TL 1:1.</li></ol></div></div>
+
+<div class="ap-item"><div class="ap-head"><span class="ap-title">4. Break Confirmation Protocol</span><span class="badge b-gn">LIVE</span></div><div class="ap-meta">Owner: TLs | Target: Week 2 | Status: Implemented</div><div class="ap-guide"><strong>Maintenance</strong><ol><li>TL notification required before any break. Max 2 simultaneous on voice.</li><li>Shrinkage now reported as a weekly KPI alongside ABN.</li><li>Correlate ABN spikes with unplanned break windows weekly.</li></ol></div></div>
+
+<div class="ap-item" style="border-left:3px solid var(--ac2)"><div class="ap-head"><span class="ap-title">Floor Spot-Check Mechanism</span><span class="badge" style="background:rgba(108,71,255,.12);color:var(--ac2);border:1px solid rgba(108,71,255,.25)">MANAGEMENT TOOL</span></div><div class="ap-meta">Owner: Satish | When: Any period TLs are off-floor | Purpose: Verify floor rigour holds without TL presence</div><div class="ap-guide"><strong>How it works</strong><ol><li>When both TLs are in coaching, 1:1s or off-floor - pull a queue snapshot without announcing it. This is evidence, not surveillance.</li><li>Check: queue depth vs baseline, abandonment rate, case activity per agent, chat response time, floorwalker behaviour.</li><li>What good looks like: floorwalker visibly assigning, supporting, flagging escalations. Red flag: floorwalker working as agent, not as lead.</li><li>If floor holds - culture is embedded. If floor dips - you have a specific coaching conversation with data, not a general observation.</li><li>Log every check: date, TLs off-floor for, duration, floorwalker leading (Y/N), queue held (Y/N), finding, action taken.</li></ol></div><div style="margin-top:6px;padding:6px 8px;background:var(--sf3);border-radius:5px;font-size:10px;color:var(--mt)"><strong style="color:var(--rd);display:block;font-size:9px;letter-spacing:.4px;text-transform:uppercase;margin-bottom:2px">Current gap</strong>Ritik Arora and Suneha Thakur (Red EWS, primary Lead Agent candidates) are working as agents when TLs are away, not leading. First check to be run w/c 23 Jun. Data supports both the TL coaching conversation and the Lead Agent appointment case.</div></div>
+
+<div class="ap-item"><div class="ap-head"><span class="ap-title">5. Raise Hiring JDs (6 P1 roles)</span><span class="badge b-rd">P1 URGENT</span></div><div class="ap-meta">Owner: Satish / HR | Target: Week 2 | Status: Pending approval</div><div class="ap-guide"><strong>How to execute</strong><ol><li>4 CO Enhanced advisors, 1 CO QA auditor, 1 TO QA auditor via Team Tailor.</li><li>Brief HR jointly with Michael. Pipeline must be active before May/June exits create a 4-6 week gap.</li><li>Frame: "The 5 in-training CO agents partially offset near-term, but without new hires the June exit wave leaves us net-negative."</li></ol></div></div>
+
+<div class="ap-item"><div class="ap-head"><span class="ap-title">6. Aashish Chauhan Backfill</span><span class="badge b-rd">P1 URGENT</span></div><div class="ap-meta">Owner: Satish / HR | Target: This week | Status: JD pending</div><div class="ap-guide"><strong>How to execute</strong><ol><li>LWD is 15 June. Raise the TO Enhanced advisor JD via Team Tailor immediately.</li><li>Run a knowledge transfer session with Aashish this week while he is still available.</li><li>Document his top case types and resolution patterns for handover.</li></ol></div></div>
+
+<div class="ap-item"><div class="ap-head"><span class="ap-title">7. Connells P4 SLA Recovery</span><span class="badge b-am">P2</span></div><div class="ap-meta">Owner: Satish / TO TL | Target: Week 2 | Status: RCA in progress</div><div class="ap-guide"><strong>How to execute</strong><ol><li>P4 Resolution averaged 32.78% in March vs 95% target. Week of 27 April hit 75% briefly.</li><li>Identify what changed that week and replicate it. Specific case types and agents involved.</li><li>Build a recovery plan with weekly SLA tracking published to leadership.</li><li>Set escalation trigger: if below 80% for 2 consecutive weeks, escalate to Lisa.</li></ol></div></div>
+
+<div class="phase-hdr" style="background:var(--am);color:#1a1e35">PHASE 2 - IMPROVE - DAYS 31 to 60</div>
+
+<div class="ap-item"><div class="ap-head"><span class="ap-title">8. QA Calibration Structure</span><span class="badge b-am">P2</span></div><div class="ap-meta">Owner: QA / Satish | Target: Day 45</div><div class="ap-guide"><strong>How to execute</strong><ol><li>Weekly calibration sessions between Ops, QA (Prashant) and Training (Sarvagya).</li><li>Increase audit frequency from 3 to 8 per agent per month across voice, chat and email.</li><li>Build a coaching tracker: every session logged, graded, signed off by agent.</li><li>Add QA scores to the Support KPI scorecard visible to TLs and SMEs.</li></ol></div></div>
+
+<div class="ap-item"><div class="ap-head"><span class="ap-title">9. Salesforce Deduplication + CO Routing</span><span class="badge b-am">P2</span></div><div class="ap-meta">Owner: Tech / Ops | Target: Day 50</div><div class="ap-guide"><strong>How to execute</strong><ol><li>Implement deduplication logic to prevent auto-creation of cases on failed contacts.</li><li>Define CO routing matrix: every contact type mapped to assigned queue, SLA and owning team.</li><li>CO stops operating as catch-all. Measure deduplication effectiveness monthly.</li></ol></div></div>
+
+<div class="ap-item"><div class="ap-head"><span class="ap-title">10. MIS and System-Driven Reporting</span><span class="badge b-am">P2</span></div><div class="ap-meta">Owner: MIS Analyst / Satish | Target: Day 60</div><div class="ap-guide"><strong>How to execute</strong><ol><li>Secure Salesforce raw data access (pending Joanne/Michael approval).</li><li>Hire MIS analyst (headcount plan role). Transition OT from case-count to actual login hours.</li><li>Build daily, weekly and monthly automated report pack. Retire all manual reporting.</li></ol></div></div>
+
+<div class="ap-item"><div class="ap-head"><span class="ap-title">11. TL and SME KPI Scorecards</span><span class="badge b-am">P2</span></div><div class="ap-meta">Owner: Satish | Target: Day 45</div><div class="ap-guide"><strong>How to execute</strong><ol><li>Track TLs and SMEs against team KPI outcomes, coaching quality, floor presence, audit rates.</li><li>Monthly scorecard reviews held with Satish. Builds ownership at middle layer.</li><li>Frame to leadership: "Performance accountability now extends below Operations Manager level."</li></ol></div></div>
+
+<div class="phase-hdr" style="background:var(--tl);color:#1a1e35">PHASE 3 - TRANSFORM - DAYS 61 to 90</div>
+
+<div class="ap-item"><div class="ap-head"><span class="ap-title">12. WFM-Informed Intraday Planning</span><span class="badge b-bl">P3</span></div><div class="ap-meta">Owner: Satish | Target: Day 75</div><div class="ap-guide"><strong>How to execute</strong><ol><li>Build a forecasting model using 90 days of historical volume data (call, email, chat).</li><li>Align agent schedules to open/pending case flows, not just inbound patterns.</li><li>Weekly Monday planning meetings. Business case for lightweight WFM tool by Day 90.</li></ol></div></div>
+
+<div class="ap-item"><div class="ap-head"><span class="ap-title">13. OneView KPI Dashboard + Coaching Tool</span><span class="badge b-bl">P3</span></div><div class="ap-meta">Owner: TO TL / Tech | Target: Day 90</div><div class="ap-guide"><strong>How to execute</strong><ol><li>Agent-level daily/weekly/monthly dashboard: CSAT, SLA, QC, FCR visible to each agent.</li><li>Coaching sessions centralised, tracked and formally acknowledged by agents.</li><li>Credit this to the TO team's organic process improvement submissions.</li></ol></div></div>
+
+<div class="ap-item"><div class="ap-head"><span class="ap-title">14. Guided Workflow + Chatbot Business Case</span><span class="badge b-bl">P3</span></div><div class="ap-meta">Owner: Satish / Product | Target: Day 90</div><div class="ap-guide"><strong>How to execute</strong><ol><li>Step-by-step guided workflows for top 10 TO issue types. Reduces SME dependency.</li><li>Chatbot business case covering tier-0 deflection, estimated volume reduction, ROI.</li><li>Agent real-time SLA nudge alerts activated alongside workflow deployment.</li></ol></div></div>
+</div>
+
+<!-- TAB 8: GOALS -->
+<div class="tab-panel" id="tab-8">
+<div class="pg-h"><div><div class="pg-t">Goals</div><div class="pg-s">Strategic objectives with guidance</div></div></div>
+<div class="advisor">Every goal below connects to a measurable outcome that leadership cares about: revenue protection (SLA), cost reduction (internal pipeline), or customer retention (CSAT). When discussing these in 1:1s, always lead with the business impact, not the activity.</div>
+<div class="goal-c"><h4>Resolve June CO Enhanced ASA Regression</h4><p>ASA spiked from 22s (May) to 199s (June MTD). #1 priority.</p><div class="goal-g"><strong>How to achieve</strong><ol><li>Escalate supplier portal access using June data as proof.</li><li>Apr/May recovery proves team capability. Frame accordingly.</li><li>Daily ABN reason code tracking to separate supplier from staffing causes.</li><li>Peak-hour cover enforcement (10am-1pm, 3pm-6pm UK).</li></ol></div></div>
+<div class="goal-c"><h4>Lift CSAT above 4.0 across CO Enhanced</h4><p>Currently 3.3. Email weakest at 2.5.</p><div class="goal-g"><strong>How to achieve</strong><ol><li>Target email FRT first - reduce from 16.7h toward 4h SLA.</li><li>Build QA calibration for consistent quality feedback.</li><li>Use QC journey (93.2% to 95.6%) as quality backbone.</li></ol></div></div>
+<div class="goal-c"><h4>Recover TO Enhanced First Response SLA above 95%</h4><p>Dropped from 97.7% (Mar) to 91.4% (Apr).</p><div class="goal-g"><strong>How to achieve</strong><ol><li>RCA on April dip using best week as reference.</li><li>Guided workflows for top 10 standard issue types.</li><li>Weekly volume planning. Escalation trigger if below 90% for 2 weeks.</li></ol></div></div>
+<div class="goal-c"><h4>Build 2 Promotable Candidates</h4><p>Harneet, Gaurav (QA), Azeem, Uttam (Ops) - role-ready by Week 12.</p><div class="goal-g"><strong>How to achieve</strong><ol><li>Weekly rotation with GROW coaching sign-off every cycle.</li><li>4-week and 8-week reviews scored against competencies.</li><li>Secure salary appraisal + IJP framework for real transition path.</li></ol></div></div>
+<div class="goal-c"><h4>System-Driven Reporting by Day 60</h4><p>Retire manual reporting.</p><div class="goal-g"><strong>How to achieve</strong><ol><li>Secure Salesforce access. Hire MIS analyst.</li><li>Build automated pack. Transition OT to actual login hours.</li></ol></div></div>
+<div class="goal-c"><h4>Progress toward Senior Manager</h4><p>Build evidence and visibility.</p><div class="goal-g"><strong>How to achieve</strong><ol><li>Deliver measurable recovery on 90-day roadmap.</li><li>Keep producing senior-grade deliverables.</li><li>Convert 1:1 development areas into visible strengths.</li><li>Build cross-functional influence with QA, Training, HR.</li></ol></div></div>
+</div>
+
+<!-- TAB 9: 1:1 LEADERSHIP -->
+<div class="tab-panel" id="tab-9">
+<div class="pg-h"><div><div class="pg-t">1:1 with Leadership</div><div class="pg-s">Lisa and Michael - structured record</div></div></div>
+<div class="advisor">Your 1:1 is not just a status update. It is your platform for visibility. Lead with achievements (data-backed), reframe challenges as evidence of diagnostic skill, and present development areas as active plans with timelines. Share this tab's content before the meeting so they see the structure you bring.</div>
+<div style="background:var(--sf3);border:1px dashed var(--bd);border-radius:8px;padding:10px;margin-bottom:10px;font-size:10px;color:var(--mt)">Share the actual 1:1 form from Lisa/Michael and I will populate precisely.</div>
+<div class="oo-card pos"><div class="oo-label" style="color:var(--gn)">KEY ACHIEVEMENTS</div>
+<div class="oo-item"><span class="d">&#9656;</span><div>15-page CX review delivered in Week 1 - 18 gaps with root cause + action</div></div>
+<div class="oo-item"><span class="d">&#9656;</span><div>Growth programme launched - 4 advisors building internal QA/Ops pipeline</div></div>
+<div class="oo-item"><span class="d">&#9656;</span><div>Floor rota and break protocol deployed without leadership escalation</div></div>
+<div class="oo-item"><span class="d">&#9656;</span><div>Operations Command Centre v3.1 - live, hosted, SharePoint-connected</div></div>
+<div class="oo-item"><span class="d">&#9656;</span><div>June regression diagnosed before leadership flagged it - proactive not reactive</div></div>
+</div>
+<div class="oo-card ref"><div class="oo-label" style="color:var(--bl)">CHALLENGES REFRAMED</div>
+<div class="rf-flow"><div class="rf-from">Observed before acting</div><span class="rf-ar">&#8594;</span><div class="rf-to">4 deliverables in 3 weeks while building trust</div></div>
+<div class="rf-flow"><div class="rf-from">Manual data reliance</div><span class="rf-ar">&#8594;</span><div class="rf-to">Built case for SF access and MIS hire</div></div>
+<div class="rf-flow"><div class="rf-from">KPI gaps inherited</div><span class="rf-ar">&#8594;</span><div class="rf-to">Diagnosed supplier root cause others called staffing</div></div>
+<div class="rf-flow"><div class="rf-from">TL resistance</div><span class="rf-ar">&#8594;</span><div class="rf-to">Used SOPs and structure over confrontation</div></div>
+</div>
+<div class="oo-card dev"><div class="oo-label" style="color:var(--am)">DEVELOPMENT AREAS - ACTIVE</div>
+<div class="oo-item"><span class="d">&#9656;</span><div><strong>WFM/Forecasting:</strong> intraday planning model, Day 75</div></div>
+<div class="oo-item"><span class="d">&#9656;</span><div><strong>Commercial literacy:</strong> chatbot ROI case for Day 90</div></div>
+<div class="oo-item"><span class="d">&#9656;</span><div><strong>Cross-functional:</strong> deepening QA, Training, HR links</div></div>
+</div>
+</div>
+
+<!-- TAB 10: PROMOTION -->
+<div class="tab-panel" id="tab-10">
+<div class="pg-h"><div><div class="pg-t">Promotion Portfolio</div><div class="pg-s">Evidence for Senior Manager</div></div></div>
+<div class="g4">
+<div class="kpi purple"><div class="kpi-l">Deliverables</div><div class="kpi-v">5</div><div class="kpi-s">3 weeks</div></div>
+<div class="kpi green"><div class="kpi-l">Gaps</div><div class="kpi-v">14/18</div></div>
+<div class="kpi blue"><div class="kpi-l">Pipeline</div><div class="kpi-v">4</div></div>
+<div class="kpi amber"><div class="kpi-l">Review</div><div class="kpi-v">Day 90</div></div>
+</div>
+<div class="card">
+<div class="ev-item"><div class="ev-ic">&#128203;</div><div><div class="ev-t">CX Operations Review</div><div class="ev-d">15 pages, 18 gaps, EWS, roadmap. Week 1.</div><div class="ev-dt">May 2026</div></div></div>
+<div class="ev-item"><div class="ev-ic">&#127919;</div><div><div class="ev-t">Growth Programme</div><div class="ev-d">4 advisors, GROW rotation, newsletter.</div><div class="ev-dt">May 2026</div></div></div>
+<div class="ev-item"><div class="ev-ic">&#128200;</div><div><div class="ev-t">Ops Command Centre v3.1</div><div class="ev-d">11-tab system with live SharePoint data.</div><div class="ev-dt">June 2026</div></div></div>
+<div class="ev-item"><div class="ev-ic">&#128161;</div><div><div class="ev-t">June Regression Diagnosed</div><div class="ev-d">Proved supplier root cause with data evidence.</div><div class="ev-dt">June 2026</div></div></div>
+</div>
+<div class="sh"><span class="sl">Why Promote Satish Kumar</span><div class="sd"></div></div>
+<div class="card">
+<div class="tp-item"><div class="tp-n">1</div><div class="tp-tx"><strong>Operates above grade.</strong> 5 deliverables in 3 weeks.</div></div>
+<div class="tp-item"><div class="tp-n">2</div><div class="tp-tx"><strong>Root cause discipline.</strong> Supplier, not staffing.</div></div>
+<div class="tp-item"><div class="tp-n">3</div><div class="tp-tx"><strong>Builds from within.</strong> Growth programme cuts hiring cost.</div></div>
+<div class="tp-item"><div class="tp-n">4</div><div class="tp-tx"><strong>Data-driven.</strong> SharePoint-connected command centre.</div></div>
+<div class="tp-item"><div class="tp-n">5</div><div class="tp-tx"><strong>Commercial framing.</strong> Every rec tied to revenue/cost/SLA.</div></div>
+</div>
+</div>
+
+</div></div>
+<div class="toast" id="toast">Saved</div>
 <script>
-const DATA = {"kpi": {"co": {"label": "CO Enhanced", "leads": "Aniket Kaushik, Yuvraj Singh", "head": {"asa": "199s", "abn": "12.0%", "frt": "16.7h", "csat": "3.3"}, "headNote": {"asa": "Was 22s May", "abn": "Tgt below 5%", "frt": "Tgt below 4h", "csat": "Tgt above 4.0"}, "daily": {"labels": ["01 Jun", "02 Jun", "03 Jun", "04 Jun", "05 Jun", "08 Jun", "09 Jun", "10 Jun", "11 Jun", "12 Jun"], "asa": [229, 93, 159, 183, 356, 330, 174, 209, 89, 81], "abn": [15.65, 6.03, 12.04, 12.85, 21.81, 21.66, 14.41, 14.98, 6.41, 6.27]}, "weekly": {"labels": ["05Jan", "12Jan", "19Jan", "26Jan", "02Feb", "09Feb", "16Feb", "23Feb", "02Mar", "09Mar", "16Mar", "23Mar", "30Mar", "06Apr", "13Apr", "20Apr", "27Apr", "04May"], "asa": [344, 112, 135, 85, 164, 110, 129, 99, 50, 41, 29, 52, 59, 90, 43, 80, 38, 192], "abn": [22.63, 8.78, 8.78, 6.84, 11.16, 8.48, 13.67, 8.2, 4.5, 2.47, 1.77, 4.31, 4.71, 7.26, 4.52, 6.12, 3.25, 14.46], "csat": [3.5, 3.41, 3.32, 3.42, 2.9, 2.76, 2.7, 3.0, 3.2, 3.5, 3.3, 3.0, 3.8, 2.9, 3.9, 3.4, 3.1, 3.1], "calls": [1793, 1888, 1986, 1833, 1652, 1805, 1886, 1986, 1856, 1772, 1874, 1866, 1529, 1416, 1912, 2119, 2071, 1618]}, "monthly": {"labels": ["Jan", "Feb", "Mar", "Apr", "May", "Jun*"], "asa": [344, 114, 32, 23, 22, 199], "abn": [11.8, 10.4, 3.6, 5.3, 14.5, 12.0], "csat": [3.4, 2.8, 3.3, 3.3, 3.1, 3.3], "calls": [7791, 7168, 8196, 7854, 7518, null]}, "monthlyNote": "June MTD to 12 June. Apr-May recovery proves capability. June regression traces to supplier portal fix not actioned."}, "to": {"label": "TO Enhanced", "leads": "Rutvik Khara, Subham Dutta", "head": {"asa": "57s", "abn": "2.84%", "frt": "n/a", "csat": "4.77"}, "headNote": {"asa": "Tgt below 30s", "abn": "Tgt below 5%", "frt": "Voice channel", "csat": "Tgt above 4.0"}, "daily": null, "weekly": {"labels": ["05Jan", "12Jan", "19Jan", "26Jan", "02Feb", "09Feb", "16Feb", "23Feb", "02Mar", "09Mar", "16Mar", "23Mar", "30Mar", "06Apr", "13Apr", "20Apr", "27Apr", "04May"], "asa": [18, 14, 23, 29, 23, 28, 23, 36, 37, 19, 21, 24, 34, 26, 32, 28, 29, 57], "abn": [1.11, 0.94, 0.19, 0.19, 2.2, 2.4, 3.68, 3.09, 3.05, 0.82, 1.21, 1.28, 2.28, 1.89, 1.36, 1.33, 1.57, 2.84], "csat": [4.5, 4.8, 4.63, 4.85, 4.5, 4.0, 4.29, 4.93, 4.42, 4.54, 4.71, 4.17, 4.69, 4.38, 4.5, 4.2, 4.13, 4.77], "calls": [527, 530, 534, 530, 525, 625, 545, 656, 600, 600, 571, 535, 471, 464, 578, 667, 683, 512]}, "monthly": {"labels": ["Jan", "Feb", "Mar", "Apr", "May"], "asa": [21, 28, 27, 29, 57], "abn": [0.61, 2.84, 1.73, 1.54, 2.84], "csat": [4.65, 4.43, 4.5, 4.3, 4.77], "calls": [530, 588, 555, 598, 512]}, "monthlyNote": "TO Enhanced holds ASA and ABN inside target across the period. May ASA uptick (57s) is the one watch item."}}, "obs": [{"t": "CO", "p": "P1", "title": "Supplier Dependency on Calls", "obs": "Most calls depend on the supplier for confirmation or correction, so customers are held on long holds or transferred out.", "impact": "Inflated AHT and hold time, repeat contacts, and direct CSAT damage on the voice channel.", "root": "No advisor-level read access to supplier account systems and no priority transfer route to the dedicated team.", "actions": "Secure a portal access for advisors to verify and provide account information directly. Establish a priority queue to reach the dedicated team quickly for genuine transfers.", "out": "Shorter handle times, fewer transfers, and a measurable CSAT lift on supplier-linked calls."}, {"t": "CO", "p": "P3", "title": "Recording Inconsistency", "obs": "Some available recordings belong to a different case (samples 07481133, 07516704), and holds are captured as dead air.", "impact": "QA cannot audit reliably and agents are wrongly marked down for dead air, distorting quality scores.", "root": "Recording-to-case mapping and hold-state tagging are not reliable in the telephony platform.", "actions": "Raise a defect with the telephony provider to fix recording-to-case mapping and tag hold states correctly so QA can exclude them.", "out": "Trustworthy audit evidence and fair quality scoring."}, {"t": "CO", "p": "P2", "title": "Break Management", "obs": "Breaks are pre-planned and taken without confirmation. This works for email but not for live call and chat queues where inflow is unpredictable.", "impact": "Avoidable abandons and staffing dips during live-queue peaks.", "root": "Fixed-schedule breaks rather than availability-based break control.", "actions": "Move call and chat queues to availability-based break management with a live cap on concurrent breaks.", "out": "Steadier live coverage and a drop in queue abandons."}, {"t": "CO", "p": "P1", "title": "Floor Left Without Team Leaders", "obs": "Both team leaders leave the floor together and SMEs cannot hold it on their own, so the floor goes haywire.", "impact": "Unmanaged escalations, slower support, and a visible culture and accountability gap.", "root": "No minimum floor-cover rule or clear ownership when leaders step away.", "actions": "Mandate at least one SME and one team leader on the floor at all times, with named accountability for cover.", "out": "Consistent floor leadership and faster in-the-moment support."}, {"t": "CO", "p": "P1", "title": "Call Abandons", "obs": "Abandons happen frequently and are explained away as headcount shortfall without analysis.", "impact": "Lost contacts, repeat calls, and SLA and CSAT erosion on voice.", "root": "No utilisation or occupancy view to size staffing, and no RCA discipline per abandon.", "actions": "Pull agent utilisation and occupancy to size the true requirement, and run an RCA on every abandon even when inside threshold.", "out": "Right-sized staffing and a downward abandon trend backed by evidence."}, {"t": "CO", "p": "P2", "title": "Chat Abandon Visibility", "obs": "Chat abandons are not visible on the live dashboard, justified by chats being WhatsApp rather than web based.", "impact": "A blind spot on chat responsiveness and customer wait that no one is accountable for.", "root": "Live dashboard does not surface chat response adherence.", "actions": "Add chat response adherence to the live dashboard so first-response timeliness is visible and owned.", "out": "Chat responsiveness becomes measurable and managed."}, {"t": "CO", "p": "P2", "title": "Recurring Technical Issues", "obs": "Frequent technical issues, specifically network and CATO (VPN) related: call drops, voice crackling, VPN disconnections.", "impact": "Dropped customer calls, lost productivity, and unfair quality impact on agents.", "root": "No tracker for issue type, frequency, duration, or accountability for fixes.", "actions": "Implement a technical-issue tracker capturing type, frequency, fix duration, and owner, and review it with IT weekly.", "out": "Faster fixes and a clear accountability trail for infrastructure stability."}, {"t": "CO", "p": "P1", "title": "Audit and Coaching Visibility", "obs": "Team leaders fill coaching forms but there is no report-based data, so each form must be read one by one with no scores or trend.", "impact": "No real-time view of coaching coverage or quality, so improvement cannot be steered.", "root": "Coaching captured in disconnected forms rather than a reportable system.", "actions": "Stand up a structured audit and coaching system with daily, weekly, and monthly visibility, scores, and feedback feeding the support KPI scorecard.", "out": "Coaching becomes measurable, timely, and tied to performance outcomes."}, {"t": "CO", "p": "P2", "title": "Call Calibrations", "obs": "No calibrations are happening and no calibration data exists.", "impact": "Scoring drifts between QA, Ops, and Training, undermining trust in quality data.", "root": "No calibration cadence across functions.", "actions": "Run regular call calibrations between Ops, QA, and Training focused on agent growth and scoring alignment.", "out": "Consistent scoring and a stronger improvement loop for support quality."}, {"t": "CO", "p": "P2", "title": "SME Floor Support", "obs": "SMEs mostly watch the queue rather than support the floor.", "impact": "Agents on long or complex calls lack live guidance, lengthening calls and risking accuracy.", "root": "SME role is skewed to queue management over coaching support.", "actions": "Reposition SMEs to step away from queue watching and actively support long calls with accurate guidance inside call-length limits.", "out": "Shorter complex calls and more accurate first-time resolutions."}, {"t": "CO", "p": "P1", "title": "Report Visibility in Salesforce", "obs": "No visibility on occupancy, utilisation, and KPI reports in Salesforce, so the operation runs reactively.", "impact": "Decisions are made on assumption rather than data, slowing every other improvement.", "root": "No access to raw Salesforce data to build daily, weekly, and monthly KPI reporting.", "actions": "Obtain Salesforce raw-data access and build a standard reporting suite to shift the operation from reactive to proactive.", "out": "Daily, weekly, and monthly KPI visibility that underpins proactive management."}, {"t": "CO", "p": "P2", "title": "Day and Week Forecasting", "obs": "No forecasting exists to plan the day or week against open or pending case flow and call inflow.", "impact": "Reactive staffing and avoidable peaks of backlog and abandons.", "root": "No demand forecast feeding the planning routine.", "actions": "Introduce a simple forecast for case and call inflow to align agent deployment ahead of demand.", "out": "Proactive planning that smooths workload and protects SLA."}, {"t": "CO", "p": "P2", "title": "Ticket Auto-Creation and Duplicates", "obs": "Salesforce auto-creates tickets when a customer cannot reach an agent, and creates duplicates on repeat calls.", "impact": "Inflated and duplicated case volumes that distort reporting and waste handling time.", "root": "No deduplication logic and no pre-filtering of customers to the right department.", "actions": "Add deduplication by issue type or account, and a short pre-filter to route customers to the correct department before reaching an agent.", "out": "Cleaner case data and faster, correctly routed customer connections."}, {"t": "CO", "p": "P3", "title": "MIS and Reporting Resource", "obs": "No MIS personnel or report availability to build customer reports and drive visibility.", "impact": "Reporting depends on ad hoc manual effort, limiting how much visibility the team can sustain.", "root": "No dedicated MIS capacity.", "actions": "Secure MIS support or report automation to produce customer reports consistently.", "out": "Sustainable, repeatable reporting without manual overload."}, {"t": "CO", "p": "P1", "title": "QA Coverage and Capability", "obs": "Only one QA, five months in and newly transitioned from a domestic to a UK process, with low audit frequency at three audits per agent per month and no streamlined visibility.", "impact": "Thin, infrequent quality sampling that cannot reliably gauge or drive agent improvement.", "root": "Under-resourced QA function and no self-serve quality visibility for agents.", "actions": "Add QA auditors (two for Customer Operations and one for Technical Operations) and move to daily or weekly audits with agent-visible scores.", "out": "Faster, broader quality feedback and a clear lift in agent improvement."}, {"t": "CO", "p": "P2", "title": "Support KPI Scorecards for TLs and SMEs", "obs": "No function exists to gauge SME and team-leader performance.", "impact": "Leadership performance is unmeasured, so accountability and development stall at the support layer.", "root": "No KPI scorecard for the TL and SME roles.", "actions": "Build KPI-based scorecards for team leaders and SMEs covering coverage, coaching, and outcomes.", "out": "Clear performance accountability across the support leadership layer."}, {"t": "CO", "p": "P2", "title": "Manual Reporting and OT Calculation", "obs": "Most reports are built manually, and overtime is calculated on case counts (eight cases per hour) rather than actual login hours.", "impact": "Inaccurate OT pay and KPI figures, plus heavy manual effort and error risk.", "root": "Manual processes substituting for system-driven reporting.", "actions": "Transition OT and KPI reporting to system data using actual login hours for accuracy.", "out": "Accurate pay and metrics with far less manual work."}, {"t": "CO", "p": "P1", "title": "Customer Operations Acting as a Bin", "obs": "CO absorbs every type of case and call with no defined priority or routing.", "impact": "No prioritisation by client or issue, long holds, and inconsistent SLA delivery.", "root": "No structured process flow, client SLAs, or priority routing.", "actions": "Define a process flow with issue-type and client priorities, client response and resolution SLAs, and a priority transfer route to client stakeholders.", "out": "Predictable routing, protected SLAs, and shorter customer waits."}, {"t": "TO", "p": "P2", "title": "Router Pre-Configuration", "obs": "TP-Link routers are dispatched without a pre-configured state.", "impact": "Customer setup friction and avoidable inbound support contacts.", "root": "No validation step to recheck configuration before shipment.", "actions": "Introduce a pre-dispatch validation step to confirm router configuration before shipment.", "out": "Smoother installs and fewer configuration-related calls."}, {"t": "TO", "p": "P3", "title": "Service Identification by Address", "obs": "For customers with multiple addresses and services, mapping services to a specific address is difficult.", "impact": "Longer handling time locating the right service during a contact.", "root": "No address-to-service mapping in the case view.", "actions": "Enable address selection that displays all linked services to reduce identification effort.", "out": "Faster, more accurate service identification."}, {"t": "TO", "p": "P2", "title": "Salesforce Description Standard", "obs": "Case descriptions are inconsistent and information is often missing.", "impact": "Lost context between agents, rework, and slower resolution.", "root": "No standardised description template.", "actions": "Implement a standard template covering DPA status, issue, solution, next action, service details, and caller details.", "out": "Consistent, complete case notes and smoother handovers."}, {"t": "TO", "p": "P2", "title": "Multiple Account Entities", "obs": "Checking across multiple entities (supplier SME and OnePortal) increases handling time.", "impact": "Longer calls and a higher chance of missed services.", "root": "No consolidated master account view.", "actions": "Create a centralised master account view consolidating all services and assets.", "out": "Reduced handle time and complete account visibility."}, {"t": "TO", "p": "P3", "title": "TPR Logging Automation", "obs": "Manual TPR logging is time-consuming.", "impact": "Agent time lost to administration during and after calls.", "root": "No in-case logging option.", "actions": "Add a direct TPR logging option within the case interface.", "out": "Faster logging and more time for customer handling."}, {"t": "TO", "p": "P3", "title": "Older ADSL/FTTC Circuit Data", "obs": "Older ADSL and FTTC circuits are hard to locate when not documented in Salesforce.", "impact": "Diagnostic delays on legacy faults.", "root": "Incomplete circuit data availability.", "actions": "Improve circuit data availability so legacy circuits are findable in-system.", "out": "Faster fault diagnosis on older circuits."}, {"t": "TO", "p": "P3", "title": "Session and Line Testing Access", "obs": "Session and line testing is not easily accessible after a fault is raised.", "impact": "Slower diagnostics and extended fault resolution.", "root": "Testing not enabled within the post-fault workflow.", "actions": "Enable session and line testing within the workflow for quicker diagnostics.", "out": "Faster fault triage and resolution."}, {"t": "TO", "p": "P2", "title": "Replacement Process Clarity", "obs": "The replacement process for devices (IoT SIM, Wave, Gradwell) is unclear.", "impact": "Inconsistent handling and delays on device replacements.", "root": "No standardised, documented process or defined ownership.", "actions": "Document a standardised replacement process with clear ownership per device type.", "out": "Consistent, faster device replacement handling."}, {"t": "TO", "p": "P1", "title": "OneView KPI Dashboard", "obs": "No single dashboard tracks key KPIs at agent level across day, week, and month.", "impact": "Limited performance visibility and slower data-driven decisions.", "root": "No consolidated KPI dashboard for Technical Operations.", "actions": "Develop a OneView dashboard tracking all key KPIs at agent level daily, weekly, and monthly.", "out": "Clear agent-level visibility and faster decisions."}, {"t": "TO", "p": "P2", "title": "FCR Visibility", "obs": "First Call Resolution is not clearly visible.", "impact": "Repeat contacts go untracked and resolution efficiency is hard to improve.", "root": "No FCR measurement surfaced to the team.", "actions": "Provide clear FCR visibility to track and drive resolution efficiency.", "out": "Improved first-contact resolution and fewer repeats."}, {"t": "TO", "p": "P2", "title": "Coaching Tool", "obs": "No centralised place to document, track, and acknowledge coaching.", "impact": "Coaching is inconsistent and improvement is hard to evidence.", "root": "No coaching tool with agent acknowledgement.", "actions": "Introduce a centralised coaching tool where sessions are documented, tracked, and acknowledged by agents.", "out": "Consistent, evidenced coaching and continuous improvement."}, {"t": "TO", "p": "P2", "title": "Escalation Matrix and POCs", "obs": "No well-defined escalation matrix or points of contact for Gradwell and supporting services.", "impact": "Slow, inconsistent escalations and stalled customer resolutions.", "root": "Escalation paths and POCs are not documented or shared.", "actions": "Define and share an escalation matrix with named POCs for Gradwell and other services.", "out": "Quick, reliable escalations and faster resolutions."}, {"t": "TO", "p": "P3", "title": "Email Templates", "obs": "No standardised email templates for different issue types.", "impact": "Inconsistent customer communication and wasted drafting time.", "root": "No template library in Salesforce.", "actions": "Create standardised Salesforce email templates by issue type.", "out": "Consistent, faster, higher-quality customer emails."}, {"t": "TO", "p": "P2", "title": "Workflow Tool for Top Issues", "obs": "No guided workflow for common or top issue types.", "impact": "Variable troubleshooting quality and slower resolution.", "root": "No predefined troubleshooting steps in-tool.", "actions": "Introduce a workflow tool guiding agents through predefined steps for top issue types.", "out": "Consistent troubleshooting and faster resolution."}, {"t": "TO", "p": "P3", "title": "Account Summary in Salesforce", "obs": "The account summary lacks direct asset links and postcode-based service filtering.", "impact": "Slower navigation and service identification during cases.", "root": "Limited account summary functionality.", "actions": "Add direct asset hyperlinks and postcode-based service filtering to the account summary.", "out": "Faster navigation and case handling."}, {"t": "TO", "p": "P2", "title": "Chatbot for Basic Triage", "obs": "No chatbot to handle basic troubleshooting and general queries.", "impact": "Avoidable call volume in the queue and slower responses for simple issues.", "root": "No self-serve first line for routine queries.", "actions": "Introduce a chatbot for basic troubleshooting and general inquiries to deflect simple contacts.", "out": "Lower queue volume and quicker answers for routine issues."}, {"t": "TO", "p": "P2", "title": "Real-Time SLA Nudges", "obs": "Agents receive no real-time alerts for potential SLA breaches.", "impact": "Preventable SLA breaches slip through unnoticed.", "root": "No proactive breach alerting.", "actions": "Send real-time nudges to agents for any potential SLA breach.", "out": "Fewer breaches caught and corrected in the moment."}, {"t": "TO", "p": "P3", "title": "IoT Compatibility with Wave", "obs": "IoT routers sent to support Wave frequently fail with SIM-not-compatible in low or no coverage areas.", "impact": "Failed installs, repeat dispatches, and customer frustration.", "root": "No coverage and SIM-provider survey before dispatch.", "actions": "Have Sales survey the best SIM provider for the area before dispatch to reduce incompatibility.", "out": "Higher first-time install success for IoT and Wave."}, {"t": "TO", "p": "P3", "title": "Engineer Visit Charges", "obs": "Agents lack a price chart for engineer visits and cannot confirm costs.", "impact": "Customer frustration when charges arise and the agent cannot quote a price.", "root": "No accessible engineer-visit price chart.", "actions": "Provide agents a clear engineer-visit price chart to communicate costs accurately.", "out": "Transparent cost conversations and less customer friction."}, {"t": "TO", "p": "P2", "title": "Refresher Sessions", "obs": "No regular refresher sessions to standardise quality.", "impact": "Skill and quality drift across the team over time.", "root": "No scheduled refresher cadence.", "actions": "Run weekly or monthly trainer-led refreshers for all agents.", "out": "Standardised, sustained quality across the team."}, {"t": "TO", "p": "P2", "title": "Quality Audit Parameters", "obs": "No defined quality parameters to audit against.", "impact": "Audits lack a consistent basis, weakening quality improvement.", "root": "Quality parameters are not set.", "actions": "Define quality parameters so audits run against a consistent standard.", "out": "Consistent audits and steady process improvement."}, {"t": "TO", "p": "P3", "title": "Alex Call-Back Notes", "obs": "When Alex calls an unreachable customer, no note or summary is logged, so customers report no call-back was made.", "impact": "Disputed call-backs and avoidable customer experience damage.", "root": "No automatic call-back logging on the case.", "actions": "Log a note or call summary on the case whenever a call-back is attempted.", "out": "Clear call-back evidence and improved customer trust."}, {"t": "TO", "p": "P3", "title": "Awaiting-Customer Auto-Email", "obs": "Cases marked Awaiting Customer auto-email for more information even when details were already provided.", "impact": "Customer frustration from redundant information requests.", "root": "A single status triggers an email regardless of the real reason.", "actions": "Add sub-statuses so only Information Required triggers an email, while Action Pending and Customer Unavailable do not.", "out": "Emails sent only when genuinely needed, reducing frustration."}, {"t": "TO", "p": "P2", "title": "Decision Tree", "obs": "No decision tree to guide consistent steps for each asset.", "impact": "Inconsistent troubleshooting and missed steps.", "root": "No structured step-by-step guidance with resources.", "actions": "Implement a decision tree with step-by-step progress, probable resolutions with notes, and hyperlinks to the relevant portals per asset.", "out": "Consistent, complete troubleshooting every time."}, {"t": "TO", "p": "P3", "title": "Salesforce Macros", "obs": "No quick-text or macro support to insert predefined text in case fields.", "impact": "Repetitive typing slows case handling.", "root": "Macros and quick text not enabled.", "actions": "Enable Quick Text and Macros to insert predefined templates into case fields via a hotkey.", "out": "Faster case documentation and handling."}], "ewsCO": [["Aakansha Nag", "Green", "Positive growth mindset, never-say-no attitude."], ["Abhi Singh", "Amber", "Looking at options; needs support on workload and queue management."], ["Abhijeet Kumar", "Amber", "Productive and supportive; flight risk over no appraisal."], ["Aditya Tundwal", "Green", "Probation extended for queue-ownership development."], ["Aishna Prasad", "Green", "Understands the SOP but not happy with the process."], ["Amit Chauhan", "Amber", "Productive and supportive; flight risk over no appraisal."], ["Ashi Mishra", "Green", "Tenured; needs a more proactive approach."], ["Chandan Soni", "Red", "Leaving 15 May for personal reasons."], ["Deepak Kumar Gupta", "Amber", "Productive but feels pressurised by workload."], ["Divit Gupta", "Green", "Customer-first mindset, manages workload well."], ["Diwakar Sharma", "Green", "Supportive, puts in extra time on workload."], ["Lakshya Sharma", "Green", "Positive, never-say-no; seeking growth options."], ["Md Tasnim", "Red", "Leaving 29 May for personal reasons."], ["Moksh Ahuja", "Amber", "Strong quality; flight risk on lower relative package."], ["Muskan Soni", "Green", "Cleared probation, pushing on workload."], ["Nayan Menghani", "Green", "Average but manages the workload."], ["Nipa", "Green", "New, positive and productive, seeking growth."], ["Richa Choudhary", "Green", "Very productive and supportive but feels pressurised."], ["Ritik Arora", "Red", "Floorwalker, top quality; actively looking over growth and pay."], ["Sahil Tanwar", "Green", "Showing gradual improvement across the board."], ["Saloni Dabas", "Red", "Probation extended; exit risk over behaviour and SOP breaches."], ["Sangarsh Dobhal", "Green", "Positive growth mindset, seeking opportunities."], ["Suneha Thakur", "Red", "Floorwalker, top quality; actively looking over growth and pay."], ["Tanishq Kaushal", "Green", "On probation; needs hygiene and workload management."], ["Sawan Joshi", "Green", "In training."], ["Tamila Luikhan", "Green", "In training."], ["Susil Kerketta", "Green", "In training."], ["Abhinav Bansal", "Green", "In training."], ["Kalpana Dhaka", "Green", "In training."]], "ewsTO": [["Ravika Yadav", "Red", "Q-na", "Internal move to Project Coordinator (27 May)."], ["Pallavi", "Green", "Training", "New joiner, still in training."], ["Nikhil Mishra", "Red", "Q-na", "Internal move to Mobile Onboarding (11 May)."], ["Gavish Sapra", "Green", "Training", "New joiner, still in training."], ["Uttam Beria", "Green", "Q1", "Strong knowledge; proactively supports new joiners."], ["Shivam Mishra", "Green", "Q2", "Strong knowledge; proactively supports the team."], ["Harneet Kaur", "Green", "Q1", "Strong knowledge; proactively supports new joiners."], ["Azeem Gani", "Amber", "Q1", "Resign risk on low relative pay; needs support on critical cases."], ["Aashish Chauhan", "Red", "Q1", "Planned exit, last day 15 June."], ["Shahina Sadaf", "Green", "Q2", "Strong knowledge; proactively supports the team."], ["Rit Rai", "Green", "Q2", "Strong knowledge; proactively supports the team."], ["Gaurav Singh", "Green", "Q1", "Strong knowledge; one of the highest TPR achievers."], ["Pratham Kapoor", "Amber", "Q2", "Looking for an internal job posting."], ["Tia Sangla", "Amber", "Q2", "Resign risk on low relative pay; needs support on critical cases."], ["Sunep Ao", "Green", "Probation", "Still on probation."], ["Sudeep Kumar", "Green", "Probation", "On probation, performance is good."], ["Saksham Tiwari", "Green", "Q2", "Cleared probation; needs support on challenging cases."], ["Navraj Kumar", "Green", "Probation", "Still on probation."], ["Ashutosh Dwivedi", "Green", "Probation", "On probation, performance is good."], ["Anmol Awasthi", "Green", "Probation", "On probation, performance is good."], ["Aaqib Thakoo", "Green", "Q3", "Cleared probation; needs support on challenging cases."], ["Puneet Sharma", "Amber", "Q4", "OOH shift, limited knowledge, very home-comfortable."], ["Akriti Sharma", "Red", "Q3", "Frequent pushback on shifts and role expectations."], ["Akanksha Mishra", "Amber", "Q4", "OOH shift, limited knowledge, very home-comfortable."]], "coRag": {"Green": 19, "Amber": 5, "Red": 5}, "toRag": {"Green": 15, "Amber": 5, "Red": 4}};
-let curTeam='co', curCat='summary', curPeriod='monthly';
-
-function go(i,el){
- document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
- document.getElementById('tab-'+i).classList.add('active');
- document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
- if(el)el.classList.add('active');
- if(i===3)renderMetrics();
- if(i===4)renderAP();
- if(i===6)renderLead();
- closeMob();
- window.scrollTo(0,0);
-}
+const D=[["2026-03-03",81,428,6.3,94,75,1.4,3.3],["2026-03-04",70,474,4.43,61,89,4.7,3],["2026-03-05",28,439,2.44,75,62,1.9,3],["2026-03-06",23,371,2.69,65,90,2.8,3.2],["2026-03-07",26,379,3.56,73,63,.7,2.6],["2026-03-10",24,438,1.13,105,75,2.6,2.8],["2026-03-11",10,322,0,78,103,13.1,3],["2026-03-12",10,350,1.12,61,75,1.5,2.8],["2026-03-13",18,317,2.16,67,92,2.4,3],["2026-03-14",31,320,2.43,74,60,4.2,2.5],["2026-03-17",64,486,5.07,100,94,3.4,3],["2026-03-18",42,482,3.79,108,45,5.9,2.7],["2026-03-19",29,407,3.09,51,82,11.8,2.8],["2026-03-20",15,367,1.34,98,70,1.3,2.3],["2026-03-21",17,353,.84,47,75,15.3,2.7],["2026-03-24",38,527,4,148,92,2.2,2.4],["2026-03-25",12,453,0,101,52,3.6,2.6],["2026-03-26",40,450,4.05,102,48,1.6,2.6],["2026-03-27",12,353,.56,89,85,1.6,2.9],["2026-03-28",14,367,1.07,82,78,1.8,3],["2026-03-31",28,442,2.64,106,110,7.3,2.8],["2026-04-01",16,425,.93,36,95,4.8,2.6],["2026-04-02",14,340,1.16,38,111,2.8,2.9],["2026-04-03",16,362,.82,41,97,3.3,3.3],["2026-04-04",30,320,1.53,23,61,1.9,3.1],["2026-04-07",28,427,3.39,35,93,4.1,3.2],["2026-04-08",11,353,.56,24,106,3.1,3.4],["2026-04-09",29,322,2.71,28,81,1.3,3.9],["2026-04-10",10,354,.56,16,97,1.5,3.7],["2026-04-11",28,302,1.62,15,69,2.8,4.1],["2026-04-14",16,416,.71,40,88,2.7,3.3],["2026-04-15",42,433,2.47,48,118,3,3.1],["2026-04-16",38,474,2.06,25,104,2.4,3.3],["2026-04-17",14,392,2,29,89,1.9,3.2],["2026-04-22",37,525,2.68,47,163,2.8,3.4],["2026-04-23",13,415,.47,47,111,2.3,3.7],["2026-04-24",13,401,1.23,29,87,2.9,3.5],["2026-04-25",36,395,1.25,36,94,2.2,3.5],["2026-04-28",51,531,3.27,58,139,3,3.1],["2026-04-29",13,386,.25,47,115,1.2,3.4],["2026-04-30",12,416,.23,38,64,1,3.4],["2026-05-01",22,352,2.76,34,80,2.4,3.5],["2026-05-02",16,334,.29,30,88,3,3.6],["2026-05-06",51,522,4.04,55,120,3.2,3.3],["2026-05-07",16,382,1.03,38,91,3.1,3],["2026-05-08",23,355,1.93,45,89,2.5,3.5],["2026-05-09",16,331,2.07,15,75,3.8,3],["2026-05-12",10,406,1.21,32,112,1.4,2.8],["2026-05-13",9,324,.31,37,92,1.3,3.1],["2026-05-14",11,339,1.44,37,99,.7,3.1],["2026-05-15",12,348,.85,29,72,2.3,3.8],["2026-05-16",16,331,2.06,16,128,1.6,4],["2026-05-19",51,538,3.41,46,61,2.5,3.6],["2026-05-20",24,451,2.38,43,136,4.8,2.7],["2026-05-21",15,365,1.34,35,104,4.2,2.8],["2026-05-22",12,387,1.02,38,110,4.7,3.2],["2026-05-23",14,328,.3,24,78,1.1,3.6],["2026-05-27",29,489,2.58,36,96,7.3,3],["2026-05-28",14,426,2.06,33,92,3.5,3.4],["2026-05-29",13,399,1.23,45,173,6.9,3.8],["2026-05-30",13,391,3.19,32,240,7,3.5],["2026-06-01",229,458,15.65,46,24,2.2,3.5],["2026-06-02",93,421,6.03,31,30,88.7,4.3],["2026-06-03",159,402,12.04,40,42,20.6,3.1],["2026-06-04",183,400,12.85,37,60,11.2,3.6],["2026-06-05",356,337,21.81,29,37,25.5,2.6],["2026-06-08",330,434,21.66,43,63,12.1,3.4],["2026-06-09",174,386,14.41,28,40,11,2.6],["2026-06-10",209,403,14.98,20,19,12,4.4],["2026-06-11",89,365,6.41,19,48,15.3,3.3],["2026-06-12",81,389,6.27,32,56,11.5,3.8]];
 function toggleSB(){document.getElementById('sidebar').classList.toggle('collapsed')}
-function openMob(){document.getElementById('sidebar').classList.add('mob-open');document.getElementById('backdrop').classList.add('show')}
-function closeMob(){document.getElementById('sidebar').classList.remove('mob-open');document.getElementById('backdrop').classList.remove('show')}
-function toggleTheme(){
- const b=document.body,n=b.getAttribute('data-theme')==='dark'?'light':'dark';
- b.setAttribute('data-theme',n);
- document.getElementById('themeBtn').textContent=n==='dark'?'Switch to Light':'Switch to Dark';
- try{localStorage.setItem('ops_theme',n)}catch(e){}
-}
-
-/* ---------- METRICS ---------- */
-function setTeam(t,el){curTeam=t;segActive('teamSeg',el);
- if(t==='cmp'&&curCat==='daily'){curCat='summary';}
- renderMetrics();}
-function setCat(c,el){curCat=c;segActive('catSeg',el);
- document.getElementById('periodSeg').style.display=c==='trends'?'inline-flex':'none';
- renderMetrics();}
-function setPeriod(p,el){curPeriod=p;segActive('periodSeg',el);renderMetrics();}
-function segActive(id,el){document.getElementById(id).querySelectorAll('.seg-btn').forEach(b=>b.classList.remove('active'));if(el)el.classList.add('active')}
-
-function kpiCard(lbl,val,note,cls){return `<div class="kpi ${cls}"><div class="kpi-l">${lbl}</div><div class="kpi-v">${val}</div><div class="kpi-n">${note}</div></div>`}
-function asaCls(v){return v>30?'red':'green'} function abnCls(v){return v>5?'red':'green'} function csatCls(v){return v<4?'amber':'green'}
-
-function trendBlock(title,labels,vals,unit,thr){
- const mx=Math.max(...vals.filter(v=>v!=null),thr);
- let rows=labels.map((l,i)=>{const v=vals[i];if(v==null)return '';
-  const w=Math.max(6,v/mx*100),c=(unit==='%'?(v>thr?'var(--red)':'var(--green)'):(v>thr?'var(--red)':'var(--green)'));
-  return `<div class="tr-row"><div class="tr-lbl">${l}</div><div class="tr-trk"><div class="tr-fill" style="width:${w}%;background:${c}">${v}${unit}</div></div><div class="tr-val" style="color:${c}">${v}</div></div>`}).join('');
- return `<div class="section-lbl">${title}</div><div class="trend">${rows}</div>`;
-}
-
-function renderMetrics(){
- const body=document.getElementById('metricsBody');
- if(curTeam==='cmp'){body.innerHTML=renderCompare();return}
- const T=DATA.kpi[curTeam], h=T.head, hn=T.headNote;
- let html=`<div style="font-size:12px;color:var(--muted);margin-bottom:12px"><b style="color:var(--accent2)">${T.label}</b> &nbsp;TLs: ${T.leads}</div>`;
- if(curCat==='summary'){
-  html+=`<div class="grid g4">
-   ${kpiCard('ASA',h.asa,hn.asa,curTeam==='co'?'red':'amber')}
-   ${kpiCard('ABN',h.abn,hn.abn,curTeam==='co'?'red':'green')}
-   ${kpiCard(curTeam==='co'?'First Response':'Channel',h.frt,hn.frt,'blue')}
-   ${kpiCard('CSAT',h.csat,hn.csat,curTeam==='co'?'amber':'green')}</div>`;
-  html+=trendBlock('Monthly ASA Trend (sec)',T.monthly.labels,T.monthly.asa,'s',30);
-  html+=`<div class="note">${T.monthlyNote}</div>`;
- } else if(curCat==='trends'){
-  const P=T[curPeriod];
-  if(!P){html+=`<div class="card">No ${curPeriod} source for ${T.label}. Try Weekly or Monthly.</div>`;}
-  else{
-   html+=trendBlock('ASA ('+curPeriod+', sec)',P.labels,P.asa,'s',30);
-   html+=trendBlock('Abandonment ('+curPeriod+', %)',P.labels,P.abn,'%',5);
-   if(P.csat)html+=trendBlock('CSAT ('+curPeriod+')',P.labels,P.csat,'',4);
-  }
- } else if(curCat==='daily'){
-  const D=T.daily;
-  if(!D){html+=`<div class="card">${T.label} is tracked weekly and monthly. No day-level source is available, so use Performance Trends (Weekly) for the closest granularity.</div>`;}
-  else{ html+=renderCODaily(D); }
- }
- body.innerHTML=html;
-}
-
-function renderCompare(){
- const co=DATA.kpi.co, to=DATA.kpi.to;
- const period= curCat==='daily' ? 'weekly' : curPeriod; // daily not comparable, fall to weekly
- let html=`<div class="note" style="margin-bottom:10px">Side-by-side comparison. CO and TO share weekly and monthly data; daily is CO only, so comparison uses ${period} figures.</div>`;
- html+=`<div class="grid g2">
-  <div class="compare-col"><div class="compare-head b-co">CO Enhanced</div>
-   ${kpiCard('ASA',co.head.asa,'Jun',co.head.asa>'30'?'red':'green')}
-   ${kpiCard('ABN',co.head.abn,'Jun','red')}
-   ${kpiCard('CSAT',co.head.csat,'Jun','amber')}</div>
-  <div class="compare-col"><div class="compare-head b-to">TO Enhanced</div>
-   ${kpiCard('ASA',to.head.asa,'May','amber')}
-   ${kpiCard('ABN',to.head.abn,'May','green')}
-   ${kpiCard('CSAT',to.head.csat,'May','green')}</div></div>`;
- const cP=co[period], tP=to[period];
- html+=`<div class="section-lbl">ASA Comparison (${period}, sec)</div>`;
- html+=cmpRows(cP.labels,cP.asa,tP.asa,'s',30);
- html+=`<div class="section-lbl">Abandonment Comparison (${period}, %)</div>`;
- html+=cmpRows(cP.labels,cP.abn,tP.abn,'%',5);
- html+=`<div class="rag-leg" style="margin-top:10px"><span><span class="rag-dot" style="background:var(--accent2)"></span>CO Enhanced</span><span><span class="rag-dot" style="background:var(--teal)"></span>TO Enhanced</span></div>`;
- return html;
-}
-function cmpRows(labels,a,b,unit,thr){
- const mx=Math.max(...a.filter(v=>v!=null),...b.filter(v=>v!=null),thr);
- return labels.map((l,i)=>{const av=a[i],bv=b[i];if(av==null&&bv==null)return '';
-  const aw=av==null?0:Math.max(4,av/mx*100), bw=bv==null?0:Math.max(4,bv/mx*100);
-  return `<div class="tr-row"><div class="tr-lbl">${l}</div>
-   <div class="tr-trk" style="display:flex;flex-direction:column;gap:2px;height:auto;background:none">
-    <div class="tr-trk" style="height:13px"><div class="tr-fill" style="width:${aw}%;background:var(--accent2);font-size:9px">${av==null?'':av+unit}</div></div>
-    <div class="tr-trk" style="height:13px"><div class="tr-fill" style="width:${bw}%;background:var(--teal);font-size:9px">${bv==null?'':bv+unit}</div></div>
-   </div></div>`}).join('');
-}
-
-/* ---------- CO DAILY ANALYTICS ---------- */
-let DLY=null, dlySort={k:'i',d:1};
-function pct(v){return (Math.round(v*100)/100)+'%'}
-function arr(v){ if(v==null)return '<span class="arw-fl">&middot;</span>';
- if(v>0)return '<span class="arw-up">&#9650; '+Math.abs(v)+'</span>';
- if(v<0)return '<span class="arw-dn">&#9660; '+Math.abs(v)+'</span>';
- return '<span class="arw-fl">&#8596; 0</span>'}
-
-function renderCODaily(D){
- const n=D.labels.length, rows=[];
- for(let i=0;i<n;i++){
-  const asa=D.asa[i], abn=D.abn[i];
-  rows.push({i,date:D.labels[i],asa,abn,
-   dAsa:i>0?asa-D.asa[i-1]:null, dAbn:i>0?Math.round((abn-D.abn[i-1])*100)/100:null,
-   vAsa:asa-30, vAbn:Math.round((abn-5)*100)/100,
-   status:(asa<=30&&abn<=5)?'g':((asa<=120&&abn<=10)?'a':'r')});
- }
- const maxA=Math.max(...D.asa),minA=Math.min(...D.asa),maxB=Math.max(...D.abn),minB=Math.min(...D.abn);
- let bi=0,wi=0,bs=9,ws=-9;
- rows.forEach(r=>{const s=r.asa/maxA+r.abn/maxB; if(s<bs){bs=s;bi=r.i} if(s>ws){ws=s;wi=r.i}});
- rows[bi].best=true; rows[wi].worst=true;
- DLY={rows};
- const hiA=D.asa.indexOf(maxA),loA=D.asa.indexOf(minA),hiB=D.abn.indexOf(maxB),loB=D.abn.indexOf(minB);
- const first=D.asa[0],last=D.asa[n-1],chg=Math.round((first-last)/first*100),breaches=D.abn.filter(v=>v>5).length;
- let html=`<div class="section-lbl">Daily Performance Insights</div>
-  <div class="insight-grid">
-   <div class="insight"><div class="il">Best Day</div><div class="iv" style="color:var(--green)">${D.labels[bi]}</div><div class="is">${D.asa[bi]}s ASA &middot; ${pct(D.abn[bi])} ABN</div></div>
-   <div class="insight"><div class="il">Worst Day</div><div class="iv" style="color:var(--red)">${D.labels[wi]}</div><div class="is">${D.asa[wi]}s ASA &middot; ${pct(D.abn[wi])} ABN</div></div>
-   <div class="insight"><div class="il">Highest ASA</div><div class="iv" style="color:var(--red)">${maxA}s</div><div class="is">${D.labels[hiA]}</div></div>
-   <div class="insight"><div class="il">Lowest ASA</div><div class="iv" style="color:var(--green)">${minA}s</div><div class="is">${D.labels[loA]}</div></div>
-   <div class="insight"><div class="il">Highest ABN</div><div class="iv" style="color:var(--red)">${pct(maxB)}</div><div class="is">${D.labels[hiB]}</div></div>
-   <div class="insight"><div class="il">Lowest ABN</div><div class="iv" style="color:var(--amber)">${pct(minB)}</div><div class="is">${D.labels[loB]}</div></div>
-   <div class="insight"><div class="il">ASA Direction</div><div class="iv" style="color:${chg>=0?'var(--green)':'var(--red)'}">${chg>=0?'&#9660; '+chg+'%':'&#9650; '+Math.abs(chg)+'%'}</div><div class="is">01 to 12 Jun</div></div>
-   <div class="insight"><div class="il">ABN Breaches</div><div class="iv" style="color:var(--red)">${breaches}/${n}</div><div class="is">days above 5% target</div></div>
-  </div>
-  <div class="advisor" style="margin-top:12px">ASA fell from ${first}s on ${D.labels[0]} to ${last}s on ${D.labels[n-1]}, a ${Math.abs(chg)}% ${chg>=0?'improvement':'rise'}, but the period carried a severe mid-month spike to ${maxA}s on ${D.labels[hiA]}. Abandonment breached the 5% target on every tracked day, peaking at ${pct(maxB)} on ${D.labels[hiB]}. Both metrics stabilised from 09 Jun, with the final four days trending down.</div>`;
-
- html+=`<div class="chart-card"><div class="card-t">ASA Trend (sec) with 3-day rolling average</div>${svgTrend(D.labels,D.asa,{target:30,unit:'s',rolling:true,grad:'a'})}
-  <div class="chart-leg"><span><span class="leg-line" style="border-color:var(--accent2)"></span>Daily ASA</span><span><span class="leg-dash" style="border-color:var(--gold)"></span>3-day rolling avg</span><span><span class="leg-dash" style="border-color:var(--green)"></span>Target 30s</span><span><span class="rag-dot" style="background:var(--red)"></span>Peak</span><span><span class="rag-dot" style="background:var(--green)"></span>Best</span></div></div>`;
-
- html+=`<div class="chart-card"><div class="card-t">Abandonment Trend (%) vs 5% target</div>${svgTrend(D.labels,D.abn,{target:5,unit:'%',rolling:false,grad:'b'})}
-  <div class="heatstrip">${D.labels.map((l,i)=>{const v=D.abn[i];const c=v>15?'var(--red)':(v>5?'var(--amber)':'var(--green)');return `<div class="heatcell" style="background:${c}"><div class="hd">${l.replace(' Jun','')}</div><div class="hv">${v}</div></div>`}).join('')}</div>
-  <div class="chart-leg"><span>Calendar heatmap:</span><span><span class="rag-dot" style="background:var(--green)"></span>at or below 5%</span><span><span class="rag-dot" style="background:var(--amber)"></span>5 to 15%</span><span><span class="rag-dot" style="background:var(--red)"></span>above 15%</span></div></div>`;
-
- html+=`<div class="section-lbl">Metric Scorecards</div><div class="grid g2">
-  ${sparkCard('ASA (sec)',D.asa,'s',30)}${sparkCard('Abandonment (%)',D.abn,'%',5)}</div>`;
-
- html+=`<div class="section-lbl">Day-wise Detail</div>
-  <div class="dly-tools"><span style="font-size:11px;color:var(--muted)">Tap a column header to sort. Best day marked green, worst day red.</span>
-   <button class="exp-btn" onclick="exportDaily()">&#10515; Export CSV</button></div>
-  <div class="dly-tblwrap"><table class="dly-tbl"><thead><tr>
-   <th onclick="sortDaily('i')">Date</th><th onclick="sortDaily('asa')">ASA (s)</th><th onclick="sortDaily('dAsa')">DoD ASA</th>
-   <th onclick="sortDaily('abn')">ABN (%)</th><th onclick="sortDaily('dAbn')">DoD ABN</th>
-   <th onclick="sortDaily('vAsa')">ASA vs Tgt</th><th onclick="sortDaily('vAbn')">ABN vs Tgt</th><th onclick="sortDaily('status')">Status</th>
-  </tr></thead><tbody id="dlyTbody"></tbody></table></div>
-  <div class="note">Columns shown are from the verified daily source (ASA and Abandonment for June MTD). Calls Offered and Answered, Service Level, Occupancy, AHT, Adherence and CSAT will populate automatically once the CO Enhanced Daily Stats file is attached. That file sits in OneDrive and does not surface through the connector, so it cannot be pulled here without an upload.</div>`;
- setTimeout(renderDlyBody,0);
- return html;
-}
-
-function renderDlyBody(){
- if(!DLY)return; const rows=DLY.rows.slice(),k=dlySort.k,d=dlySort.d;
- rows.sort((a,b)=>{let x=a[k],y=b[k]; if(k==='status'){const o={g:0,a:1,r:2};x=o[x];y=o[y]} if(x==null)x=-1e9; if(y==null)y=-1e9; return (x>y?1:x<y?-1:0)*d});
- const tb=document.getElementById('dlyTbody'); if(!tb)return;
- tb.innerHTML=rows.map(r=>{
-  const cls=r.best?'best':(r.worst?'worst':'');
-  const st=r.status==='g'?'<span class="tag g">On target</span>':(r.status==='a'?'<span class="tag a">Watch</span>':'<span class="tag r">Critical</span>');
-  return `<tr class="${cls}"><td>${r.date}${r.best?' &#9733;':''}${r.worst?' &#9888;':''}</td>
-   <td>${r.asa}</td><td>${arr(r.dAsa)}</td><td>${r.abn}</td><td>${arr(r.dAbn)}</td>
-   <td style="color:${r.vAsa>0?'var(--red)':'var(--green)'}">${r.vAsa>0?'+':''}${r.vAsa}</td>
-   <td style="color:${r.vAbn>0?'var(--red)':'var(--green)'}">${r.vAbn>0?'+':''}${r.vAbn}</td>
-   <td>${st}</td></tr>`}).join('');
-}
-function sortDaily(k){ if(dlySort.k===k)dlySort.d*=-1; else {dlySort.k=k;dlySort.d=1} renderDlyBody(); }
-function exportDaily(){
- if(!DLY)return; const map={g:'On target',a:'Watch',r:'Critical'};
- const head=['Date','ASA (s)','DoD ASA','ABN (%)','DoD ABN','ASA vs Target','ABN vs Target','Status'];
- const lines=[head.join(',')].concat(DLY.rows.map(r=>[r.date,r.asa,r.dAsa==null?'':r.dAsa,r.abn,r.dAbn==null?'':r.dAbn,r.vAsa,r.vAbn,map[r.status]].join(',')));
- const blob=new Blob([lines.join('\n')],{type:'text/csv'});
- const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='co_daily_stats_june.csv'; a.click();
-}
-
-function svgTrend(labels,vals,o){
- const W=720,H=220,pl=42,pr=14,pt=16,pb=30,n=vals.length;
- const mx=Math.max(...vals,o.target)*1.12;
- const X=i=>pl+i*(W-pl-pr)/(n-1), Y=v=>pt+(1-v/mx)*(H-pt-pb);
- const pts=vals.map((v,i)=>[X(i),Y(v)]);
- const line=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
- const area=line+` L ${X(n-1).toFixed(1)} ${Y(0).toFixed(1)} L ${X(0).toFixed(1)} ${Y(0).toFixed(1)} Z`;
- let roll='';
- if(o.rolling){const r=vals.map((_,i)=>{const seg=vals.slice(Math.max(0,i-2),i+1);return seg.reduce((a,b)=>a+b,0)/seg.length});
-  roll=r.map((v,i)=>(i?'L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1)).join(' ');}
- let grid='';for(let g=0;g<=4;g++){const gv=mx*g/4,gy=Y(gv);grid+=`<line x1="${pl}" y1="${gy.toFixed(1)}" x2="${W-pr}" y2="${gy.toFixed(1)}" stroke="var(--border)"/><text x="${pl-6}" y="${(gy+3).toFixed(1)}" text-anchor="end" font-size="9" fill="var(--muted)">${Math.round(gv)}</text>`}
- const ty=Y(o.target);
- const maxI=vals.indexOf(Math.max(...vals)),minI=vals.indexOf(Math.min(...vals));
- const dots=pts.map((p,i)=>{const isMax=i===maxI,isMin=i===minI,c=isMax?'var(--red)':(isMin?'var(--green)':'var(--accent2)'),rr=isMax||isMin?4.5:3;
-  return `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${rr}" fill="${c}"/>`+((isMax||isMin)?`<text x="${p[0].toFixed(1)}" y="${(p[1]-9).toFixed(1)}" text-anchor="middle" font-size="9" font-weight="700" fill="${c}">${vals[i]}${o.unit}</text>`:'')}).join('');
- const xl=labels.map((l,i)=>`<text x="${X(i).toFixed(1)}" y="${H-9}" text-anchor="middle" font-size="9" fill="var(--muted)">${l.replace(' Jun','')}</text>`).join('');
- return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="trend chart">
-  <defs><linearGradient id="grad${o.grad}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--accent)" stop-opacity="0.35"/><stop offset="1" stop-color="var(--accent)" stop-opacity="0"/></linearGradient></defs>
-  ${grid}<path d="${area}" fill="url(#grad${o.grad})"/>
-  <line x1="${pl}" y1="${ty.toFixed(1)}" x2="${W-pr}" y2="${ty.toFixed(1)}" stroke="var(--green)" stroke-width="1.5" stroke-dasharray="5 4"/>
-  <text x="${W-pr}" y="${(ty-4).toFixed(1)}" text-anchor="end" font-size="9" fill="var(--green)">Target ${o.target}${o.unit}</text>
-  ${roll?`<path d="${roll}" fill="none" stroke="var(--gold)" stroke-width="1.6" stroke-dasharray="4 3"/>`:''}
-  <path d="${line}" fill="none" stroke="var(--accent2)" stroke-width="2"/>${dots}${xl}</svg>`;
-}
-
-function sparkCard(lbl,vals,unit,target){
- const mn=Math.min(...vals),mx=Math.max(...vals),avg=vals.reduce((a,b)=>a+b,0)/vals.length,n=vals.length;
- const W=240,H=44,X=i=>i*(W-4)/(n-1)+2,Y=v=>H-3-((v-mn)/((mx-mn)||1))*(H-9);
- const ln=vals.map((v,i)=>(i?'L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1)).join(' ');
- const breach=vals.filter(v=>v>target).length;
- return `<div class="spark-card"><div class="sl">${lbl}</div>
-  <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:46px;margin-top:6px" role="img"><path d="${ln}" fill="none" stroke="var(--accent2)" stroke-width="2"/>
-   <circle cx="${X(vals.indexOf(mx)).toFixed(1)}" cy="${Y(mx).toFixed(1)}" r="3" fill="var(--red)"/>
-   <circle cx="${X(vals.indexOf(mn)).toFixed(1)}" cy="${Y(mn).toFixed(1)}" r="3" fill="var(--green)"/></svg>
-  <div class="spark-stats"><span>Min <b style="color:var(--green)">${mn}${unit}</b></span><span>Avg <b>${(Math.round(avg*10)/10)}${unit}</b></span><span>Max <b style="color:var(--red)">${mx}${unit}</b></span><span>Over target <b style="color:var(--red)">${breach}/${n}</b></span></div></div>`;
-}
-
-/* ---------- ACTION PLAN ---------- */
-let apCur='all';
-function apFil(f,el){apCur=f;segActive('apFilter',el);renderAP()}
-function renderAP(){
- const list=document.getElementById('apList');
- let items=DATA.obs.filter(o=>{
-  if(apCur==='all')return true; if(apCur==='CO')return o.t==='CO'; if(apCur==='TO')return o.t==='TO';
-  if(apCur==='P1')return o.p==='P1'; return true});
- document.getElementById('apCount').textContent=items.length+' recommendations';
- list.innerHTML=items.map((o,i)=>{
-  const teamBadge=o.t==='CO'?'<span class="badge b-co">CUSTOMER OPS</span>':'<span class="badge b-to">TECHNICAL OPS</span>';
-  const pCls=o.p==='P1'?'b-p1':o.p==='P2'?'b-p2':'b-p3';
-  return `<div class="ap-card" id="ap${i}">
-   <div class="ap-head" onclick="document.getElementById('ap${i}').classList.toggle('open')">
-    ${teamBadge}<span class="badge ${pCls}">${o.p}</span>
-    <span class="ap-title">${o.title}</span><span class="ap-chev">&#9656;</span></div>
-   <div class="ap-body">
-    <div class="ap-field"><div class="ap-flbl">Observation</div><div class="ap-ftxt">${o.obs}</div></div>
-    <div class="ap-field"><div class="ap-flbl">Impact on Performance</div><div class="ap-ftxt">${o.impact}</div></div>
-    <div class="ap-field"><div class="ap-flbl">Root Cause</div><div class="ap-ftxt muted">${o.root}</div></div>
-    <div class="ap-field"><div class="ap-flbl">Recommended Actions</div><div class="ap-ftxt">${o.actions}</div></div>
-    <div class="ap-field"><div class="ap-flbl">Expected Outcome</div><div class="ap-ftxt">${o.out}</div></div>
-   </div></div>`}).join('');
-}
-
-/* ---------- LEADERSHIP ---------- */
-function ragbar(c){const t=c.Green+c.Amber+c.Red;
- return `<div class="ragbar"><div style="width:${c.Green/t*100}%;background:var(--green)"></div><div style="width:${c.Amber/t*100}%;background:var(--amber)"></div><div style="width:${c.Red/t*100}%;background:var(--red)"></div></div>
- <div class="rag-leg"><span><span class="rag-dot rag-Green"></span>Green ${c.Green}</span><span><span class="rag-dot rag-Amber"></span>Amber ${c.Amber}</span><span><span class="rag-dot rag-Red"></span>Red ${c.Red}</span></div>`}
-function renderLead(){
- const b=document.getElementById('leadBody'); const co=DATA.coRag, to=DATA.toRag;
- let html=`<div class="advisor">Overall, both teams are functional but carry a shared structural risk: pay and appraisal is the dominant driver of attrition, and several of the strongest performers are the ones most likely to leave. Customer Operations is more volatile on quality and workload sentiment, while Technical Operations is steadier with a stronger quartile spread. The leadership priority is to protect the green and amber high performers before they become red, and to convert process frustration into ownership.</div>`;
- html+=`<div class="grid g2">
-  <div class="card"><div class="card-t">Customer Operations Sentiment</div>${ragbar(co)}
-   <div class="ap-ftxt" style="margin-top:8px">Confirmed exits: Chandan Soni, Md Tasnim. Active flight risk on pay and growth: Ritik Arora and Suneha Thakur, both top-quality floorwalkers. Behaviour and SOP risk: Saloni Dabas. Workload pressure flagged by strong performers Richa Choudhary and Deepak Kumar Gupta.</div></div>
-  <div class="card"><div class="card-t">Technical Operations Sentiment</div>${ragbar(to)}
-   <div class="ap-ftxt" style="margin-top:8px">Confirmed exit: Aashish Chauhan (15 Jun). Internal moves: Ravika Yadav, Nikhil Mishra. Pay-driven risk: Azeem Gani and Tia Sangla, both capable Q1 and Q2 agents. Strong, stable core: Uttam Beria, Harneet Kaur, Gaurav Singh.</div></div>
- </div>`;
- html+=`<div class="section-lbl">Detailed Performance Assessment</div>
-  <div class="card"><div class="ap-ftxt">Technical Operations carries a healthier capability profile, with multiple Q1 agents who proactively support new joiners and one of the highest TPR achievers in Gaurav Singh. Customer Operations has real strength in customer-first agents like Divit Gupta and improving performers like Sahil Tanwar, but it is more exposed to workload pressure and process dissatisfaction. The common thread across both teams is that capability is not the problem; retention of that capability is.</div></div>`;
- html+=`<div class="grid g2"><div class="card"><div class="card-t">Strengths</div>
-   <div class="li"><span class="ic">&#9656;</span>A stable, knowledgeable TO core that mentors new joiners without being asked.</div>
-   <div class="li"><span class="ic">&#9656;</span>Several CO agents with a genuine customer-first mindset and never-say-no attitude.</div>
-   <div class="li"><span class="ic">&#9656;</span>A healthy training pipeline feeding both teams.</div></div>
-  <div class="card"><div class="card-t">Improvement Areas</div>
-   <div class="li"><span class="ic">&#9656;</span>Pay and appraisal gap is unaddressed and is the top stated reason for leaving.</div>
-   <div class="li"><span class="ic">&#9656;</span>Workload distribution in CO leaves strong performers feeling pressurised.</div>
-   <div class="li"><span class="ic">&#9656;</span>Limited growth visibility for tenured floorwalkers.</div></div></div>`;
- html+=`<div class="section-lbl">Feedback Analysis</div>
-  <div class="card"><div class="ap-ftxt">The strongest theme in the data is economic: agents repeatedly cite no salary appraisal and pay parity as the reason they are exploring options, and this cuts across both teams and across performance levels. The second theme is growth, with capable floorwalkers wanting a visible path forward. The third is workload, concentrated in Customer Operations, where productive agents report feeling pressurised. None of these are capability or attitude problems, which is the encouraging part: they are structural and therefore fixable through leadership decisions rather than performance management.</div></div>`;
- html+=`<div class="grid g2"><div class="card"><div class="card-t">Coaching Recommendations</div>
-   <div class="li"><span class="ic">&#9656;</span>Hold targeted retention 1:1s with Ritik, Suneha, Azeem and Tia before quarter end.</div>
-   <div class="li"><span class="ic">&#9656;</span>Give workload-pressured CO performers a clear queue-ownership structure.</div>
-   <div class="li"><span class="ic">&#9656;</span>Pair probation agents with stable Q1 mentors already doing this informally.</div></div>
-  <div class="card"><div class="card-t">Leadership Development Opportunities</div>
-   <div class="li"><span class="ic">&#9656;</span>Promote the growth-programme advisors (Harneet, Gaurav, Azeem, Uttam) into QA and Ops tracks.</div>
-   <div class="li"><span class="ic">&#9656;</span>Use strong mentors as SMEs to formalise the support they already give.</div>
-   <div class="li"><span class="ic">&#9656;</span>Build a visible internal-mobility path to retain floorwalkers.</div></div></div>`;
- html+=`<div class="section-lbl">Actionable Next Steps</div>
-  <div class="card">
-   <div class="li"><span class="ic">1.</span>Escalate the appraisal and pay-parity case to Talent with the named flight-risk list as evidence.</div>
-   <div class="li"><span class="ic">2.</span>Run retention conversations with the four highest-value at-risk agents this fortnight.</div>
-   <div class="li"><span class="ic">3.</span>Confirm growth-programme outcomes and dates so tenured advisors see a real path.</div>
-   <div class="li"><span class="ic">4.</span>Rebalance CO workload to relieve pressure on strong performers.</div>
-  </div>`;
- b.innerHTML=html;
-}
-
-/* ---------- TO-DO ---------- */
+function openMobSB(){document.getElementById('sidebar').classList.add('mob-open');document.getElementById('sbOverlay').classList.add('mob-open')}
+function closeMobSB(){document.getElementById('sidebar').classList.remove('mob-open');document.getElementById('sbOverlay').classList.remove('mob-open')}
+function go(i){document.querySelectorAll('.tab-panel').forEach((p,j)=>p.classList.toggle('active',j===i));document.querySelectorAll('.nav-btn').forEach((b,j)=>b.classList.toggle('active',j===i));closeMobSB();if(i===5)filterDS('7d');if(i===6)perfView('daily')}
+function toggleTheme(){const b=document.body,n=b.getAttribute('data-theme')==='dark'?'light':'dark';b.setAttribute('data-theme',n);document.getElementById('themeBtn').textContent=n==='dark'?'Switch to Light':'Switch to Dark';try{localStorage.setItem('ops_theme',n)}catch(e){}}
 const TODOS=[
- {p:'p1',t:'Escalate supplier portal access for CO advisors, citing June ASA regression',m:'Stakeholders: Lisa, Michael'},
- {p:'p1',t:'Confirm minimum floor cover (1 TL + 1 SME) live on both shifts',m:'Owner: Team Leaders'},
- {p:'p1',t:'Run retention 1:1s with Ritik, Suneha, Azeem, Tia',m:'Owner: Satish'},
- {p:'p2',t:'Stand up technical-issue tracker for network and VPN drops',m:'Owner: Satish + IT'},
- {p:'p2',t:'Finalise QA auditor business case (2 CO, 1 TO)',m:'Owner: Satish'},
- {p:'p2',t:'Move CO and chat queues to availability-based breaks',m:'Owner: Team Leaders'},
- {p:'p2',t:'Confirm growth-programme dates and outcomes for four advisors',m:'Owner: Satish'},
+{id:'t1',title:'ESCALATE supplier portal - June regression is proof',flag:'P1',owner:'Satish -> Michael',guidance:'June data (199s ASA) vs May (22s). Present the one-page comparison. "This is not staffing. The team proved it in April/May. The fix is portal access."'},
+{id:'t2',title:'Salary appraisal with EWS evidence to Lisa/Michael',flag:'P1',owner:'Satish',guidance:'Name the 6 at-risk performers. Quantify replacement cost (3-5 months each). "These are QC anchors and floor walkers, not average performers."'},
+{id:'t3',title:'Raise Aashish Chauhan backfill JD',flag:'P1',owner:'Satish / HR',guidance:'LWD 15 June. Team Tailor this week. Knowledge transfer session while available.'},
+{id:'t4',title:'Chase Salesforce raw data access',flag:'P2',owner:'Satish -> Joanne',guidance:'Prerequisite for all Phase 2/3 reporting. Frame as: "Blocks accurate OT calculation and system-driven KPI verification."'},
+{id:'t5',title:'Growth Programme W3 check-in (Azeem)',flag:'P2',owner:'Satish',guidance:'End-of-rotation 1:1 with GROW doc. Written feedback within 24h. Tracker 5/5 days confirmed.'},
+{id:'t6',title:'Recording mismatch tech ticket',flag:'P3',owner:'Satish -> Telephony',guidance:'Reference sample case numbers (07481133, 07516704). QA to flag dead-air recordings. Add quality check to calibration.'}
 ];
-function initTodos(){
- let saved={};try{saved=JSON.parse(localStorage.getItem('ops_todos')||'{}')}catch(e){}
- document.getElementById('todoList').innerHTML=TODOS.map((t,i)=>
-  `<div class="todo ${saved[i]?'done':''}" id="td${i}"><input type="checkbox" ${saved[i]?'checked':''} onchange="tdToggle(${i},this)">
-   <div><div class="td-txt"><span class="pill ${t.p}">${t.p.toUpperCase()}</span>${t.t}</div><div class="td-meta">${t.m}</div></div></div>`).join('');
-}
-function tdToggle(i,el){document.getElementById('td'+i).classList.toggle('done',el.checked);
- let s={};try{s=JSON.parse(localStorage.getItem('ops_todos')||'{}')}catch(e){}s[i]=el.checked;
- try{localStorage.setItem('ops_todos',JSON.stringify(s))}catch(e){}}
-
-(function(){
- try{const t=localStorage.getItem('ops_theme');if(t){document.body.setAttribute('data-theme',t);
-  document.getElementById('themeBtn').textContent=t==='dark'?'Switch to Light':'Switch to Dark'}}catch(e){}
- initTodos(); renderMetrics();
-})();
+let TS={};
+function initTodos(){try{const s=localStorage.getItem('ops_todos');if(s)TS=JSON.parse(s)}catch(e){}renderTodos()}
+function renderTodos(){const l=document.getElementById('todoList');l.innerHTML='';TODOS.forEach(t=>{const s=TS[t.id]||'open',fc=t.flag==='P1'?'pf1':t.flag==='P2'?'pf2':'pf3',cc=s==='done'?'ck':s==='inprogress'?'ip':'',cm=s==='done'?'&#10003;':s==='inprogress'?'&#9684;':'';
+l.innerHTML+=`<div class="todo-item${s==='done'?' done':''}"><div style="display:flex;gap:8px;align-items:flex-start"><div class="todo-chk ${cc}" onclick="cyc('${t.id}')">${cm}</div><div style="flex:1"><div class="todo-hd"><span class="pf ${fc}">${t.flag}</span><span class="todo-t">${t.title}</span></div><div style="font-size:10px;color:var(--dm)">Owner: ${t.owner}</div><div class="todo-g"><strong>How to complete</strong>${t.guidance}</div><div style="display:flex;gap:4px;margin-top:6px"><button class="sbtn ${s==='open'?'a-o':''}" onclick="setS('${t.id}','open')">Open</button><button class="sbtn ${s==='inprogress'?'a-p':''}" onclick="setS('${t.id}','inprogress')">In Prog</button><button class="sbtn ${s==='done'?'a-d':''}" onclick="setS('${t.id}','done')">Done</button></div></div></div></div>`});updC()}
+function setS(id,s){TS[id]=s;try{localStorage.setItem('ops_todos',JSON.stringify(TS))}catch(e){}renderTodos();toast(s==='done'?'Done':'Updated')}
+function cyc(id){const c=TS[id]||'open';setS(id,c==='open'?'inprogress':c==='inprogress'?'done':'open')}
+function resetTodos(){TS={};try{localStorage.removeItem('ops_todos')}catch(e){}renderTodos();toast('Reset')}
+function updC(){let p=0,ip=0,dn=0;TODOS.forEach(t=>{const s=TS[t.id]||'open';if(s!=='done'&&t.flag==='P1')p++;if(s==='inprogress')ip++;if(s==='done')dn++});
+document.getElementById('p1c').textContent=p;document.getElementById('ipc').textContent=ip;document.getElementById('dnc').textContent=dn;document.getElementById('rtc').textContent=Math.round(dn/TODOS.length*100)+'%'}
+function snapshotTodo(){const dt=new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});let t=`TO-DO SNAPSHOT\n${dt}\nSatish Kumar\n\n`;['P1','P2','P3'].forEach(f=>{TODOS.filter(x=>x.flag===f).forEach(x=>{const s=TS[x.id]||'open';t+=`${f} [${s.toUpperCase()}] ${x.title}\n`})});navigator.clipboard.writeText(t).then(()=>toast('Copied'))}
+function filterDS(mode){document.querySelectorAll('#tab-5 .pbtn').forEach(b=>b.classList.remove('active'));
+if(mode!=='custom'){const m={'7d':'7','30d':'30','90d':'All'};document.querySelectorAll('#tab-5 .pbtn').forEach(b=>{if(b.textContent===m[mode])b.classList.add('active')})}
+const now=new Date('2026-06-12');let from;
+if(mode==='7d')from=new Date('2026-06-04');else if(mode==='30d')from=new Date('2026-05-12');else if(mode==='90d')from=new Date('2026-03-03');
+else{from=new Date(document.getElementById('dsFrom').value);const to=new Date(document.getElementById('dsTo').value);renderDS(D.filter(r=>{const d=new Date(r[0]);return d>=from&&d<=to}));return}
+renderDS(D.filter(r=>new Date(r[0])>=from))}
+function renderDS(data){const body=document.getElementById('dsBody');body.innerHTML='';let sA=0,sH=0,sB=0,sC=0,n=data.length;
+data.slice().reverse().forEach(r=>{const d=new Date(r[0]),ds=d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'});
+const ac=r[1]>30?'color:var(--rd)':'color:var(--gn)',bc=r[3]>5?'color:var(--rd)':'color:var(--gn)',cc=r[7]>=4?'color:var(--gn)':'color:var(--am)';
+body.innerHTML+=`<tr><td>${ds}</td><td style="${ac};font-weight:700">${r[1]}</td><td>${r[2]}</td><td style="${bc};font-weight:600">${r[3].toFixed(1)}%</td><td>${r[4]}</td><td>${r[5]}</td><td>${r[6]}</td><td style="${cc};font-weight:600">${r[7]}</td></tr>`;
+sA+=r[1];sH+=r[2];sB+=r[3];sC+=r[7]});
+const aA=n?Math.round(sA/n):0,aB=n?(sB/n).toFixed(1):0,aC=n?(sC/n).toFixed(1):0;
+document.getElementById('dsSummary').innerHTML=`<div class="kpi ${aA>30?'red':'green'}"><div class="kpi-l">Avg ASA</div><div class="kpi-v">${aA}s</div><div class="kpi-s">${n} days</div></div><div class="kpi ${aB>5?'red':'green'}"><div class="kpi-l">Avg ABN</div><div class="kpi-v">${aB}%</div></div><div class="kpi blue"><div class="kpi-l">Calls</div><div class="kpi-v">${sH.toLocaleString()}</div></div><div class="kpi ${aC<3.5?'amber':'green'}"><div class="kpi-l">Avg CSAT</div><div class="kpi-v">${aC}</div></div>`}
+function perfView(mode){document.querySelectorAll('#tab-6 .pbtn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('#tab-6 .pbtn').forEach(b=>{if(b.textContent.toLowerCase()===mode)b.classList.add('active')});let groups;
+if(mode==='daily'){groups=D.slice(-10).map(r=>({l:new Date(r[0]).toLocaleDateString('en-GB',{day:'2-digit',month:'short'}),a:r[1],b:r[3],c:r[2],s:r[7]}))}
+else if(mode==='weekly'){const w={};D.forEach(r=>{const d=new Date(r[0]),ws=new Date(d);ws.setDate(d.getDate()-d.getDay()+1);const k=ws.toLocaleDateString('en-GB',{day:'2-digit',month:'short'});if(!w[k])w[k]={a:[],b:[],c:0,s:[]};w[k].a.push(r[1]);w[k].b.push(r[3]);w[k].c+=r[2];w[k].s.push(r[7])});
+groups=Object.entries(w).slice(-8).map(([k,v])=>({l:'w/e '+k,a:Math.round(v.a.reduce((a,b)=>a+b,0)/v.a.length),b:+(v.b.reduce((a,b)=>a+b,0)/v.b.length).toFixed(1),c:v.c,s:+(v.s.reduce((a,b)=>a+b,0)/v.s.length).toFixed(1)}))}
+else{const m={};D.forEach(r=>{const k=r[0].substring(0,7);if(!m[k])m[k]={a:[],b:[],c:0,s:[]};m[k].a.push(r[1]);m[k].b.push(r[3]);m[k].c+=r[2];m[k].s.push(r[7])});
+groups=Object.entries(m).map(([k,v])=>({l:new Date(k+'-15').toLocaleDateString('en-GB',{month:'short'}),a:Math.round(v.a.reduce((a,b)=>a+b,0)/v.a.length),b:+(v.b.reduce((a,b)=>a+b,0)/v.b.length).toFixed(1),c:v.c,s:+(v.s.reduce((a,b)=>a+b,0)/v.s.length).toFixed(1)}))}
+const last=groups[groups.length-1]||{a:0,b:0,c:0,s:0};
+document.getElementById('perfKPIs').innerHTML=`<div class="kpi ${last.a>30?'red':'green'}"><div class="kpi-l">ASA</div><div class="kpi-v">${last.a}s</div></div><div class="kpi ${last.b>5?'red':'green'}"><div class="kpi-l">ABN</div><div class="kpi-v">${last.b}%</div></div><div class="kpi blue"><div class="kpi-l">Calls</div><div class="kpi-v">${last.c.toLocaleString()}</div></div><div class="kpi ${last.s<3.5?'amber':'green'}"><div class="kpi-l">CSAT</div><div class="kpi-v">${last.s}</div></div>`;
+const mxA=Math.max(...groups.map(g=>g.a),30);
+document.getElementById('perfASA').innerHTML=groups.map(g=>{const w=Math.max(5,g.a/mxA*100),c=g.a>30?'var(--rd)':'var(--gn)';return`<div class="tr-row"><div class="tr-lbl">${g.l}</div><div class="tr-trk"><div class="tr-fill" style="width:${w}%;background:${c}">${g.a}s</div></div><div class="tr-val" style="color:${c}">${g.a}</div></div>`}).join('');
+const mxB=Math.max(...groups.map(g=>g.b),5);
+document.getElementById('perfABN').innerHTML=groups.map(g=>{const w=Math.max(5,g.b/mxB*100),c=g.b>5?'var(--rd)':'var(--gn)';return`<div class="tr-row"><div class="tr-lbl">${g.l}</div><div class="tr-trk"><div class="tr-fill" style="width:${w}%;background:${c}">${g.b}%</div></div><div class="tr-val" style="color:${c}">${g.b}</div></div>`}).join('')}
+let tt;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1500)}
+(function(){try{const t=localStorage.getItem('ops_theme');if(t){document.body.setAttribute('data-theme',t);document.getElementById('themeBtn').textContent=t==='dark'?'Switch to Light':'Switch to Dark'}}catch(e){}initTodos()})();
 </script>
 </body>
 </html>
