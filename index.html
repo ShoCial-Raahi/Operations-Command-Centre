@@ -219,10 +219,11 @@ a{color:var(--accent2)}
   <button class="nav-btn" onclick="go(5,this)"><span class="nav-icon">&#127919;</span><span class="nav-label">Goals</span></button>
   <button class="nav-btn" onclick="go(6,this)"><span class="nav-icon">&#129309;</span><span class="nav-label">1:1 Leadership</span></button>
   <button class="nav-btn" onclick="go(7,this)"><span class="nav-icon">&#127942;</span><span class="nav-label">Promotion</span></button>
+  <button class="nav-btn" onclick="go(8,this)"><span class="nav-icon">&#128203;</span><span class="nav-label">Review &amp; Roadmap</span></button>
  </div>
  <div class="sb-foot">
   <div class="sb-foot-txt">Satish Kumar - Ops Manager CX</div>
-  <div class="sb-foot-txt" style="margin-top:2px">v4.2 - 4 Jul 2026</div>
+  <div class="sb-foot-txt" style="margin-top:2px">v4.3 - 4 Jul 2026</div>
   <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">Switch to Light</button>
  </div>
 </nav>
@@ -399,6 +400,75 @@ a{color:var(--accent2)}
     </div>
    </div>
    <div class="advisor" style="margin-top:14px">Why promote Satish Kumar: he turned a reactive BPO-style floor into a measured, evidence-led operation in weeks, isolating root causes leadership had accepted as noise, and building the systems and people pipeline to sustain the improvement. The case for senior leadership is the shift from firefighting to structural fixes that protect revenue, CSAT, and retention.</div>
+  </div>
+
+  <!-- 8 REVIEW AND ROADMAP -->
+  <div class="tab-panel" id="tab-8">
+   <div class="pg-h"><div class="pg-t">Review &amp; Roadmap Progress</div><div class="pg-s">10 July review readiness, 3 July feedback plan, and 90-day roadmap touch-base</div></div>
+
+   <div class="grid g4">
+    <div class="kpi blue"><div class="kpi-l">Overall Roadmap</div><div class="kpi-v">44%</div><div class="kpi-n">Day 55 of 90</div></div>
+    <div class="kpi green"><div class="kpi-l">Phase 1 Stabilise</div><div class="kpi-v">74%</div><div class="kpi-n">7 actions, on track</div></div>
+    <div class="kpi amber"><div class="kpi-l">Phase 2 Structure</div><div class="kpi-v">13%</div><div class="kpi-n">Blocked on Salesforce/MIS access</div></div>
+    <div class="kpi red"><div class="kpi-l">Phase 3 Transform</div><div class="kpi-v">5%</div><div class="kpi-n">Not yet started - as planned</div></div>
+   </div>
+
+   <div class="section-lbl">10 July Review - Evidence Readiness</div>
+   <div class="card">
+    <table class="ptbl">
+     <thead><tr><th>Evidence Item</th><th>Ready?</th><th>Notes</th></tr></thead>
+     <tbody>
+      <tr><td>Daily Operational Summaries (dated)</td><td><span class="tag a">Partial</span></td><td>Live only from 3 Jul - explain the timeline honestly</td></tr>
+      <tr><td>Dashboard/queue screenshots - pre-shift habit</td><td><span class="tag g">Yes</span></td><td>Screenshot before the meeting</td></tr>
+      <tr><td>EWS Red/Amber tracker with retention status</td><td><span class="tag g">Yes</span></td><td>9 Red, 10 Amber - conversations mostly complete</td></tr>
+      <tr><td>SLA/ASA/ABN trend with root cause narrative</td><td><span class="tag g">Yes</span></td><td>Supplier portal access is the root cause - lead with this</td></tr>
+      <tr><td>90-Day Roadmap with honest % complete</td><td><span class="tag g">Yes</span></td><td>Be direct about Phase 2/3 lag - both blocked on access, not effort</td></tr>
+      <tr><td>3 July Feedback Tracker - all 5 areas</td><td><span class="tag g">Yes</span></td><td>3 items already active/in place, rest dated</td></tr>
+      <tr><td>Career Development Programme evidence</td><td><span class="tag g">Yes</span></td><td>Strong, concrete - use as anchor example</td></tr>
+      <tr><td>MTTR trend (3.2 to 7.8 days)</td><td><span class="tag g">Yes</span></td><td>Raise proactively as a tracked risk</td></tr>
+      <tr><td>Salary appraisal escalation status</td><td><span class="tag r">No</span></td><td>Still pending Michael/HR - name as a blocker</td></tr>
+      <tr><td>Salesforce/MIS access status</td><td><span class="tag r">No</span></td><td>Still blocked - biggest constraint on Phase 2/3, say so plainly</td></tr>
+     </tbody>
+    </table>
+   </div>
+
+   <div class="section-lbl">3 July Feedback Plan - Live Status</div>
+   <div class="card">
+    <table class="ptbl">
+     <thead><tr><th>Area</th><th>Active/Complete</th><th>In Progress</th><th>Not Started</th></tr></thead>
+     <tbody>
+      <tr><td>Awareness &amp; Comms</td><td>2</td><td>1</td><td>0</td></tr>
+      <tr><td>Performance &amp; CI</td><td>0</td><td>2</td><td>1</td></tr>
+      <tr><td>Resource Planning</td><td>0</td><td>1</td><td>1</td></tr>
+      <tr><td>Leadership &amp; Accountability</td><td>0</td><td>2</td><td>1</td></tr>
+      <tr><td>Strategic Leadership</td><td>1</td><td>1</td><td>0</td></tr>
+     </tbody>
+    </table>
+   </div>
+
+   <div class="section-lbl">90-Day Roadmap - Phase Detail</div>
+   <div class="card">
+    <table class="ptbl">
+     <thead><tr><th>#</th><th>Action</th><th>Owner</th><th>% Done</th><th>Notes</th></tr></thead>
+     <tbody>
+      <tr><td>1</td><td>Floor coverage rota (1 TL + 1 SME)</td><td>Satish + TLs</td><td>100%</td><td>Live and holding</td></tr>
+      <tr><td>2</td><td>Shift-based planned break schedule</td><td>Team Leaders</td><td>90%</td><td>Live - shrinkage tracked weekly</td></tr>
+      <tr><td>3</td><td>Retention conversations + salary escalation</td><td>Satish</td><td>80%</td><td>Salary appraisal still pending sign-off</td></tr>
+      <tr><td>4</td><td>Hiring JDs - CO, QA, MIS</td><td>Satish + HR</td><td>60%</td><td>Leadership approval outstanding</td></tr>
+      <tr><td>5</td><td>Supplier portal access request</td><td>Satish + Account Mgmt</td><td>50%</td><td>Root cause of ASA/ABN issue - awaiting confirmation</td></tr>
+      <tr><td>6</td><td>Salesforce quick fixes (TO)</td><td>TO TLs</td><td>70%</td><td>Templates live, escalation matrix in progress</td></tr>
+      <tr><td>7</td><td>Connells P4 SLA recovery plan</td><td>Satish + TO TL</td><td>65%</td><td>Trending toward target</td></tr>
+      <tr><td>8</td><td>QA calibration structure + audit frequency</td><td>QA + Satish</td><td>20%</td><td>Business case drafted, auditor hiring pending</td></tr>
+      <tr><td>9</td><td>Salesforce dedup + CO routing matrix</td><td>Tech + Ops</td><td>10%</td><td>Dependent on Salesforce access</td></tr>
+      <tr><td>10</td><td>MIS + system-driven reporting</td><td>MIS Analyst + Satish</td><td>5%</td><td>Blocked - analyst not hired, access pending</td></tr>
+      <tr><td>11</td><td>TL and SME KPI scorecards</td><td>Satish</td><td>15%</td><td>Framework drafted, not live</td></tr>
+      <tr><td>12</td><td>WFM intraday planning/forecasting</td><td>Satish</td><td>5%</td><td>Not started - dependent on Phase 2</td></tr>
+      <tr><td>13</td><td>OneView KPI dashboard</td><td>TO TL + Tech</td><td>5%</td><td>Concept only - TO team's own idea</td></tr>
+     </tbody>
+    </table>
+   </div>
+
+   <div class="advisor" style="margin-top:14px">Full live detail, daily update log, and the shareable version of this tracker sit in the KRA Tracker workbook shared with Michael, Lisa, HR and Jo - this tab mirrors its key figures for quick reference on the floor.</div>
   </div>
 
  </div>
