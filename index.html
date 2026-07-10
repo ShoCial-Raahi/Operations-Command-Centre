@@ -225,7 +225,7 @@ a{color:var(--accent2)}
  </div>
  <div class="sb-foot">
   <div class="sb-foot-txt">Satish Kumar - Ops Manager CX</div>
-  <div class="sb-foot-txt" style="margin-top:2px">v4.6 - 10 Jul 2026</div>
+  <div class="sb-foot-txt" style="margin-top:2px">v4.7 - 10 Jul 2026</div>
   <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">Switch to Light</button>
  </div>
 </nav>
@@ -475,42 +475,31 @@ a{color:var(--accent2)}
 
   <!-- 9 TEAM KPI VIEW -->
   <div class="tab-panel" id="tab-9">
-   <div class="pg-h"><div class="pg-t">Team KPI Visibility</div><div class="pg-s">CO &amp; TO agent KPI targets - process-level daily, weekly, monthly view</div></div>
+   <div class="pg-h"><div class="pg-t">Team KPI Visibility</div><div class="pg-s">CO &amp; TO team KPIs - real daily entries from TLs, MTD/weekly auto-calculated</div></div>
 
-   <div class="advisor">Source: CO and TO Agent KPI target sheets (uploaded 7 Jul 2026). Targets are confirmed; Daily/Weekly/Monthly actuals are blank until entered in the KRA Tracker workbook - this mirrors structure only, not assumed performance.</div>
+   <div class="advisor">Source: Business CX KPI Tracker (CO &amp; TO), TL daily entries. CO figures are July 2026 MTD (month selector currently set to Jul). TO figures are May 2026 MTD (TLs backfilled May as their first entries - selector not yet moved to Jul). Both update automatically as new days are added - this is a snapshot, not a static report.</div>
 
-   <div class="section-lbl">CO Enhanced - Agent KPI Targets (Team Average)</div>
+   <div class="section-lbl">CO Enhanced - Team KPIs (July 2026 MTD)</div>
    <div class="card">
     <table class="ptbl">
-     <thead><tr><th>KPI</th><th>Target</th><th>Daily</th><th>Weekly</th><th>Monthly</th><th>Notes</th></tr></thead>
+     <thead><tr><th>KPI</th><th>Target</th><th>MTD</th><th>This Week</th><th>Status</th></tr></thead>
      <tbody>
-      <tr><td>CSAT Overall (Agent)</td><td>&gt;4.0</td><td>-</td><td>-</td><td>-</td><td>Below 4.0 across Apr-Jun per CX Review - key focus area</td></tr>
-      <tr><td>Emails per Hour</td><td>&gt;6.0</td><td>-</td><td>-</td><td>-</td><td>Pending - no email productivity source in Five9 pull (voice only). Needs Salesforce email queue data.</td></tr>
-      <tr><td>Inbound Voice CPH</td><td>&gt;4.0</td><td>6.32</td><td>6.03</td><td>6.09</td><td>Computed from Five9 CDR (calls / handle-time hours). May 6.08, Jun 6.03, Jul MTD 6.09.</td></tr>
-      <tr><td>Email Average First Response</td><td>&lt;4 hours</td><td>-</td><td>-</td><td>-</td><td>Peaked at 22.8h in April - critical historically</td></tr>
-      <tr><td>QA Score</td><td>&gt;90%</td><td>-</td><td>-</td><td>-</td><td>Only 1 QA auditor covering CO+TO - audit frequency low</td></tr>
-      <tr><td>Operational Compliance</td><td>Pass</td><td>Amber</td><td>Amber</td><td>Amber</td><td>Break/Lunch adherence fine, but "No Reason" state totals 504h, 72% from 3 agents (Saloni Dabas, Aishna Prasad, Ashi Mishra)</td></tr>
-      <tr><td>Credit Focus</td><td>Pass</td><td>-</td><td>-</td><td>-</td><td>Pending - source not yet identified. Confirm with Michael.</td></tr>
+      <tr><td>Voice - Calls Handled</td><td>Track only</td><td>2738</td><td>402</td><td>-</td></tr><tr><td>Voice - Average Speed of Answer</td><td>&lt;30s</td><td>130s</td><td>162s</td><td><span class="tag r">Off target</span></td></tr><tr><td>Voice - ABN %</td><td>&lt;5%</td><td>9.5%</td><td>13.5%</td><td><span class="tag r">Off target</span></td></tr><tr><td>Voice - CSAT (Agent)</td><td>&gt;4.0</td><td>3.5</td><td>4.0</td><td><span class="tag r">Off target</span></td></tr><tr><td>Voice - CSAT (Onecom)</td><td>&gt;4.0</td><td>3.5</td><td>4.0</td><td><span class="tag r">Off target</span></td></tr><tr><td>Chat - Chats Handled (inc. WhatsApp)</td><td>Track only</td><td>173</td><td>31</td><td>-</td></tr><tr><td>Chat - Average Speed of Answer</td><td>&lt;30s</td><td>148s</td><td>136s</td><td><span class="tag r">Off target</span></td></tr><tr><td>Chat - Abandonment %</td><td>&lt;5%</td><td>0.0%</td><td>0.0%</td><td><span class="tag g">On target</span></td></tr><tr><td>Chat - CSAT (Agent)</td><td>&gt;4.0</td><td>3.4</td><td>3.5</td><td><span class="tag r">Off target</span></td></tr><tr><td>Chat - CSAT (Onecom)</td><td>&gt;4.0</td><td>3.3</td><td>3.5</td><td><span class="tag r">Off target</span></td></tr><tr><td>Email - Average First Response</td><td>&lt;4 hours</td><td>15.9h</td><td>18.0h</td><td><span class="tag r">Off target</span></td></tr><tr><td>New Email Cases Handled</td><td>Track only</td><td>9</td><td>0</td><td>-</td></tr><tr><td>Email - CSAT (Agent)</td><td>&gt;4.0</td><td>2.4</td><td>4.0</td><td><span class="tag r">Off target</span></td></tr><tr><td>Emails - CSAT (Onecom)</td><td>&gt;4.0</td><td>2.2</td><td>3.0</td><td><span class="tag r">Off target</span></td></tr><tr><td>CSAT Overall (Agent)</td><td>&gt;4.0</td><td>3.5</td><td>3.9</td><td><span class="tag r">Off target</span></td></tr><tr><td>CSAT Overall (Onecom)</td><td>&gt;4.0</td><td>3.5</td><td>3.7</td><td><span class="tag r">Off target</span></td></tr><tr><td>TrustPilot 5★ Reviews Sent</td><td>Track only</td><td>30</td><td>5</td><td>-</td></tr><tr><td>TrustPilot 5★ Reviews Received</td><td>Track only</td><td>7</td><td>0</td><td>-</td></tr>
      </tbody>
     </table>
    </div>
 
-   <div class="section-lbl">TO Enhanced - Agent KPI Targets (Team Average)</div>
+   <div class="section-lbl">TO Enhanced - Team KPIs (May 2026 MTD)</div>
    <div class="card">
     <table class="ptbl">
-     <thead><tr><th>KPI</th><th>Target</th><th>Daily</th><th>Weekly</th><th>Monthly</th><th>Notes</th></tr></thead>
+     <thead><tr><th>KPI</th><th>Target</th><th>MTD</th><th>Status</th></tr></thead>
      <tbody>
-      <tr><td>CSAT</td><td>&gt;4.0</td><td>-</td><td>-</td><td>-</td><td>Read from handwritten source as &gt;4.0 - confirm if different</td></tr>
-      <tr><td>Cases (per agent, per period)</td><td>75</td><td>-</td><td>-</td><td>-</td><td>Confirm cadence: daily vs weekly target</td></tr>
-      <tr><td>Calls (per agent, per period)</td><td>150</td><td>-</td><td>-</td><td>-</td><td>Confirm cadence: daily vs weekly target</td></tr>
-      <tr><td>MTTR (days)</td><td>&lt;5</td><td>-</td><td>-</td><td>-</td><td>Trending up 3.2 to 7.8 days - live risk</td></tr>
-      <tr><td>Survey Sent %</td><td>60%</td><td>-</td><td>-</td><td>-</td><td></td></tr>
+      <tr><td>Voice - Calls Handled</td><td>Track only</td><td>2314</td><td>-</td></tr><tr><td>New Tickets</td><td>Track only</td><td>0</td><td>-</td></tr><tr><td>Voice - Average Speed of Answer</td><td>&lt;30s</td><td>47s</td><td><span class="tag r">Off target</span></td></tr><tr><td>Voice - Abandonment %</td><td>&lt;5%</td><td>2.5%</td><td><span class="tag g">On target</span></td></tr><tr><td>Average Handle Time</td><td>Track only</td><td>0.8 min</td><td>-</td></tr><tr><td>Voice - CSAT (Agent)</td><td>&gt;4.0</td><td>4.5</td><td><span class="tag g">On target</span></td></tr><tr><td>Voice - CSAT (Onecom)</td><td>&gt;4.0</td><td>3.7</td><td><span class="tag r">Off target</span></td></tr><tr><td>Current Case Volume Total</td><td>&lt;600</td><td>-</td><td><span class="tag a">Off target</span></td></tr><tr><td>Current Case Volume Unassigned</td><td>Track only</td><td>-</td><td>-</td></tr><tr><td>Oldest Unassigned - Overall (days)</td><td>Track only</td><td>-</td><td>-</td></tr><tr><td>SLA achieved First Response %</td><td>95%</td><td>-</td><td><span class="tag a">Off target</span></td></tr><tr><td>SLA achieved Target Repair %</td><td>95%</td><td>-</td><td><span class="tag a">Off target</span></td></tr><tr><td>MTTR (Days)</td><td>&lt;5</td><td>-</td><td><span class="tag a">Off target</span></td></tr><tr><td>Email - CSAT (Agent)</td><td>&gt;4.0</td><td>4.1</td><td><span class="tag g">On target</span></td></tr><tr><td>Emails - CSAT (Onecom)</td><td>&gt;4.0</td><td>3.0</td><td><span class="tag r">Off target</span></td></tr><tr><td>CSAT Overall (Agent)</td><td>&gt;4.0</td><td>-</td><td><span class="tag a">Off target</span></td></tr><tr><td>CSAT Overall (Onecom)</td><td>&gt;4.0</td><td>-</td><td><span class="tag a">Off target</span></td></tr><tr><td>TrustPilot 5★ Reviews Sent</td><td>Track only</td><td>40</td><td>-</td></tr>
      </tbody>
     </table>
    </div>
 
-   <div class="advisor" style="margin-top:14px">How to use: Daily updates each morning from the prior day's Five9/Salesforce pull. Weekly updates every Monday with the trailing 7-day average - use for the weekly leadership update. Monthly updates at month-end close - this is the figure for KRA/appraisal conversations. Full editable version with RAG status lives in the KRA Tracker workbook.</div>
-
+   <div class="advisor" style="margin-top:14px">Reading this: CO is running hot on almost every service-level metric this month (ASA, ABN%, CSAT all off target) - consistent with the supplier-portal-driven regression already flagged. TO's picture from May is more mixed: voice CSAT and abandonment are healthy, but Voice ASA (47s) and Onecom-side CSAT scores sit below target. TO hasn't logged SLA%, MTTR, or case volume yet - those rows show a dash, not a zero. Full daily/weekly grid with month selector lives in the Business CX KPI Tracker workbook.</div>
 
   <!-- 10 REVIEW PREP -->
   <div class="tab-panel" id="tab-10">
