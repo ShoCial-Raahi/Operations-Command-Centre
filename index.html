@@ -221,10 +221,11 @@ a{color:var(--accent2)}
   <button class="nav-btn" onclick="go(7,this)"><span class="nav-icon">&#127942;</span><span class="nav-label">Promotion</span></button>
   <button class="nav-btn" onclick="go(8,this)"><span class="nav-icon">&#128203;</span><span class="nav-label">Review &amp; Roadmap</span></button>
   <button class="nav-btn" onclick="go(9,this)"><span class="nav-icon">&#128202;</span><span class="nav-label">Team KPI View</span></button>
+  <button class="nav-btn" onclick="go(10,this)"><span class="nav-icon">&#128172;</span><span class="nav-label">Review Prep</span></button>
  </div>
  <div class="sb-foot">
   <div class="sb-foot-txt">Satish Kumar - Ops Manager CX</div>
-  <div class="sb-foot-txt" style="margin-top:2px">v4.5 - 7 Jul 2026</div>
+  <div class="sb-foot-txt" style="margin-top:2px">v4.6 - 10 Jul 2026</div>
   <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">Switch to Light</button>
  </div>
 </nav>
@@ -509,6 +510,96 @@ a{color:var(--accent2)}
    </div>
 
    <div class="advisor" style="margin-top:14px">How to use: Daily updates each morning from the prior day's Five9/Salesforce pull. Weekly updates every Monday with the trailing 7-day average - use for the weekly leadership update. Monthly updates at month-end close - this is the figure for KRA/appraisal conversations. Full editable version with RAG status lives in the KRA Tracker workbook.</div>
+
+
+  <!-- 10 REVIEW PREP -->
+  <div class="tab-panel" id="tab-10">
+   <div class="pg-h"><div class="pg-t">Review Prep - Q&amp;A</div><div class="pg-s">2-month review - strategic planning focus, answers written the way to actually say them in the room</div></div>
+
+   <div class="advisor">Pulled from real 1:1 records (26 May, 12 Jun, 26 Jun, 3 Jul), the TO Growth Program document, and live Command Centre data. Answers are first-person and conversational on purpose - the point is to sound like you, not like a report.</div>
+
+   <div class="section-lbl">Strategic Planning - This Is the Focus Area</div>
+
+   <div class="card" style="margin-bottom:10px">
+     <div style="font-weight:600;color:var(--accent,#6B3FA0);margin-bottom:6px">Q: Where do you want this operation to be in 6 months if everything goes right?</div>
+     <div>Two things, honestly. First, CO and TO running on system data instead of me or a TL manually pulling numbers - that's the whole point of Phase 2 and 3, and it's the difference between this being sustainable versus me being a single point of failure. Second, the growth programme becoming the normal way people move up here, not a one-off pilot. If Harneet and Gaurav are QA auditors by year end and there's a queue of people wanting to be next, that tells me the retention problem is actually solved, not just patched over.</div>
+    </div><div class="card" style="margin-bottom:10px">
+     <div style="font-weight:600;color:var(--accent,#6B3FA0);margin-bottom:6px">Q: If you had to cut one of your three roadmap phases to save time, which would you cut?</div>
+     <div>I wouldn't cut a phase, but I'd reorder inside one. Phase 3's WFM forecasting can wait - it's a nice-to-have next to Phase 2's QA structure and system reporting, which is what actually unblocks honest performance conversations. If I'm forced to choose, I protect anything that gets us off manual reporting, because coaching, KPIs, even this review - all of it sits downstream of whether the numbers are trustworthy.</div>
+    </div><div class="card" style="margin-bottom:10px">
+     <div style="font-weight:600;color:var(--accent,#6B3FA0);margin-bottom:6px">Q: How do you decide what to escalate versus solve yourself?</div>
+     <div>Rough rule I use: if it's a floor behaviour or a process gap, that's mine - rota, breaks, coaching, accountability, I fix it. If it needs money, a hire, or access to a system I don't own, that comes to leadership fast, with evidence, rather than me sitting on it hoping it resolves itself. The salary appraisal and the Salesforce access request are both exactly that - I could see the problem clearly, but I don't have the lever, so I brought evidence instead of a guess.</div>
+    </div><div class="card" style="margin-bottom:10px">
+     <div style="font-weight:600;color:var(--accent,#6B3FA0);margin-bottom:6px">Q: What would you do differently if you were starting this role again from day one?</div>
+     <div>Push the Salesforce and supplier portal access requests in week one, not week three or four. I spent real time building workarounds - manual tracking, CSVs, paste-in dashboards - that I wouldn't have needed if access had come through faster. The lesson for me is to raise the blocking asks immediately, even before I've fully diagnosed the problem, instead of waiting until I have the complete picture.</div>
+    </div><div class="card" style="margin-bottom:10px">
+     <div style="font-weight:600;color:var(--accent,#6B3FA0);margin-bottom:6px">Q: If CO or TO grows another 20%, does your current structure hold?</div>
+     <div>Mostly yes, with one exception. The TL structure and the rota scale fine - it's about coverage ratios, not headcount. Where it doesn't hold is QA - one auditor for 50 agents is already stretched, and at 20% more headcount that becomes a real quality blind spot, not just a slower audit cadence. That's exactly why the QA Auditor ask is on the table now, not later.</div>
+    </div><div class="card" style="margin-bottom:10px">
+     <div style="font-weight:600;color:var(--accent,#6B3FA0);margin-bottom:6px">Q: What's the single biggest strategic risk to this operation right now?</div>
+     <div>Retention, without question - not because people are unhappy with the work, but because six people told me directly that compensation is why they're looking elsewhere, and I don't control that lever. The growth programme buys us time and gives people a reason to stay short-term, but if the salary appraisal doesn't move, I think we lose exactly the people this quarter's improvement has depended on.</div>
+    </div>
+
+   <div class="section-lbl">The Direct Challenge - Prepare For This One</div>
+   <div class="advisor">Michael's 12 June note was blunt: "There is lots of data analysis &amp; talking around some good ideas, but we are wanting to see some real movement &amp; impact from Satish." This will likely resurface in some form.</div>
+
+   <div class="card" style="margin-bottom:10px">
+     <div style="font-weight:600;color:var(--accent,#6B3FA0);margin-bottom:6px">Q: There's been a lot of analysis and good ideas talked about - where's the real movement and impact since June?</div>
+     <div>Fair challenge, and I'd rather answer it head-on than talk around it again. The analysis was never meant to be the output - it was me making sure I wasn't about to ask for headcount or budget to fix something that wasn't actually a headcount problem. But since then, here's what's actually different, with dates attached: ABN proven sub-5% achievable in specific weeks, ACW down to a 30-second standard, aged-case threshold tightened from 21 to 14 days with daily RCA now routine, SLA violations down against baseline, 6 headcount added 6 July with a shift reallocation to cover peak flow, and CO split into two units since 1 June with each TL individually accountable for their own team. None of that is me saying it's fixed. It's me showing what moved and being straight about what's still slow.</div>
+    </div>
+
+   <div class="section-lbl">Lisa's 3 July Feedback - Area by Area</div>
+
+   <div class="card" style="margin-bottom:10px">
+     <div style="font-weight:600;color:var(--accent,#6B3FA0);margin-bottom:6px">Q: Awareness &amp; Communication - how are you keeping us in the loop day to day?</div>
+     <div>Daily Operational Summary is running, pre-shift dashboard review is in place. The TL Daily Planner from 21 May hit real-time adoption friction, so I've redesigned it into a weekly newsletter - insight, blockers, what we did about them, and what support we need - launching this Friday, 10 July.</div>
+    </div><div class="card" style="margin-bottom:10px">
+     <div style="font-weight:600;color:var(--accent,#6B3FA0);margin-bottom:6px">Q: Performance &amp; Continuous Improvement - how are you driving improvement, not just monitoring it?</div>
+     <div>EWS proactive planning is active. Trend views for CO and TO are in progress but partly blocked on Salesforce access - I'd rather say that plainly than imply it's further along than it is. Case lifecycle fixes, SIM order flow and re-open logic, are in testing now.</div>
+    </div><div class="card" style="margin-bottom:10px">
+     <div style="font-weight:600;color:var(--accent,#6B3FA0);margin-bottom:6px">Q: Resource Planning - what does your resourcing plan look like?</div>
+     <div>6 headcount added 6 July with a shift reallocation to manage peak call flow. One item in this area hasn't started yet - I'd rather name that directly and give a start date than let it get found.</div>
+    </div><div class="card" style="margin-bottom:10px">
+     <div style="font-weight:600;color:var(--accent,#6B3FA0);margin-bottom:6px">Q: Leadership &amp; Accountability - how are you building TL accountability?</div>
+     <div>CO split into two accountable units since 1 June, Daily TL Governance Tracker is live, and I'm picking up Aniket and Yuvraj's 1:1s from July with SMART objectives to hold them to. One item here also hasn't started - same approach, I'll name it rather than hope it's not asked.</div>
+    </div><div class="card" style="margin-bottom:10px">
+     <div style="font-weight:600;color:var(--accent,#6B3FA0);margin-bottom:6px">Q: Strategic Leadership - what's the bigger structural play beyond firefighting?</div>
+     <div>The growth programme is retention infrastructure, not a training exercise. Lead Agent and Queue Controller give the floor a supervision layer that doesn't depend on hiring. And the 90-day roadmap itself is phased on purpose - each phase depends on the last actually landing.</div>
+    </div>
+
+   <div class="section-lbl">People, Retention &amp; What I Need From Leadership</div>
+
+   <div class="card" style="margin-bottom:10px">
+     <div style="font-weight:600;color:var(--accent,#6B3FA0);margin-bottom:6px">Q: There have been three exits since you joined - Chandan Soni, Md Tasnim, Lakshya. What's driving this?</div>
+     <div>The Early Warning System exists specifically to catch this proactively across all 53 agents rather than react after the fact. I've done retention 1:1s with every Red and Amber agent. Six high performers told me directly that compensation is why they're looking elsewhere - that's the evidence behind the salary appraisal escalation to Michael and Lisa. It's still pending sign-off, and honestly it's the single biggest lever not yet pulled.</div>
+    </div><div class="card" style="margin-bottom:10px">
+     <div style="font-weight:600;color:var(--accent,#6B3FA0);margin-bottom:6px">Q: Tell us about the growth programme.</div>
+     <div>12 weeks, 4 tenured agents - Harneet Kaur and Gaurav Singh on the QA Auditor track, Azeem Gani and Uttam Beria on Ops. Phased enrollment across Weeks 1 to 4, deliberately built around the exact cohort most at flight risk. The whole point, in the programme's own words: these are the people who make the team perform, and they're currently looking elsewhere for a next step they can't see here yet.</div>
+    </div><div class="card" style="margin-bottom:10px">
+     <div style="font-weight:600;color:var(--accent,#6B3FA0);margin-bottom:6px">Q: Where do Lead Agent and Queue Controller stand?</div>
+     <div>QC selection completed 30 June, Lead Agent scoped to start 1 August. Both on hold - hiring's paused across all LOBs, not specific to these roles. I'm testing floorwalkers now against Lead Agent expectations so we're ready to move the second the freeze lifts, not starting cold.</div>
+    </div>
+
+   <div class="card">
+    <div style="font-weight:600;margin-bottom:8px">If asked "what do you need from us that you haven't got yet" - this is the list, said plainly:</div>
+    <div class="li"><span class="ic">&#9656;</span><strong>Salary appraisal cycle</strong> for at-risk agents - Lisa/HR, urgent.</div>
+    <div class="li"><span class="ic">&#9656;</span><strong>Salesforce raw reporting access</strong> - Michael/Joanne, high.</div>
+    <div class="li"><span class="ic">&#9656;</span><strong>IJP framework</strong> published - Joanne/HR, high.</div>
+    <div class="li"><span class="ic">&#9656;</span><strong>QA Auditor JD approval</strong> - one auditor covers 50 agents right now - Michael/HR, medium.</div>
+    <div class="li"><span class="ic">&#9656;</span><strong>Supplier portal access</strong> - Michael, high.</div>
+   </div>
+
+   <div class="section-lbl">Metrics They May Probe</div>
+
+   <div class="card" style="margin-bottom:10px">
+     <div style="font-weight:600;color:var(--accent,#6B3FA0);margin-bottom:6px">Q: CO ASA regressed to 199 seconds in June against a 30-second target. What happened?</div>
+     <div>It's a supplier dependency, not a staffing gap - advisors can't resolve queries without supplier-side confirmation, which drives holds and transfers. I used weekly data specifically to prove that before asking for anything else. Supplier portal access is formally requested and still pending.</div>
+    </div><div class="card" style="margin-bottom:10px">
+     <div style="font-weight:600;color:var(--accent,#6B3FA0);margin-bottom:6px">Q: MTTR has trended from 3.2 to 7.8 days. What's happening there?</div>
+     <div>I'd rather raise this myself than wait to be asked - it's a live tracked risk, not a hidden one. It correlates with case volume growth, and it ties into the TO SLA accuracy work already underway: making sure First Response and Target Repair are only marked complete when genuinely achieved, targeting under 2% error rate through daily sampling.</div>
+    </div>
+
+   <div class="advisor" style="margin-top:14px">Full expanded version with detailed answers on forward-look and self-assessment lives in the Review Prep Q&amp;A document shared separately.</div>
   </div>
 
  </div>
