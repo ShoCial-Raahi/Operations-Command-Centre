@@ -71,6 +71,7 @@ a{color:var(--accent2)}
 /* KPI CARD */
 .kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:15px 16px;border-top:3px solid var(--accent)}
 .kpi.red{border-top-color:var(--red)} .kpi.green{border-top-color:var(--green)}
+.red-txt{color:var(--red);font-weight:600}
 .kpi.amber{border-top-color:var(--amber)} .kpi.blue{border-top-color:var(--blue)}
 .kpi-l{font-size:10px;font-weight:700;letter-spacing:1px;color:var(--muted);text-transform:uppercase}
 .kpi-v{font-size:28px;font-weight:800;color:var(--text);margin:4px 0 2px;letter-spacing:-1px}
@@ -225,7 +226,7 @@ a{color:var(--accent2)}
  </div>
  <div class="sb-foot">
   <div class="sb-foot-txt">Satish Kumar - Ops Manager CX</div>
-  <div class="sb-foot-txt" style="margin-top:2px">v5.0 - 10 Jul 2026</div>
+  <div class="sb-foot-txt" style="margin-top:2px">v5.1 - 10 Jul 2026</div>
   <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">Switch to Light</button>
  </div>
 </nav>
@@ -243,40 +244,62 @@ a{color:var(--accent2)}
 
   <!-- 0 COMMAND CENTRE -->
   <div class="tab-panel active" id="tab-0">
-   <div class="pg-h"><div class="pg-t">Operations Command Centre</div><div class="pg-s">CO Enhanced + TO Enhanced - Trend since joining, 11 May 2026</div></div>
+   <div class="pg-h"><div class="pg-t">Operations Command Centre</div><div class="pg-s">CO Enhanced + TO Enhanced, trend since joining, 11 May 2026</div></div>
 
-   <div class="advisor"><b>The honest headline: CO voice ASA has not sustainably improved since I joined.</b> May averaged 113s, June got worse at 146s, and July is a tentative improvement at 121s MTD - still 4x the 30s target. The root cause was identified in Week 1 and hasn't changed: advisors can't resolve supplier-dependent queries without portal access, which inflates hold time and drives the regression. That access request is still pending. TO Enhanced tells a different story - it's held inside target on most voice metrics the whole period, which is the proof this is fixable, not a capability gap.</div>
+   <div class="advisor"><b>The honest headline: CO voice ASA has not sustainably improved since I joined, and a big part of why has just become clear from the daily log.</b> May averaged 113s, June got worse at 146s, July is a tentative improvement at 121s MTD, still 4x the 30s target. Two root causes, not one: the supplier portal access gap flagged since Week 1, and a cluster of five infrastructure outages in the last eight weeks that I only now have dated evidence for. TO Enhanced has held inside target on most voice metrics the whole period, proof this is fixable, not a capability gap.</div>
 
    <div class="seg small" id="ccPeriodToggle" style="margin-bottom:12px">
+    <button class="seg-btn" onclick="ccPeriod('daily',this)">Daily Trend</button>
     <button class="seg-btn active" onclick="ccPeriod('weekly',this)">Weekly Trend</button>
     <button class="seg-btn" onclick="ccPeriod('monthly',this)">Monthly Trend</button>
    </div>
 
-   <div id="ccWeekly">
-    <div class="section-lbl">CO Voice ASA - Weekly, Since Joining (sec, target &lt;30s)</div>
+   <div id="ccDaily" style="display:none">
+    <div class="section-lbl">CO Voice ASA, Last 14 Days (sec, target below 30s)</div>
     <div class="trend">
-     <div class="tr-row"><div class="tr-lbl">04-10 May</div><div class="tr-trk"><div class="tr-fill" style="width:67%;background:var(--red)">139s</div></div><div class="tr-val" style="color:var(--red)">139s</div></div>
-     <div class="tr-row"><div class="tr-lbl">11-17 May</div><div class="tr-trk"><div class="tr-fill" style="width:30%;background:var(--red)">63s</div></div><div class="tr-val" style="color:var(--red)">63s</div></div>
-     <div class="tr-row"><div class="tr-lbl">18-24 May</div><div class="tr-trk"><div class="tr-fill" style="width:55%;background:var(--red)">115s</div></div><div class="tr-val" style="color:var(--red)">115s</div></div>
-     <div class="tr-row"><div class="tr-lbl">25-31 May</div><div class="tr-trk"><div class="tr-fill" style="width:75%;background:var(--red)">155s</div></div><div class="tr-val" style="color:var(--red)">155s</div></div>
-     <div class="tr-row"><div class="tr-lbl">01-07 Jun</div><div class="tr-trk"><div class="tr-fill" style="width:100%;background:var(--red)">208s</div></div><div class="tr-val" style="color:var(--red)">208s</div></div>
-     <div class="tr-row"><div class="tr-lbl">08-14 Jun</div><div class="tr-trk"><div class="tr-fill" style="width:85%;background:var(--red)">176s</div></div><div class="tr-val" style="color:var(--red)">176s</div></div>
-     <div class="tr-row"><div class="tr-lbl">15-21 Jun</div><div class="tr-trk"><div class="tr-fill" style="width:74%;background:var(--red)">154s</div></div><div class="tr-val" style="color:var(--red)">154s</div></div>
-     <div class="tr-row"><div class="tr-lbl">22-28 Jun</div><div class="tr-trk"><div class="tr-fill" style="width:30%;background:var(--green)">63s</div></div><div class="tr-val" style="color:var(--green)">63s</div></div>
-     <div class="tr-row"><div class="tr-lbl">29 Jun-05 Jul</div><div class="tr-trk"><div class="tr-fill" style="width:58%;background:var(--red)">122s</div></div><div class="tr-val" style="color:var(--red)">122s</div></div>
-     <div class="tr-row"><div class="tr-lbl">06-12 Jul (MTD)</div><div class="tr-trk"><div class="tr-fill" style="width:40%;background:var(--red)">83s</div></div><div class="tr-val" style="color:var(--red)">83s</div></div>
+     <div class="tr-row"><div class="tr-lbl">17 Jun</div><div class="tr-trk"><div class="tr-fill" style="width:79%;background:var(--red)">195s</div></div><div class="tr-val" style="color:var(--red)">195s</div></div>
+     <div class="tr-row"><div class="tr-lbl">18 Jun</div><div class="tr-trk"><div class="tr-fill" style="width:67%;background:var(--red)">165s</div></div><div class="tr-val" style="color:var(--red)">165s</div></div>
+     <div class="tr-row"><div class="tr-lbl">19 Jun</div><div class="tr-trk"><div class="tr-fill" style="width:34%;background:var(--red)">84s</div></div><div class="tr-val" style="color:var(--red)">84s</div></div>
+     <div class="tr-row"><div class="tr-lbl">22 Jun</div><div class="tr-trk"><div class="tr-fill" style="width:28%;background:var(--red)">69s</div></div><div class="tr-val" style="color:var(--red)">69s</div></div>
+     <div class="tr-row"><div class="tr-lbl">23 Jun (Five9 outage)</div><div class="tr-trk"><div class="tr-fill" style="width:37%;background:var(--amber)">90s</div></div><div class="tr-val" style="color:var(--amber)">90s</div></div>
+     <div class="tr-row"><div class="tr-lbl">24 Jun</div><div class="tr-trk"><div class="tr-fill" style="width:18%;background:var(--green)">44s</div></div><div class="tr-val" style="color:var(--green)">44s</div></div>
+     <div class="tr-row"><div class="tr-lbl">25 Jun (Broadband outage)</div><div class="tr-trk"><div class="tr-fill" style="width:34%;background:var(--amber)">84s</div></div><div class="tr-val" style="color:var(--amber)">84s</div></div>
+     <div class="tr-row"><div class="tr-lbl">26 Jun</div><div class="tr-trk"><div class="tr-fill" style="width:11%;background:var(--green)">27s</div></div><div class="tr-val" style="color:var(--green)">27s</div></div>
+     <div class="tr-row"><div class="tr-lbl">29 Jun (CATO/VPN issue)</div><div class="tr-trk"><div class="tr-fill" style="width:50%;background:var(--red)">124s</div></div><div class="tr-val" style="color:var(--red)">124s</div></div>
+     <div class="tr-row"><div class="tr-lbl">30 Jun</div><div class="tr-trk"><div class="tr-fill" style="width:33%;background:var(--amber)">81s</div></div><div class="tr-val" style="color:var(--amber)">81s</div></div>
+     <div class="tr-row"><div class="tr-lbl">01 Jul (Both broadband lines down)</div><div class="tr-trk"><div class="tr-fill" style="width:100%;background:var(--red)">246s</div></div><div class="tr-val" style="color:var(--red)">246s</div></div>
+     <div class="tr-row"><div class="tr-lbl">02 Jul</div><div class="tr-trk"><div class="tr-fill" style="width:20%;background:var(--green)">50s</div></div><div class="tr-val" style="color:var(--green)">50s</div></div>
+     <div class="tr-row"><div class="tr-lbl">03 Jul</div><div class="tr-trk"><div class="tr-fill" style="width:43%;background:var(--red)">106s</div></div><div class="tr-val" style="color:var(--red)">106s</div></div>
+     <div class="tr-row"><div class="tr-lbl">06 Jul</div><div class="tr-trk"><div class="tr-fill" style="width:34%;background:var(--amber)">83s</div></div><div class="tr-val" style="color:var(--amber)">83s</div></div>
     </div>
-    <div class="note">Volatile, not trending cleanly in either direction week to week - but only 1 of 10 weeks has touched target-adjacent territory (22-28 Jun). That single good week proves it's achievable when floor conditions align; it hasn't held.</div>
+    <div class="note">The single worst day, 1 July at 246s, is the day both broadband lines failed. That is not a coincidence, and it is the clearest single data point tying infrastructure stability directly to service level.</div>
+   </div>
+
+   <div id="ccWeekly">
+    <div class="section-lbl">CO Voice ASA, Weekly, Since Joining (sec, target below 30s)</div>
+    <div class="trend">
+     <div class="tr-row"><div class="tr-lbl">04-10 May</div><div class="tr-trk"><div class="tr-fill" style="width:56%;background:var(--red)">139s</div></div><div class="tr-val" style="color:var(--red)">139s</div></div>
+     <div class="tr-row"><div class="tr-lbl">11-17 May</div><div class="tr-trk"><div class="tr-fill" style="width:26%;background:var(--red)">63s</div></div><div class="tr-val" style="color:var(--red)">63s</div></div>
+     <div class="tr-row"><div class="tr-lbl">18-24 May</div><div class="tr-trk"><div class="tr-fill" style="width:47%;background:var(--red)">115s</div></div><div class="tr-val" style="color:var(--red)">115s</div></div>
+     <div class="tr-row"><div class="tr-lbl">25-31 May</div><div class="tr-trk"><div class="tr-fill" style="width:63%;background:var(--red)">155s</div></div><div class="tr-val" style="color:var(--red)">155s</div></div>
+     <div class="tr-row"><div class="tr-lbl">01-07 Jun</div><div class="tr-trk"><div class="tr-fill" style="width:85%;background:var(--red)">208s</div></div><div class="tr-val" style="color:var(--red)">208s</div></div>
+     <div class="tr-row"><div class="tr-lbl">08-14 Jun</div><div class="tr-trk"><div class="tr-fill" style="width:72%;background:var(--red)">176s</div></div><div class="tr-val" style="color:var(--red)">176s</div></div>
+     <div class="tr-row"><div class="tr-lbl">15-21 Jun</div><div class="tr-trk"><div class="tr-fill" style="width:63%;background:var(--red)">154s</div></div><div class="tr-val" style="color:var(--red)">154s</div></div>
+     <div class="tr-row"><div class="tr-lbl">22-28 Jun (2 outages)</div><div class="tr-trk"><div class="tr-fill" style="width:26%;background:var(--green)">63s</div></div><div class="tr-val" style="color:var(--green)">63s</div></div>
+     <div class="tr-row"><div class="tr-lbl">29 Jun-05 Jul (2 outages)</div><div class="tr-trk"><div class="tr-fill" style="width:49%;background:var(--red)">122s</div></div><div class="tr-val" style="color:var(--red)">122s</div></div>
+     <div class="tr-row"><div class="tr-lbl">06-12 Jul (MTD)</div><div class="tr-trk"><div class="tr-fill" style="width:34%;background:var(--red)">83s</div></div><div class="tr-val" style="color:var(--red)">83s</div></div>
+    </div>
+    <div class="note">Volatile week to week, not a clean trend either way. Only 22-28 Jun touched target-adjacent territory, and even that week absorbed two outages. The floor is capable of good weeks; it has not held one yet.</div>
    </div>
 
    <div id="ccMonthly" style="display:none">
-    <div class="section-lbl">CO Voice ASA - Monthly, Since Joining (sec, target &lt;30s)</div>
+    <div class="section-lbl">CO Voice ASA, Monthly, Since Joining (sec, target below 30s)</div>
     <div class="trend">
-     <div class="tr-row"><div class="tr-lbl">May 2026</div><div class="tr-trk"><div class="tr-fill" style="width:54%;background:var(--red)">113s</div></div><div class="tr-val" style="color:var(--red)">113s</div></div>
-     <div class="tr-row"><div class="tr-lbl">June 2026</div><div class="tr-trk"><div class="tr-fill" style="width:70%;background:var(--red)">146s</div></div><div class="tr-val" style="color:var(--red)">146s</div></div>
-     <div class="tr-row"><div class="tr-lbl">July 2026 (MTD)</div><div class="tr-trk"><div class="tr-fill" style="width:58%;background:var(--red)">121s</div></div><div class="tr-val" style="color:var(--red)">121s</div></div>
+     <div class="tr-row"><div class="tr-lbl">May 2026</div><div class="tr-trk"><div class="tr-fill" style="width:46%;background:var(--red)">113s</div></div><div class="tr-val" style="color:var(--red)">113s</div></div>
+     <div class="tr-row"><div class="tr-lbl">June 2026 (4 outages)</div><div class="tr-trk"><div class="tr-fill" style="width:59%;background:var(--red)">146s</div></div><div class="tr-val" style="color:var(--red)">146s</div></div>
+     <div class="tr-row"><div class="tr-lbl">July 2026 MTD (1 outage)</div><div class="tr-trk"><div class="tr-fill" style="width:49%;background:var(--red)">121s</div></div><div class="tr-val" style="color:var(--red)">121s</div></div>
     </div>
-    <div class="note">Month over month: May to June got worse (+29%), June to July MTD has improved (-17%) but remains 4x target. Verdict: not yet a sustained improvement - an early, fragile one.</div>
+    <div class="note">May to June got worse, plus 29 percent, with four separate outages that month. June to July MTD has improved, minus 17 percent, with outage frequency also down. The correlation is not proof on its own, but it lines up too closely to ignore.</div>
    </div>
 
    <div class="grid g4" style="margin-top:14px">
@@ -286,28 +309,59 @@ a{color:var(--accent2)}
     <div class="kpi green"><div class="kpi-l">TO CSAT (May)</div><div class="kpi-v">4.45</div><div class="kpi-n">Above 4.0 target</div></div>
    </div>
 
-   <div class="section-lbl">Top Call Drivers - Why ASA Is Where It Is</div>
+   <div class="section-lbl">Infrastructure Outages, Last 8 Weeks</div>
+   <div class="card">
+    <table class="ptbl">
+     <thead><tr><th>Date</th><th>Incident</th><th>CO ABN</th><th>TO ABN</th><th>What We Did</th></tr></thead>
+     <tbody>
+      <tr><td>6 May</td><td>Site-wide internet outage, full day, no CO backup model existed</td><td class="red-txt">32.6%</td><td>6.93%</td><td>4 TO advisors enabled work-from-home via UK team support. No mitigation available for CO.</td></tr>
+      <tr><td>23 Jun</td><td>Five9 platform outage, inbound calls affected</td><td>7.2%</td><td>8.3%</td><td>Queues monitored closely, customers informed, resumed on restoration.</td></tr>
+      <tr><td>25 Jun</td><td>Broadband outage</td><td>9.1%</td><td>0%</td><td>IT engaged for restoration, queues monitored throughout.</td></tr>
+      <tr><td>29 Jun</td><td>CATO/VPN issue, system access affected</td><td>9.1%</td><td>0.96%</td><td>Worked with IT to resolve, lower TO demand minimised impact.</td></tr>
+      <tr><td>1 Jul</td><td>Both broadband lines failed</td><td class="red-txt">12.3%</td><td>5.2%</td><td>Escalated to IT and providers, resources redirected to minimise disruption.</td></tr>
+     </tbody>
+    </table>
+   </div>
+   <div class="advisor" style="margin-top:8px">Support required: business continuity and backup support model for CO during major outages, since none currently exists. Raised in the Support Follow-up Tracker as P1.</div>
+
+   <div class="section-lbl">Top Call Drivers, Why ASA and ABN Are Where They Are</div>
    <div class="grid g3">
-    <div class="card"><div class="card-t">#1 Supplier Dependency</div><div class="ap-ftxt">Most CO calls need supplier-side confirmation before an advisor can resolve. No portal access means holds and transfers, not a quick answer. This is the single largest driver of the ASA/AHT regression - access request still pending with Michael.</div></div>
-    <div class="card"><div class="card-t">#2 No Occupancy/Utilisation View</div><div class="ap-ftxt">Abandons get explained as headcount shortfall without evidence. No utilisation data means staffing decisions are guesses, not sizing - masks whether the real issue is volume, process, or coverage.</div></div>
-    <div class="card"><div class="card-t">#3 Recording &amp; QA Blind Spots</div><div class="ap-ftxt">Inconsistent recording-to-case mapping means QA can't reliably audit call quality, so root causes behind long calls are under-diagnosed - one auditor for 50 agents makes this worse.</div></div>
+    <div class="card"><div class="card-t">#1 Supplier Dependency</div><div class="ap-ftxt">Most CO calls need supplier-side confirmation before an advisor can resolve. No portal access means holds and transfers, not a quick answer. Access request still pending with Michael.</div></div>
+    <div class="card"><div class="card-t">#2 Infrastructure Instability</div><div class="ap-ftxt">Five outages in eight weeks, no CO backup model. Each incident directly correlates with a bad ASA day or week, most visibly 1 July at 246s.</div></div>
+    <div class="card"><div class="card-t">#3 Training-Floor Gap</div><div class="ap-ftxt">Training content misaligned with current floor process, contributing to higher AHT for new joiners. Cross-functional review with Training starts 10 July.</div></div>
    </div>
 
-   <div class="section-lbl">Challenges - Still Open</div>
+   <div class="section-lbl">Challenges Still Open</div>
    <div class="grid g3">
-    <div class="card"><div class="card-t">Salesforce Access Blocked</div><div class="ap-ftxt">No raw reporting access means Phase 2/3 of the roadmap - system-driven KPI reporting, QA scorecards - can't move. This is the single biggest constraint on everything downstream.</div></div>
-    <div class="card"><div class="card-t">Salary Appraisal Pending</div><div class="ap-ftxt">Six high performers cite compensation as their reason to leave. Escalated to Michael and Lisa with EWS evidence - still awaiting sign-off.</div></div>
-    <div class="card"><div class="card-t">QA Coverage Thin</div><div class="ap-ftxt">One auditor covering 50 agents across CO+TO, running 3 audits/agent/month against an 8 target. Auditor hiring pending approval.</div></div>
+    <div class="card"><div class="card-t">No CO Business Continuity Model</div><div class="ap-ftxt">TO had a UK-team work-from-home fallback during the 6 May outage. CO had none, and closed the day at 32.6% ABN as a direct result.</div></div>
+    <div class="card"><div class="card-t">TO 2 FTE Headcount Deficit</div><div class="ap-ftxt">Call and case volumes rising against a hiring freeze. Workload redistributed as a stopgap, backfill approval still needed.</div></div>
+    <div class="card"><div class="card-t">Salesforce Access Blocked</div><div class="ap-ftxt">No raw reporting access means Phase 2 and 3 of the roadmap, system-driven KPI reporting and QA scorecards, cannot move.</div></div>
    </div>
 
-   <div class="section-lbl">Positives - What's Actually Working</div>
+   <div class="section-lbl">What We Did to Fix Them</div>
    <div class="grid g3">
-    <div class="card"><div class="card-t">Floor Coverage Holding</div><div class="ap-ftxt">Minimum 1 TL + 1 SME rota live since 21 May and holding - the floor-abandonment problem from Week 1 hasn't recurred once since.</div></div>
-    <div class="card"><div class="card-t">Growth Programme On Track</div><div class="ap-ftxt">4 tenured agents progressing through QA/Ops tracks since 25 May - built specifically around the highest flight-risk cohort, and it's running to schedule.</div></div>
-    <div class="card"><div class="card-t">TO Holding Target</div><div class="ap-ftxt">TO Enhanced CSAT (4.45), Abandonment (2.5%) both inside target through May - proof the operating model works when the structural blockers (supplier access, QA capacity) aren't in the way.</div></div>
+    <div class="card"><div class="card-t">SLA Root Cause Fixed</div><div class="ap-ftxt">Last-hour case assignments were breaching 4-hour SLA. Two night-shift advisors now own first response on those cases, with refresher training scheduled.</div></div>
+    <div class="card"><div class="card-t">RCA Governance Standardised</div><div class="ap-ftxt">Aged-case and DSAT RCA quality was inconsistent across TLs. Focused audit and real-time coaching feedback is now standard practice, tracked in live governance trackers.</div></div>
+    <div class="card"><div class="card-t">Succession Planning Started</div><div class="ap-ftxt">Aniket's move to Provisioning reduced TL coverage. Ran a dedicated 1:1 with Yuvraj on workload, career development, and a new structured daily and weekly reporting rhythm.</div></div>
    </div>
 
-   <div class="advisor" style="margin-top:14px"><b>Bottom line for the review:</b> CO's core service metric is not improving in a straight line, and the reason isn't effort - it's two access requests (supplier portal, Salesforce) that have been pending since Week 1. TO proves the model works. The action plan for closing this sits in the Action Plan tab, and it's overwhelmingly waiting on leadership sign-off, not on floor execution.</div>
+   <div class="section-lbl">Positives, What Is Actually Working</div>
+   <div class="grid g3">
+    <div class="card"><div class="card-t">Floor Coverage Holding</div><div class="ap-ftxt">Minimum 1 TL + 1 SME rota live since 21 May and holding. The floor-abandonment problem from Week 1 has not recurred once.</div></div>
+    <div class="card"><div class="card-t">Growth Programme On Track</div><div class="ap-ftxt">4 tenured agents progressing through QA and Ops tracks since 25 May, built around the highest flight-risk cohort, running to schedule.</div></div>
+    <div class="card"><div class="card-t">TO Holding Target</div><div class="ap-ftxt">TO CSAT (4.45) and Abandonment (2.5%) both inside target through May, proof the model works when structural blockers are not in the way.</div></div>
+   </div>
+
+   <div class="section-lbl">Upcoming Action Plan</div>
+   <div class="card">
+    <div class="li"><span class="ic">&#9656;</span><strong>10 Jul:</strong> Cross-functional Training and Operations sessions begin, closing the training-to-floor knowledge gap.</div>
+    <div class="li"><span class="ic">&#9656;</span><strong>10 Jul:</strong> TL weekly newsletter format launches, replacing the daily planner.</div>
+    <div class="li"><span class="ic">&#9656;</span><strong>1 Aug:</strong> Lead Agent (SME) role targeted to start, pending hiring freeze lift.</div>
+    <div class="li"><span class="ic">&#9656;</span><strong>Ongoing:</strong> Business continuity model for CO outages, pending Michael's sign-off.</div>
+    <div class="li"><span class="ic">&#9656;</span><strong>Ongoing:</strong> TO headcount backfill approval, pending Lisa.</div>
+   </div>
+
+   <div class="advisor" style="margin-top:14px"><b>Bottom line for the review:</b> CO's core service metric is not improving in a straight line, and it is not effort, it is three things outside floor control: two pending access requests and five infrastructure outages with no CO contingency model. TO proves the operating model works when those blockers are absent. Full detail lives in the Action Plan tab, and the majority of it is waiting on leadership sign-off, not floor execution.</div>
   </div>
 
   <!-- 1 DAILY TO-DO -->
@@ -570,9 +624,52 @@ a{color:var(--accent2)}
 
   <!-- 10 REVIEW PREP -->
   <div class="tab-panel" id="tab-10">
-   <div class="pg-h"><div class="pg-t">Review Prep - Q&amp;A</div><div class="pg-s">2-month review - strategic planning focus, answers written the way to actually say them in the room</div></div>
+   <div class="pg-h"><div class="pg-t">Review Prep - Everything in One Place</div><div class="pg-s">2-month review, one continuous scroll, no tab switching during the call</div></div>
 
-   <div class="advisor">Pulled from real 1:1 records (26 May, 12 Jun, 26 Jun, 3 Jul), the TO Growth Program document, and live Command Centre data. Answers are first-person and conversational on purpose - the point is to sound like you, not like a report.</div>
+   <div class="advisor">Pulled from real 1:1 records (26 May, 12 Jun, 26 Jun, 3 Jul), the Daily Log, the TO Growth Program document, and live Command Centre data. Scroll order: KPI snapshot, leadership asks, outage log, roadmap status, then the Q&amp;A.</div>
+
+   <div class="section-lbl">KPI Snapshot</div>
+   <div class="grid g4">
+    <div class="kpi red"><div class="kpi-l">CO ASA (Jul MTD)</div><div class="kpi-v">121s</div><div class="kpi-n">Target below 30s</div></div>
+    <div class="kpi red"><div class="kpi-l">CO ABN (Jul MTD)</div><div class="kpi-v">9.5%</div><div class="kpi-n">Target below 5%</div></div>
+    <div class="kpi amber"><div class="kpi-l">TO ASA (May)</div><div class="kpi-v">47s</div><div class="kpi-n">Target below 30s</div></div>
+    <div class="kpi green"><div class="kpi-l">TO CSAT (May)</div><div class="kpi-v">4.45</div><div class="kpi-n">Above 4.0 target</div></div>
+   </div>
+
+   <div class="section-lbl">Leadership Follow-Up, 5 Outstanding Asks</div>
+   <div class="card">
+    <table class="ptbl">
+     <thead><tr><th>#</th><th>Ask</th><th>Owner</th><th>Priority</th><th>Status</th></tr></thead>
+     <tbody>
+      <tr><td>1</td><td>Approve salary appraisal cycle for at-risk agents</td><td>Lisa / HR</td><td><span class="badge b-p1">Urgent</span></td><td><span class="tag r">Pending sign-off</span></td></tr>
+      <tr><td>2</td><td>Approve Salesforce raw reporting access</td><td>Michael / Joanne</td><td><span class="badge b-p1">High</span></td><td><span class="tag r">Blocked</span></td></tr>
+      <tr><td>3</td><td>Business continuity model for CO outages</td><td>Michael</td><td><span class="badge b-p1">High</span></td><td><span class="tag r">Open</span></td></tr>
+      <tr><td>4</td><td>Approve TO 2 FTE headcount backfill</td><td>Lisa</td><td><span class="badge b-p1">High</span></td><td><span class="tag r">Open</span></td></tr>
+      <tr><td>5</td><td>Approve QA Auditor JD, 1 auditor covers 50 agents</td><td>Michael / HR</td><td><span class="badge b-p2">Medium</span></td><td><span class="tag a">Business case drafted</span></td></tr>
+     </tbody>
+    </table>
+   </div>
+
+   <div class="section-lbl">Infrastructure Outage Log, Last 8 Weeks</div>
+   <div class="card">
+    <table class="ptbl">
+     <thead><tr><th>Date</th><th>Incident</th><th>CO ABN</th><th>TO ABN</th></tr></thead>
+     <tbody>
+      <tr><td>6 May</td><td>Site-wide internet outage, no CO backup model</td><td class="red-txt">32.6%</td><td>6.93%</td></tr>
+      <tr><td>23 Jun</td><td>Five9 platform outage</td><td>7.2%</td><td>8.3%</td></tr>
+      <tr><td>25 Jun</td><td>Broadband outage</td><td>9.1%</td><td>0%</td></tr>
+      <tr><td>29 Jun</td><td>CATO/VPN issue</td><td>9.1%</td><td>0.96%</td></tr>
+      <tr><td>1 Jul</td><td>Both broadband lines failed</td><td class="red-txt">12.3%</td><td>5.2%</td></tr>
+     </tbody>
+    </table>
+   </div>
+
+   <div class="section-lbl">90-Day Roadmap Status, as of 4 Jul Checkpoint</div>
+   <div class="card">
+    <div class="li"><span class="ic">&#9656;</span><strong>Phase 1, Stabilise: 74% complete.</strong> Floor coverage rota live since 21 May, break schedule live, retention 1:1s done, internal growth plan active.</div>
+    <div class="li"><span class="ic">&#9656;</span><strong>Phase 2, Structure: 13% complete.</strong> Blocked on Salesforce access and MIS hiring.</div>
+    <div class="li"><span class="ic">&#9656;</span><strong>Phase 3, Transform: 5% complete.</strong> Depends on Phase 2 landing first.</div>
+   </div>
 
    <div class="section-lbl">Strategic Planning - This Is the Focus Area</div>
 
@@ -602,6 +699,11 @@ a{color:var(--accent2)}
    <div class="card" style="margin-bottom:10px">
      <div style="font-weight:600;color:var(--accent,#6B3FA0);margin-bottom:6px">Q: There's been a lot of analysis and good ideas talked about - where's the real movement and impact since June?</div>
      <div>Fair challenge, and I'd rather answer it head-on than talk around it again. The analysis was never meant to be the output - it was me making sure I wasn't about to ask for headcount or budget to fix something that wasn't actually a headcount problem. But since then, here's what's actually different, with dates attached: ABN proven sub-5% achievable in specific weeks, ACW down to a 30-second standard, aged-case threshold tightened from 21 to 14 days with daily RCA now routine, SLA violations down against baseline, 6 headcount added 6 July with a shift reallocation to cover peak flow, and CO split into two units since 1 June with each TL individually accountable for their own team. None of that is me saying it's fixed. It's me showing what moved and being straight about what's still slow.</div>
+   </div>
+
+   <div class="card" style="margin-bottom:10px">
+     <div style="font-weight:600;color:var(--accent,#6B3FA0);margin-bottom:6px">Q: You keep flagging ASA as an open problem. Is that really outside your control?</div>
+     <div>I went back through the daily log rather than just asserting that, and the pattern is hard to argue with. Five infrastructure outages in eight weeks, and the single worst ASA day in the whole dataset, 246 seconds on 1 July, is the exact day both broadband lines failed. TO had a UK-team work-from-home fallback during the May outage. CO had nothing, and closed that day at 32.6% abandonment. So no, I'm not pointing at infrastructure to avoid ownership. I'm pointing at it because it's dated, it's measurable, and it's the same root cause every time: no business continuity model for CO. That's now a formal ask, not an excuse.</div>
     </div>
 
    <div class="section-lbl">Lisa's 3 July Feedback - Area by Area</div>
@@ -759,6 +861,7 @@ function renderKVI(){
 }
 document.addEventListener('DOMContentLoaded', ()=>{ if(document.getElementById('kviMonthSel')) kviInit(); });
 function ccPeriod(p,el){
+ document.getElementById('ccDaily').style.display = p==='daily'?'block':'none';
  document.getElementById('ccWeekly').style.display = p==='weekly'?'block':'none';
  document.getElementById('ccMonthly').style.display = p==='monthly'?'block':'none';
  document.querySelectorAll('#ccPeriodToggle .seg-btn').forEach(b=>b.classList.remove('active'));
