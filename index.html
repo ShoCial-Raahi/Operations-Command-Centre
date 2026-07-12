@@ -226,7 +226,7 @@ a{color:var(--accent2)}
  </div>
  <div class="sb-foot">
   <div class="sb-foot-txt">Satish Kumar - Ops Manager CX</div>
-  <div class="sb-foot-txt" style="margin-top:2px">v5.2 - 10 Jul 2026</div>
+  <div class="sb-foot-txt" style="margin-top:2px">v5.3 - 12 Jul 2026</div>
   <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">Switch to Light</button>
  </div>
 </nav>
@@ -322,20 +322,20 @@ a{color:var(--accent2)}
      </tbody>
     </table>
    </div>
-   <div class="advisor" style="margin-top:8px">Support required: business continuity and backup support model for CO during major outages, since none currently exists. Raised in the Support Follow-up Tracker as P1.</div>
+   <div class="advisor" style="margin-top:8px">Root cause found: both our broadband and lease line run through the same vendor, Airtel, so a vendor-side issue takes out both lines at once, that is exactly what happened on 1 July. Raised with Naveen in IT, who confirmed a dual-vendor plan is already in motion to fix this properly. Until that lands, we keep logging every incident here.</div>
 
    <div class="section-lbl">Top Call Drivers, Why ASA and ABN Are Where They Are</div>
    <div class="grid g3">
     <div class="card"><div class="card-t">#1 Supplier Dependency</div><div class="ap-ftxt">Most CO calls need supplier-side confirmation before an advisor can resolve. No portal access means holds and transfers, not a quick answer. Access request still pending with Michael.</div></div>
-    <div class="card"><div class="card-t">#2 Infrastructure Instability</div><div class="ap-ftxt">Five outages in eight weeks, no CO backup model. Each incident directly correlates with a bad ASA day or week, most visibly 1 July at 246s.</div></div>
-    <div class="card"><div class="card-t">#3 Training-Floor Gap</div><div class="ap-ftxt">Training content misaligned with current floor process, contributing to higher AHT for new joiners. Cross-functional review with Training starts 10 July.</div></div>
+    <div class="card"><div class="card-t">#2 Infrastructure Instability</div><div class="ap-ftxt">Five outages in eight weeks, root cause now confirmed: broadband and lease line share one vendor, Airtel. Dual-vendor fix is in motion with IT, not yet live.</div></div>
+    <div class="card"><div class="card-t">#3 AI QA Tool Still Learning</div><div class="ap-ftxt">Cortex now audits soft skills on every call, but transcription accuracy is inconsistent and it only covers half the picture. Process quality still needs a human eye, and that gap has not been filled since the QA Auditor role was retired.</div></div>
    </div>
 
    <div class="section-lbl">Challenges Still Open</div>
    <div class="grid g3">
-    <div class="card"><div class="card-t">No CO Business Continuity Model</div><div class="ap-ftxt">TO had a UK-team work-from-home fallback during the 6 May outage. CO had none, and closed the day at 32.6% ABN as a direct result.</div></div>
-    <div class="card"><div class="card-t">TO 2 FTE Headcount Deficit</div><div class="ap-ftxt">Call and case volumes rising against a hiring freeze. Workload redistributed as a stopgap, backfill approval still needed.</div></div>
-    <div class="card"><div class="card-t">Salesforce Access Blocked</div><div class="ap-ftxt">No raw reporting access means Phase 2 and 3 of the roadmap, system-driven KPI reporting and QA scorecards, cannot move.</div></div>
+    <div class="card"><div class="card-t">No CO Business Continuity Model</div><div class="ap-ftxt">TO had a UK-team work-from-home fallback during the 6 May outage. CO had none, and closed the day at 32.6% ABN as a direct result. Root cause now traced to single-vendor risk, fix in progress.</div></div>
+    <div class="card"><div class="card-t">Backfill Approved, Stuck at CEO Sign-off</div><div class="ap-ftxt">TO is short 2 heads, CO is short 5, against rising inflow in both teams. Backfill was already approved, but hiring is on hold until Aaron signs off before any offer goes out.</div></div>
+    <div class="card"><div class="card-t">AI QA Tool Only Covers Half the Picture</div><div class="ap-ftxt">Cortex handles soft-skill scoring but not process quality, and transcription errors are producing wrong scores, a well-handled voicemail marked 39% compliant, an engineer marked down when the supplier was the dismissive party. Needs human validation until it matures.</div></div>
    </div>
 
    <div class="section-lbl">What We Did to Fix Them</div>
@@ -343,6 +343,7 @@ a{color:var(--accent2)}
     <div class="card"><div class="card-t">SLA Root Cause Fixed</div><div class="ap-ftxt">Last-hour case assignments were breaching 4-hour SLA. Two night-shift advisors now own first response on those cases, with refresher training scheduled.</div></div>
     <div class="card"><div class="card-t">RCA Governance Standardised</div><div class="ap-ftxt">Aged-case and DSAT RCA quality was inconsistent across TLs. Focused audit and real-time coaching feedback is now standard practice, tracked in live governance trackers.</div></div>
     <div class="card"><div class="card-t">Succession Planning Started</div><div class="ap-ftxt">Aniket's move to Provisioning reduced TL coverage. Ran a dedicated 1:1 with Yuvraj on workload, career development, and a new structured daily and weekly reporting rhythm.</div></div>
+    <div class="card"><div class="card-t">Reporting Access Granted</div><div class="ap-ftxt">Salesforce raw reporting access came through 9 July. Five9 and Salesforce still report separately though, next step is one combined view across calls and cases.</div></div>
    </div>
 
    <div class="section-lbl">Positives, What Is Actually Working</div>
@@ -357,11 +358,14 @@ a{color:var(--accent2)}
     <div class="li"><span class="ic">&#9656;</span><strong>10 Jul:</strong> Cross-functional Training and Operations sessions begin, closing the training-to-floor knowledge gap.</div>
     <div class="li"><span class="ic">&#9656;</span><strong>10 Jul:</strong> TL weekly newsletter format launches, replacing the daily planner.</div>
     <div class="li"><span class="ic">&#9656;</span><strong>1 Aug:</strong> Lead Agent (SME) role targeted to start, pending hiring freeze lift.</div>
-    <div class="li"><span class="ic">&#9656;</span><strong>Ongoing:</strong> Business continuity model for CO outages, pending Michael's sign-off.</div>
-    <div class="li"><span class="ic">&#9656;</span><strong>Ongoing:</strong> TO headcount backfill approval, pending Lisa.</div>
+    <div class="li"><span class="ic">&#9656;</span><strong>Ongoing:</strong> Build a unified Five9 plus Salesforce view covering calls and cases in one dashboard.</div>
+    <div class="li"><span class="ic">&#9656;</span><strong>Ongoing:</strong> Request an hourly Salesforce view of cases actioned with open support requests awaiting resolution.</div>
+    <div class="li"><span class="ic">&#9656;</span><strong>Ongoing:</strong> Business continuity model for CO outages, dual-vendor plan with Naveen in IT still in progress.</div>
+    <div class="li"><span class="ic">&#9656;</span><strong>Ongoing:</strong> TO and CO backfill (2 and 5 heads) awaiting Aaron's sign-off before offers can go out.</div>
+    <div class="li"><span class="ic">&#9656;</span><strong>Ongoing:</strong> Validate and correct AI QA tool scoring while it learns, and help build the separate Technical Support scorecard Lisa is drafting.</div>
    </div>
 
-   <div class="advisor" style="margin-top:14px"><b>Bottom line for the review:</b> CO's core service metric is not improving in a straight line, and it is not effort, it is three things outside floor control: two pending access requests and five infrastructure outages with no CO contingency model. TO proves the operating model works when those blockers are absent. Full detail lives in the Action Plan tab, and the majority of it is waiting on leadership sign-off, not floor execution.</div>
+   <div class="advisor" style="margin-top:14px"><b>Bottom line for the review:</b> CO's core service metric is not improving in a straight line, and it still is not effort. Supplier portal access remains the biggest open blocker, infrastructure has a diagnosed root cause and a fix in motion, reporting access came through this week, and the backfill everyone already agreed on is now waiting on a CEO signature rather than a floor decision. TO proves the operating model works when those blockers are absent. Full detail lives in the Action Plan tab.</div>
   </div>
 
   <!-- 1 DAILY TO-DO -->
@@ -427,20 +431,22 @@ a{color:var(--accent2)}
   <div class="tab-panel" id="tab-4">
    <div class="pg-h"><div class="pg-t">Action Plan</div><div class="pg-s">Follow-up format - most strategic items are pending leadership sign-off, not floor execution</div></div>
 
-   <div class="section-lbl">Leadership Follow-Up Tracker - 5 Outstanding Asks</div>
+   <div class="section-lbl">Leadership Follow-Up Tracker - 7 Outstanding Asks</div>
    <div class="card">
     <table class="ptbl">
      <thead><tr><th>#</th><th>Ask</th><th>Owner</th><th>Priority</th><th>Status</th><th>Date Raised</th></tr></thead>
      <tbody>
-      <tr><td>1</td><td>Approve salary appraisal cycle for at-risk agents</td><td>Lisa / HR</td><td><span class="badge b-p1">Urgent</span></td><td><span class="tag r">Pending sign-off</span></td><td>~Wk2 May</td></tr>
-      <tr><td>2</td><td>Approve Salesforce raw reporting access</td><td>Michael / Joanne</td><td><span class="badge b-p1">High</span></td><td><span class="tag r">Blocked</span></td><td>Early Jun</td></tr>
-      <tr><td>3</td><td>Define and publish the IJP framework</td><td>Joanne / HR</td><td><span class="badge b-p2">High</span></td><td><span class="tag r">Not started</span></td><td>May (Growth Prog.)</td></tr>
-      <tr><td>4</td><td>Approve QA Auditor JD (1 auditor covers 50 agents)</td><td>Michael / HR</td><td><span class="badge b-p2">Medium</span></td><td><span class="tag a">Business case drafted</span></td><td>Jun</td></tr>
-      <tr><td>5</td><td>Raise formal supplier portal access request</td><td>Michael</td><td><span class="badge b-p1">High</span></td><td><span class="tag r">Submitted, pending</span></td><td>Wk1 May</td></tr>
+      <tr><td>1</td><td>Approve salary appraisal cycle for at-risk agents</td><td>Lisa / HR</td><td><span class="badge b-p1">Urgent</span></td><td><span class="tag a">Under discussion</span></td><td>~Wk2 May</td></tr>
+      <tr><td>2</td><td>Raise formal supplier portal access request</td><td>Michael</td><td><span class="badge b-p1">High</span></td><td><span class="tag r">Submitted, pending</span></td><td>Wk1 May</td></tr>
+      <tr><td>3</td><td>Approve TO (2) and CO (5) headcount backfill, already agreed, needs Aaron's signature before offers</td><td>Lisa / Aaron</td><td><span class="badge b-p1">High</span></td><td><span class="tag r">Approved, stuck at CEO sign-off</span></td><td>Jun</td></tr>
+      <tr><td>4</td><td>Build a unified Five9 plus Salesforce dashboard covering calls and cases in one view</td><td>Michael / IT</td><td><span class="badge b-p2">High</span></td><td><span class="tag r">Not started</span></td><td>9 Jul</td></tr>
+      <tr><td>5</td><td>Add an hourly Salesforce view of cases actioned with open support requests awaiting resolution</td><td>Michael / SF admin</td><td><span class="badge b-p2">Medium</span></td><td><span class="tag r">Not started</span></td><td>9 Jul</td></tr>
+      <tr><td>6</td><td>Validate and correct AI QA tool (Cortex) scoring, help build the separate Technical Support scorecard</td><td>Lisa</td><td><span class="badge b-p2">High</span></td><td><span class="tag a">In progress</span></td><td>9 Jul</td></tr>
+      <tr><td>7</td><td>Define and publish the IJP framework</td><td>Joanne / HR</td><td><span class="badge b-p2">High</span></td><td><span class="tag r">Not started</span></td><td>May (Growth Prog.)</td></tr>
      </tbody>
     </table>
    </div>
-   <div class="advisor" style="margin-top:10px">These 5 items block the majority of Phase 2/3 of the 90-day roadmap. None of them are floor-execution gaps - they need a leadership decision to move. Use this table directly in 1:1s to track closure.</div>
+   <div class="advisor" style="margin-top:10px">These 7 items block the majority of Phase 2/3 of the 90-day roadmap. None of them are floor-execution gaps, they need a leadership decision to move. Two moved this week, reporting access and the outage root cause, the rest are still waiting. Use this table directly in 1:1s to track closure.</div>
 
    <div class="section-lbl" style="margin-top:16px">Full Recommendation List</div>
    <div class="filter-bar">
@@ -530,7 +536,7 @@ a{color:var(--accent2)}
    <div class="grid g4">
     <div class="kpi blue"><div class="kpi-l">Overall Roadmap</div><div class="kpi-v">44%</div><div class="kpi-n">Day 55 of 90</div></div>
     <div class="kpi green"><div class="kpi-l">Phase 1 Stabilise</div><div class="kpi-v">74%</div><div class="kpi-n">7 actions, on track</div></div>
-    <div class="kpi amber"><div class="kpi-l">Phase 2 Structure</div><div class="kpi-v">13%</div><div class="kpi-n">Blocked on Salesforce/MIS access</div></div>
+    <div class="kpi amber"><div class="kpi-l">Phase 2 Structure</div><div class="kpi-v">13%</div><div class="kpi-n">Access granted, MIS hiring pending</div></div>
     <div class="kpi red"><div class="kpi-l">Phase 3 Transform</div><div class="kpi-v">5%</div><div class="kpi-n">Not yet started - as planned</div></div>
    </div>
 
@@ -574,13 +580,13 @@ a{color:var(--accent2)}
      <tbody>
       <tr><td>1</td><td>Floor coverage rota (1 TL + 1 SME)</td><td>Satish + TLs</td><td>100%</td><td>Live and holding</td></tr>
       <tr><td>2</td><td>Shift-based planned break schedule</td><td>Team Leaders</td><td>90%</td><td>Live - shrinkage tracked weekly</td></tr>
-      <tr><td>3</td><td>Retention conversations + salary escalation</td><td>Satish</td><td>80%</td><td>Salary appraisal still pending sign-off</td></tr>
+      <tr><td>3</td><td>Retention conversations + salary escalation</td><td>Satish</td><td>80%</td><td>Salary appraisal under discussion, not yet confirmed</td></tr>
       <tr><td>4</td><td>Hiring JDs - CO, QA, MIS</td><td>Satish + HR</td><td>60%</td><td>Leadership approval outstanding</td></tr>
       <tr><td>5</td><td>Supplier portal access request</td><td>Satish + Account Mgmt</td><td>50%</td><td>Root cause of ASA/ABN issue - awaiting confirmation</td></tr>
       <tr><td>6</td><td>Salesforce quick fixes (TO)</td><td>TO TLs</td><td>70%</td><td>Templates live, escalation matrix in progress</td></tr>
       <tr><td>7</td><td>Connells P4 SLA recovery plan</td><td>Satish + TO TL</td><td>65%</td><td>Trending toward target</td></tr>
       <tr><td>8</td><td>QA calibration structure + audit frequency</td><td>QA + Satish</td><td>20%</td><td>Business case drafted, auditor hiring pending</td></tr>
-      <tr><td>9</td><td>Salesforce dedup + CO routing matrix</td><td>Tech + Ops</td><td>10%</td><td>Dependent on Salesforce access</td></tr>
+      <tr><td>9</td><td>Salesforce dedup + CO routing matrix</td><td>Tech + Ops</td><td>10%</td><td>Access granted 9 Jul, build work not yet started</td></tr>
       <tr><td>10</td><td>MIS + system-driven reporting</td><td>MIS Analyst + Satish</td><td>5%</td><td>Blocked - analyst not hired, access pending</td></tr>
       <tr><td>11</td><td>TL and SME KPI scorecards</td><td>Satish</td><td>15%</td><td>Framework drafted, not live</td></tr>
       <tr><td>12</td><td>WFM intraday planning/forecasting</td><td>Satish</td><td>5%</td><td>Not started - dependent on Phase 2</td></tr>
@@ -636,16 +642,18 @@ a{color:var(--accent2)}
     <div class="kpi green"><div class="kpi-l">TO CSAT (May)</div><div class="kpi-v">4.45</div><div class="kpi-n">Above 4.0 target</div></div>
    </div>
 
-   <div class="section-lbl">Leadership Follow-Up, 5 Outstanding Asks</div>
+   <div class="section-lbl">Leadership Follow-Up, 7 Outstanding Asks</div>
    <div class="card">
     <table class="ptbl">
      <thead><tr><th>#</th><th>Ask</th><th>Owner</th><th>Priority</th><th>Status</th></tr></thead>
      <tbody>
-      <tr><td>1</td><td>Approve salary appraisal cycle for at-risk agents</td><td>Lisa / HR</td><td><span class="badge b-p1">Urgent</span></td><td><span class="tag r">Pending sign-off</span></td></tr>
-      <tr><td>2</td><td>Approve Salesforce raw reporting access</td><td>Michael / Joanne</td><td><span class="badge b-p1">High</span></td><td><span class="tag r">Blocked</span></td></tr>
-      <tr><td>3</td><td>Business continuity model for CO outages</td><td>Michael</td><td><span class="badge b-p1">High</span></td><td><span class="tag r">Open</span></td></tr>
-      <tr><td>4</td><td>Approve TO 2 FTE headcount backfill</td><td>Lisa</td><td><span class="badge b-p1">High</span></td><td><span class="tag r">Open</span></td></tr>
-      <tr><td>5</td><td>Approve QA Auditor JD, 1 auditor covers 50 agents</td><td>Michael / HR</td><td><span class="badge b-p2">Medium</span></td><td><span class="tag a">Business case drafted</span></td></tr>
+      <tr><td>1</td><td>Approve salary appraisal cycle for at-risk agents</td><td>Lisa / HR</td><td><span class="badge b-p1">Urgent</span></td><td><span class="tag a">Under discussion</span></td></tr>
+      <tr><td>2</td><td>Raise formal supplier portal access request</td><td>Michael</td><td><span class="badge b-p1">High</span></td><td><span class="tag r">Submitted, pending</span></td></tr>
+      <tr><td>3</td><td>Approve TO (2) and CO (5) backfill, already agreed, needs Aaron's signature</td><td>Lisa / Aaron</td><td><span class="badge b-p1">High</span></td><td><span class="tag r">Approved, stuck at CEO sign-off</span></td></tr>
+      <tr><td>4</td><td>Build unified Five9 plus Salesforce dashboard, calls and cases in one view</td><td>Michael / IT</td><td><span class="badge b-p2">High</span></td><td><span class="tag r">Not started</span></td></tr>
+      <tr><td>5</td><td>Add hourly Salesforce view of cases actioned with open support requests</td><td>Michael / SF admin</td><td><span class="badge b-p2">Medium</span></td><td><span class="tag r">Not started</span></td></tr>
+      <tr><td>6</td><td>Validate AI QA tool (Cortex) scoring, help build separate Technical Support scorecard</td><td>Lisa</td><td><span class="badge b-p2">High</span></td><td><span class="tag a">In progress</span></td></tr>
+      <tr><td>7</td><td>Define and publish the IJP framework</td><td>Joanne / HR</td><td><span class="badge b-p2">High</span></td><td><span class="tag r">Not started</span></td></tr>
      </tbody>
     </table>
    </div>
@@ -667,7 +675,7 @@ a{color:var(--accent2)}
    <div class="section-lbl">90-Day Roadmap Status, as of 4 Jul Checkpoint</div>
    <div class="card">
     <div class="li"><span class="ic">&#9656;</span><strong>Phase 1, Stabilise: 74% complete.</strong> Floor coverage rota live since 21 May, break schedule live, retention 1:1s done, internal growth plan active.</div>
-    <div class="li"><span class="ic">&#9656;</span><strong>Phase 2, Structure: 13% complete.</strong> Blocked on Salesforce access and MIS hiring.</div>
+    <div class="li"><span class="ic">&#9656;</span><strong>Phase 2, Structure: 13% complete.</strong> Salesforce reporting access came through 9 July, so the main blocker is easing. MIS hiring still on hold, and calls and cases still report separately until the unified view is built.</div>
     <div class="li"><span class="ic">&#9656;</span><strong>Phase 3, Transform: 5% complete.</strong> Depends on Phase 2 landing first.</div>
    </div>
 
@@ -681,13 +689,13 @@ a{color:var(--accent2)}
      <div>I wouldn't cut one outright, I'd just be honest about the order. WFM forecasting in Phase 3 is nice to have. QA structure and system reporting in Phase 2 is not, it's basically the floor everything else stands on. If someone made me drop something tomorrow, that's the one I'd protect, because without trustworthy numbers this whole review is just me telling you stories.</div>
     </div><div class="card" style="margin-bottom:10px">
      <div style="font-weight:600;color:var(--accent,#6B3FA0);margin-bottom:6px">Q: How do you decide what to escalate versus solve yourself?</div>
-     <div>I've got a pretty blunt rule for myself. Floor stuff, rota, breaks, coaching, whether someone's pulling their weight, that's mine, full stop. The second something needs money or a system I don't have the keys to, it goes up, and it goes up with evidence, not a hunch. The salary appraisal and Salesforce access both landed on your desk because I could see exactly what was wrong but couldn't fix it myself.</div>
+     <div>I've got a pretty blunt rule for myself. Floor stuff, rota, breaks, coaching, whether someone's pulling their weight, that's mine, full stop. The second something needs money or a system I don't have the keys to, it goes up, and it goes up with evidence, not a hunch. The salary appraisal and the supplier portal access are both exactly that, I could see the problem clearly, but I don't have the lever, so I brought evidence instead of a guess.</div>
     </div><div class="card" style="margin-bottom:10px">
      <div style="font-weight:600;color:var(--accent,#6B3FA0);margin-bottom:6px">Q: What would you do differently if you were starting this role again from day one?</div>
      <div>Push the access requests in week one, not week three. I burned real hours on workarounds, manual tracking, paste-in dashboards, that whole exercise, some of which should've just gone into chasing the portal access sooner instead. Lesson learned: ask first, diagnose while you wait, don't wait for the full picture before you raise the blocker.</div>
     </div><div class="card" style="margin-bottom:10px">
      <div style="font-weight:600;color:var(--accent,#6B3FA0);margin-bottom:6px">Q: If CO or TO grows another 20%, does your current structure hold?</div>
-     <div>Mostly. The TL setup and the rota don't really care how many people are on the floor, they scale with coverage, not headcount. Where it breaks is QA. One person auditing 50 agents is already thin. Add 20% more and that's not a slower audit cycle anymore, that's a real blind spot. Which is exactly why I'm not waiting to raise the auditor ask.</div>
+     <div>Mostly. The TL setup and the rota don't really care how many people are on the floor, they scale with coverage, not headcount. Where it gets harder is quality. There's no QA Auditor role anymore, that got replaced by an AI tool, Cortex, that scores soft skills on every call. It's new, the transcription still gets things wrong sometimes, and it only covers half the job, nobody's auditing process quality or the case side yet. At 20% more volume that gap gets bigger, not smaller. So the ask now isn't hire an auditor, it's make sure someone's validating what the AI gets wrong while it learns.</div>
     </div><div class="card" style="margin-bottom:10px">
      <div style="font-weight:600;color:var(--accent,#6B3FA0);margin-bottom:6px">Q: What's the single biggest strategic risk to this operation right now?</div>
      <div>Retention, and it's not close. Six people told me, directly, that pay is why they're job hunting. That's not me reading tea leaves, that's what they said to my face. The growth programme buys goodwill short term, but if the appraisal doesn't move, I think we lose people we genuinely can't afford to lose, probably the same ones who made this quarter look better than it otherwise would.</div>
@@ -740,11 +748,13 @@ a{color:var(--accent2)}
 
    <div class="card">
     <div style="font-weight:600;margin-bottom:8px">If asked "what do you need from us that you haven't got yet" - this is the list, said plainly:</div>
-    <div class="li"><span class="ic">&#9656;</span><strong>Salary appraisal cycle</strong> for at-risk agents - Lisa/HR, urgent.</div>
-    <div class="li"><span class="ic">&#9656;</span><strong>Salesforce raw reporting access</strong> - Michael/Joanne, high.</div>
-    <div class="li"><span class="ic">&#9656;</span><strong>IJP framework</strong> published - Joanne/HR, high.</div>
-    <div class="li"><span class="ic">&#9656;</span><strong>QA Auditor JD approval</strong> - one auditor covers 50 agents right now - Michael/HR, medium.</div>
+    <div class="li"><span class="ic">&#9656;</span><strong>Salary appraisal cycle</strong> for at-risk agents, still under discussion - Lisa/HR, urgent.</div>
     <div class="li"><span class="ic">&#9656;</span><strong>Supplier portal access</strong> - Michael, high.</div>
+    <div class="li"><span class="ic">&#9656;</span><strong>TO and CO backfill (2 and 5 heads)</strong> already approved, needs Aaron's signature - Lisa/Aaron, high.</div>
+    <div class="li"><span class="ic">&#9656;</span><strong>One combined dashboard</strong> for Five9 calls and Salesforce cases - Michael/IT, high.</div>
+    <div class="li"><span class="ic">&#9656;</span><strong>Hourly Salesforce view</strong> of cases actioned with open support requests - Michael/SF admin, medium.</div>
+    <div class="li"><span class="ic">&#9656;</span><strong>AI QA tool validation</strong> and a separate Technical Support scorecard - Lisa, high.</div>
+    <div class="li"><span class="ic">&#9656;</span><strong>IJP framework</strong> published - Joanne/HR, high.</div>
    </div>
 
    <div class="section-lbl">Metrics They May Probe</div>
