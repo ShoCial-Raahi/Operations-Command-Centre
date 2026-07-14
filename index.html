@@ -226,7 +226,7 @@ a{color:var(--accent2)}
  </div>
  <div class="sb-foot">
   <div class="sb-foot-txt">Satish Kumar - Ops Manager CX</div>
-  <div class="sb-foot-txt" style="margin-top:2px">v5.4 - 14 Jul 2026</div>
+  <div class="sb-foot-txt" style="margin-top:2px">v5.5 - 14 Jul 2026</div>
   <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">Switch to Light</button>
  </div>
 </nav>
@@ -246,7 +246,7 @@ a{color:var(--accent2)}
   <div class="tab-panel active" id="tab-0">
    <div class="pg-h"><div class="pg-t">Operations Command Centre</div><div class="pg-s">CO Enhanced + TO Enhanced, trend since joining, 11 May 2026</div></div>
 
-   <div class="advisor"><b>The honest headline: CO voice ASA has not sustainably improved since I joined, and a big part of why has just become clear from the daily log.</b> May averaged 113s, June got worse at 146s, July is sitting at 108s MTD, still well over the 30s target. Two root causes, not one: the supplier portal access gap flagged since Week 1, and a cluster of seven infrastructure outages in the last ten weeks, three of them in a single morning on 13 July. TO Enhanced has held inside target on most voice metrics the whole period, proof this is fixable, not a capability gap.</div>
+   <div class="advisor"><b>The honest headline: CO voice ASA has not sustainably improved since I joined, and a big part of why has just become clear from the daily log.</b> May averaged 113s, June got worse at 146s, July is sitting at 108s MTD, still well over the 30s target. Two root causes, not one: the supplier portal access gap flagged since Week 1, and a cluster of six infrastructure outages in the last ten weeks, two of them in a single morning on 13 July. TO Enhanced has held inside target on most voice metrics the whole period, proof this is fixable, not a capability gap.</div>
 
    <div class="seg small" id="ccPeriodToggle" style="margin-bottom:12px">
     <button class="seg-btn" onclick="ccPeriod('daily',this)">Daily Trend</button>
@@ -299,7 +299,7 @@ a{color:var(--accent2)}
      <div class="tr-row"><div class="tr-lbl">June 2026 (4 outages)</div><div class="tr-trk"><div class="tr-fill" style="width:59%;background:var(--red)">146s</div></div><div class="tr-val" style="color:var(--red)">146s</div></div>
      <div class="tr-row"><div class="tr-lbl">July 2026 MTD (3 outages)</div><div class="tr-trk"><div class="tr-fill" style="width:44%;background:var(--red)">108s</div></div><div class="tr-val" style="color:var(--red)">108s</div></div>
     </div>
-    <div class="note">May to June got worse, plus 29 percent, with four separate outages that month. June to July MTD has improved, minus 26 percent, but 13 July alone added three more incidents in one morning, so the outage frequency is not actually easing, just clustering differently.</div>
+    <div class="note">May to June got worse, plus 29 percent, with four separate outages that month. June to July MTD has improved, minus 26 percent, but 13 July alone added two more incidents in one morning, so the outage frequency is not actually easing, just clustering differently.</div>
    </div>
 
    <div class="grid g4" style="margin-top:14px">
@@ -320,17 +320,16 @@ a{color:var(--accent2)}
       <tr><td>29 Jun</td><td>CATO/VPN issue, system access affected</td><td>9.1%</td><td>0.96%</td><td>Worked with IT to resolve, lower TO demand minimised impact.</td></tr>
       <tr><td>1 Jul</td><td>Both broadband lines failed</td><td class="red-txt">12.3%</td><td>5.2%</td><td>Escalated to IT and providers, resources redirected to minimise disruption.</td></tr>
       <tr><td>13 Jul</td><td>Five9 down 09:54-10:10, 7 people affected</td><td colspan="2">Volume impact, ABN not isolated</td><td>Floor held on manual workarounds until restored.</td></tr>
-      <tr><td>13 Jul</td><td>Five9 Wallboard down 10:10-10:30, both teams affected</td><td colspan="2">Volume impact, ABN not isolated</td><td>Used Five9 supervisor view to run the floor while wallboard was out.</td></tr>
-      <tr><td>13 Jul</td><td>Live Call Queue dashboard down for around 2 hours, visibility loss</td><td colspan="2">Visibility impact, not a call outage</td><td>Ran the floor off Five9 supervisor view as a fallback.</td></tr>
+      <tr><td>13 Jul</td><td>Five9 Wallboard / Live Call Queue dashboard (same tool) down 10:10-10:30, then unreliable for around 2 hours total, both teams affected</td><td colspan="2">Visibility impact, not a call outage</td><td>Ran the floor off Five9 supervisor view as a fallback throughout.</td></tr>
      </tbody>
     </table>
    </div>
-   <div class="advisor" style="margin-top:8px">Root cause found: both our broadband and lease line run through the same vendor, Airtel, so a vendor-side issue takes out both lines at once, that is exactly what happened on 1 July. Raised with Naveen in IT, who confirmed a dual-vendor plan is already in motion to fix this properly. That is now seven incidents in ten weeks, the pattern is not slowing down, and 13 July was three separate failures in one morning, Five9 itself, the wallboard, and the queue visibility tool, each needing a different workaround.</div>
+   <div class="advisor" style="margin-top:8px">Root cause found: both our broadband and lease line run through the same vendor, Airtel, so a vendor-side issue takes out both lines at once, that is exactly what happened on 1 July. Raised with Naveen in IT, who confirmed a dual-vendor plan is already in motion to fix this properly. That is now six incidents in ten weeks, the pattern is not slowing down, and 13 July had two separate failures in one morning, Five9 itself and then the wallboard/queue visibility tool, each needing a different workaround.</div>
 
    <div class="section-lbl">Top Call Drivers, Why ASA and ABN Are Where They Are</div>
    <div class="grid g3">
     <div class="card"><div class="card-t">#1 Supplier Dependency</div><div class="ap-ftxt">Most CO calls need supplier-side confirmation before an advisor can resolve. No portal access means holds and transfers, not a quick answer. Access request still pending with Michael.</div></div>
-    <div class="card"><div class="card-t">#2 Infrastructure Instability</div><div class="ap-ftxt">Seven outages in ten weeks, root cause confirmed: broadband and lease line share one vendor, Airtel. Dual-vendor fix is in motion with IT, not yet live. 13 July alone had three separate failures in one morning.</div></div>
+    <div class="card"><div class="card-t">#2 Infrastructure Instability</div><div class="ap-ftxt">Six outages in ten weeks, root cause confirmed: broadband and lease line share one vendor, Airtel. Dual-vendor fix is in motion with IT, not yet live. 13 July alone had two separate failures in one morning.</div></div>
     <div class="card"><div class="card-t">#3 AI QA Tool Still Learning</div><div class="ap-ftxt">Cortex now audits soft skills on every call, but transcription accuracy is inconsistent and it only covers half the picture. Process quality still needs a human eye, and that gap has not been filled since the QA Auditor role was retired.</div></div>
    </div>
 
@@ -671,7 +670,7 @@ a{color:var(--accent2)}
       <tr><td>25 Jun</td><td>Broadband outage</td><td>9.1%</td><td>0%</td></tr>
       <tr><td>29 Jun</td><td>CATO/VPN issue</td><td>9.1%</td><td>0.96%</td></tr>
       <tr><td>1 Jul</td><td>Both broadband lines failed</td><td class="red-txt">12.3%</td><td>5.2%</td></tr>
-      <tr><td>13 Jul</td><td>Five9 down 09:54-10:10 (7 people), Wallboard down 10:10-10:30 (both teams), Live Call Queue dashboard down ~2hrs</td><td colspan="2">Three separate failures in one morning, ran the floor off Five9 supervisor view</td></tr>
+      <tr><td>13 Jul</td><td>Five9 down 09:54-10:10 (7 people), Wallboard/Live Call Queue dashboard (same tool) down 10:10-10:30 then unreliable ~2hrs total</td><td colspan="2">Two separate failures in one morning, ran the floor off Five9 supervisor view</td></tr>
      </tbody>
     </table>
    </div>
